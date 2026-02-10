@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CountryBanner from "./CountryBanner";
+import CountrySlider from "./CountrySlider";
 import HreflangTags from "./HreflangTags";
 import CountryLanguageSelector from "./CountryLanguageSelector";
 import RegionalClients from "./RegionalClients";
@@ -11,6 +12,7 @@ export {
     Navbar,
     Footer,
     CountryBanner,
+    CountrySlider,
     HreflangTags,
     CountryLanguageSelector,
     RegionalClients,

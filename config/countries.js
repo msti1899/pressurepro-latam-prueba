@@ -142,6 +142,20 @@ export const COUNTRIES = {
     regionalClients: [],
     seoKeywords: ['monitoreo de neumáticos', 'TPMS Bolivia', 'presión de neumáticos']
   },
+  uy: {
+    code: 'uy',
+    name: 'Uruguay',
+    language: 'es',
+    flag: 'https://flagcdn.com/uy.svg',
+    currency: 'UYU',
+    timezone: 'America/Montevideo',
+    hreflang: 'es-UY',
+    whatsapp: '+59899000000',
+    terminology: { tires: 'Neumáticos', truck: 'Camión', fleet: 'Flota' },
+    priorityIndustries: ['agriculture', 'transport', 'forestry'],
+    regionalClients: [],
+    seoKeywords: ['monitoreo de neumáticos', 'TPMS Uruguay', 'presión de neumáticos']
+  },
   es: {
     code: 'es',
     name: 'España',
@@ -179,7 +193,7 @@ export const ISO_TO_COUNTRY = {
   'EC': 'mx',
   'VE': 'mx',
   'PY': 'mx',
-  'UY': 'mx'
+  'UY': 'uy'
 };
 
 // Obtener pais por defecto basado en idioma

@@ -17,11 +17,11 @@ const ISO_TO_LOCALE = {
   'EC': 'mx',
   'VE': 'mx',
   'PY': 'mx',
-  'UY': 'mx'
+  'UY': 'uy'
 };
 
 // Lista de locales válidos
-const VALID_LOCALES = ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo'];
+const VALID_LOCALES = ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo', 'uy'];
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;

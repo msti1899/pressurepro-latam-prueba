@@ -7,10 +7,11 @@ import { navVariants } from '../utils/motion';
 import { scrollToSection } from '../utils/motion';
 import { useLocale } from '../context/LocaleContext';
 import { COUNTRIES } from '../config/countries';
+import CountrySlider from './CountrySlider';
 
 /**
  * Componente de navegación principal de la aplicación
- * Incluye selector de idiomas y menú desplegable de secciones
+ * Incluye selector de idiomas, selector de país (slide) y menú desplegable de secciones
  */
 const Navbar = () => {
   // ----- CONTEXTOS Y ESTADOS -----
@@ -20,6 +21,9 @@ const Navbar = () => {
   const localeCtx = useLocale();
   const currentCountry = localeCtx?.country;
   const countryFlag = currentCountry && COUNTRIES?.[currentCountry]?.flag;
+  
+  // Estado para el slider de países
+  const [isCountrySliderOpen, setIsCountrySliderOpen] = useState(false);
   
   // Estados para controlar la UI
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -322,26 +326,47 @@ const Navbar = () => {
           {/* Selector de idioma (slide) */}
           <LanguageSelector />
           
-          {/* Logo + badge de país */}
-          <div className="flex flex-col items-center gap-0.5">
+          {/* Logo + badge de país (clickeable para abrir slider) */}
+          <div className="relative flex flex-col items-center gap-0.5">
             <img
               src="/pressurepro-latam-logo.png"
               alt="Pressure Pro LATAM"
               className="h-[33px] sm:h-[45px] w-auto object-contain"
             />
-            {/* Badge del país actual */}
-            {countryFlag && (
-              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/10">
+            {/* Badge del país actual — abre el slider */}
+            <button
+              onClick={() => setIsCountrySliderOpen(!isCountrySliderOpen)}
+              className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group"
+            >
+              {countryFlag ? (
                 <img
                   src={countryFlag}
                   alt={COUNTRIES[currentCountry]?.name || ''}
                   className="w-[14px] h-[10px] sm:w-[16px] sm:h-[12px] rounded-[1px] object-cover"
                 />
-                <span className="text-[9px] sm:text-[10px] text-white/60 font-medium tracking-wider uppercase">
-                  {COUNTRIES[currentCountry]?.name || ''}
-                </span>
-              </div>
-            )}
+              ) : (
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" className="opacity-40">
+                  <rect width="14" height="10" rx="1" fill="white" fillOpacity="0.3"/>
+                </svg>
+              )}
+              <span className="text-[9px] sm:text-[10px] text-white/60 font-medium tracking-wider uppercase group-hover:text-white/80 transition-colors">
+                {currentCountry ? (COUNTRIES[currentCountry]?.name || '') : (language === 'en' ? 'English' : language === 'pt' ? 'Português' : 'España')}
+              </span>
+              <motion.div
+                animate={{ rotate: isCountrySliderOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <svg width="8" height="5" viewBox="0 0 8 5" fill="none">
+                  <path d="M1 1L4 4L7 1" stroke="white" strokeOpacity="0.5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </motion.div>
+            </button>
+            
+            {/* Country Slider */}
+            <CountrySlider 
+              isOpen={isCountrySliderOpen} 
+              onClose={() => setIsCountrySliderOpen(false)} 
+            />
           </div>
           
           {/* Botón de menú */}

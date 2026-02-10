@@ -7,7 +7,7 @@ const nextConfig = {
   // Configuración de internacionalización
   i18n: {
     // Idiomas soportados
-    locales: ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo'],
+    locales: ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo', 'uy'],
     // Idioma por defecto
     defaultLocale: 'es',
     // No detectar idioma automáticamente (lo haremos manualmente con geolocalización)
