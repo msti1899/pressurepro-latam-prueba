@@ -6,68 +6,78 @@ import {
   detectUserCountry, 
   getRecommendedRoute, 
   saveUserPreference,
-  getUserPreference,
   dismissGeoBanner,
   isGeoBannerDismissed
 } from '../lib/geolocation';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 
 const CountryBanner = ({ currentLanguage, currentCountry }) => {
-  const [showBanner, setShowBanner] = useState(false);
-  const [detectedLocation, setDetectedLocation] = useState(null);
-  const [recommendedRoute, setRecommendedRoute] = useState(null);
+  const [showPicker, setShowPicker] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const checkLocation = async () => {
-      // Verificar si ya se descartó el banner en esta sesión
-      if (isGeoBannerDismissed()) {
-        setIsLoading(false);
-        return;
-      }
-
-      // Si el usuario ya eligió un país (tiene cookie NEXT_LOCALE), no molestar
+      // Si ya tiene cookie de preferencia, no hacer nada
       const hasCookie = document.cookie.split(';').some(c => c.trim().startsWith('NEXT_LOCALE='));
       if (hasCookie) {
         setIsLoading(false);
         return;
       }
 
+      // Si ya descartó el banner, no molestar
+      if (isGeoBannerDismissed()) {
+        setIsLoading(false);
+        return;
+      }
+
+      // Si ya está en un locale que no es el default (es), significa que
+      // el middleware ya lo redirigió correctamente
+      const currentLocale = router.locale || 'es';
+      if (currentLocale !== 'es') {
+        // Guardar cookie para que no pregunte de nuevo
+        document.cookie = `NEXT_LOCALE=${currentLocale}; path=/; max-age=${60 * 60 * 24 * 365}`;
+        setIsLoading(false);
+        return;
+      }
+
+      // Estamos en /es (default) sin cookie → intentar detectar país
       try {
         const location = await detectUserCountry();
         
         if (location && location.countryCode) {
           const recommended = getRecommendedRoute(location.countryCode);
           
-          // Locale actual del router
-          const currentLocale = router.locale || 'es';
-          
-          // No mostrar banner si:
-          // 1. Ya estamos en el locale exacto recomendado
-          if (recommended.country === currentLocale || recommended.language === currentLocale) {
+          // País no está en nuestra lista → mostrar picker
+          if (!recommended) {
+            setShowPicker(true);
             setIsLoading(false);
             return;
           }
           
-          // 2. El locale actual es un país del mismo idioma que el recomendado
-          //    (ej: estás en /mx y se detecta /co — ambos español, no molestar)
-          const currentLang = COUNTRIES[currentLocale]?.language || 
-                             (LANGUAGES[currentLocale] ? currentLocale : null);
-          const recommendedLang = recommended.language;
+          const targetLocale = recommended.country || recommended.language;
           
-          if (currentLang && recommendedLang && currentLang === recommendedLang) {
+          // Si el país detectado ES España, guardar cookie y quedarse
+          if (targetLocale === 'es') {
+            document.cookie = `NEXT_LOCALE=es; path=/; max-age=${60 * 60 * 24 * 365}`;
+            saveUserPreference('es', 'es');
             setIsLoading(false);
             return;
           }
           
-          // Solo mostrar si el idioma es diferente (ej: estás en /en y se detecta Uruguay/es)
-          setDetectedLocation(location);
-          setRecommendedRoute(recommended);
-          setShowBanner(true);
+          // País detectado y es diferente a España → redirigir automáticamente
+          document.cookie = `NEXT_LOCALE=${targetLocale}; path=/; max-age=${60 * 60 * 24 * 365}`;
+          saveUserPreference(recommended.language, recommended.country);
+          router.push(router.pathname, router.asPath, { locale: targetLocale });
+          return;
         }
+        
+        // No se pudo detectar el país → mostrar selector para elegir
+        setShowPicker(true);
       } catch (error) {
         console.error('Error en detección de ubicación:', error);
+        // Error en la detección → mostrar selector
+        setShowPicker(true);
       } finally {
         setIsLoading(false);
       }
@@ -77,116 +87,77 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleAccept = () => {
-    const newLocale = recommendedRoute.country || recommendedRoute.language;
-    saveUserPreference(recommendedRoute.language, recommendedRoute.country);
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=${60 * 60 * 24 * 365}`;
-    setShowBanner(false);
-    router.push(router.pathname, router.asPath, { locale: newLocale });
-  };
-
-  const handleDismiss = () => {
+  const handleSelectCountry = (countryCode) => {
+    document.cookie = `NEXT_LOCALE=${countryCode}; path=/; max-age=${60 * 60 * 24 * 365}`;
+    const config = COUNTRIES[countryCode];
+    saveUserPreference(config?.language || 'es', countryCode);
     dismissGeoBanner();
-    saveUserPreference(currentLanguage, currentCountry);
-    setShowBanner(false);
+    setShowPicker(false);
+    router.push(router.pathname, router.asPath, { locale: countryCode });
   };
 
-  const getCountryFlag = () => {
-    if (recommendedRoute?.country && COUNTRIES[recommendedRoute.country]) {
-      return COUNTRIES[recommendedRoute.country].flag;
-    }
-    if (recommendedRoute?.language && LANGUAGES[recommendedRoute.language]) {
-      return LANGUAGES[recommendedRoute.language].flag;
-    }
-    return 'https://flagcdn.com/es.svg';
-  };
+  if (isLoading || !showPicker) return null;
 
-  const getMessage = () => {
-    const messages = {
-      es: {
-        detected: `Detectamos que estás en ${detectedLocation?.country || 'Latinoamérica'}`,
-        suggestion: recommendedRoute?.countryName 
-          ? `¿Te gustaría ver la versión para ${recommendedRoute.countryName}?`
-          : '¿Te gustaría ver el contenido en español?',
-        accept: 'Sí, cambiar',
-        dismiss: 'No, gracias'
-      },
-      en: {
-        detected: `We detected you're in ${detectedLocation?.country || 'your region'}`,
-        suggestion: 'Would you like to see the English version?',
-        accept: 'Yes, switch',
-        dismiss: 'No, thanks'
-      },
-      pt: {
-        detected: `Detectamos que você está em ${detectedLocation?.country || 'sua região'}`,
-        suggestion: recommendedRoute?.countryName 
-          ? `Gostaria de ver a versão para ${recommendedRoute.countryName}?`
-          : 'Gostaria de ver o conteúdo em português?',
-        accept: 'Sim, mudar',
-        dismiss: 'Não, obrigado'
-      }
-    };
-
-    return messages[currentLanguage] || messages.es;
-  };
-
-  if (isLoading || !showBanner) return null;
-
-  const message = getMessage();
+  // Ordenar países alfabéticamente
+  const sortedCountries = Object.values(COUNTRIES)
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <AnimatePresence>
-      {/* Overlay difuminado */}
+      {/* Overlay */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
-        onClick={handleDismiss}
+        className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
       >
         {/* Popup */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0, y: 30 }}
+          initial={{ scale: 0.85, opacity: 0, y: 30 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.8, opacity: 0, y: 30 }}
+          exit={{ scale: 0.85, opacity: 0, y: 30 }}
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-[#1A232E] border border-white/10 rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"
+          className="bg-[#1A232E] border border-white/10 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
         >
-          {/* Header con gradiente */}
-          <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 px-6 py-4 flex items-center gap-3">
-            <img 
-              src={getCountryFlag()} 
-              alt="flag" 
-              className="w-10 h-7 object-cover rounded shadow-md"
-            />
-            <div className="text-white">
-              <p className="text-base font-semibold leading-tight">{message.detected}</p>
+          {/* Header */}
+          <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 px-6 py-4">
+            <div className="flex items-center gap-3">
+              <img 
+                src="/pressurepro-latam-logo.png" 
+                alt="PressurePro LATAM" 
+                className="h-[28px] w-auto object-contain"
+              />
             </div>
+            <p className="text-white/90 text-sm mt-2 font-medium">
+              Selecciona tu país
+            </p>
           </div>
 
-          {/* Cuerpo */}
-          <div className="px-6 py-5">
-            <p className="text-secondary-white text-sm mb-6">
-              {message.suggestion}
-            </p>
-
-            {/* Botones */}
-            <div className="flex flex-col gap-2.5">
-              <button
-                onClick={handleAccept}
-                className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl text-sm font-semibold shadow-lg hover:from-purple-500 hover:to-indigo-500 transition-all active:scale-[0.98]"
-              >
-                {message.accept}
-              </button>
-              <button
-                onClick={handleDismiss}
-                className="w-full py-2.5 bg-white/5 border border-white/10 text-white/70 rounded-xl text-sm font-medium hover:bg-white/10 hover:text-white transition-all active:scale-[0.98]"
-              >
-                {message.dismiss}
-              </button>
+          {/* Grid de países */}
+          <div className="px-4 py-4">
+            <div className="grid grid-cols-3 gap-2">
+              {sortedCountries.map((country) => (
+                <motion.button
+                  key={country.code}
+                  onClick={() => handleSelectCountry(country.code)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-purple-500/30 transition-all"
+                >
+                  <img
+                    src={country.flag}
+                    alt={country.name}
+                    className="w-[36px] h-[25px] object-cover rounded-[2px] shadow-sm"
+                  />
+                  <span className="text-[11px] text-white/70 font-medium whitespace-nowrap">
+                    {country.name}
+                  </span>
+                </motion.button>
+              ))}
             </div>
+
           </div>
         </motion.div>
       </motion.div>
