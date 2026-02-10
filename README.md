@@ -1,37 +1,99 @@
-# Metaversus - Modern Website Template
+# PressurePro LATAM - Sistema de Monitoreo de Presión de Neumáticos
 
-Modern responsive metaverse website design made with React, Framer Motion and Tailwind CSS.
+Sitio web corporativo para PressurePro LATAM con arquitectura SEO internacional, detección geográfica automática y contenido localizado por país.
 
-⚠️ **All names, information and assets used are fake and do not represent a real entity.** ⚠️
+## 🚀 Instalación Rápida
 
-Live demo can be found under this [**link**](https://metaversus-website.onrender.com/).
+```bash
+# 1. Instalar dependencias
+npm install
 
-![image](https://user-images.githubusercontent.com/72783924/222011050-3d46f146-b74c-4982-a490-61fec703e96c.png)
+# 2. Ejecutar en desarrollo
+npm run dev
 
+# 3. Abrir en el navegador
+# http://localhost:3000
+```
 
-## Layout
-- Header
-- Hero section
-- About section
-- Explore section
-- Features section
-- What's New section
-- World section
-- Insights section
-- Feedback section
-- Footer
+## 📦 Requisitos
 
-## Design
-- Gradients
-- Framer Motion animations
-- Responsive Tailwind CSS styling
- 
-## Built With
-- React.js
-- Tailwind CSS
-- Framer Motion
-- Next.js 13
+- **Node.js** 16.x o superior
+- **npm** 8.x o superior
 
-## Acknowledgments
-- [**Original Figma Design**](https://www.figma.com/file/EyzNoOFak1Nb1bBx9ZKI7E/Modern-UI%2FUX-Framer-Motion?node-id=1%3A4&t=tUJkTXuQfg1QYNhF-0)
-- [**JavaScript Mastery video**](https://youtu.be/ugCN_gynFYw)
+## 🌎 Características SEO Internacional
+
+### Países Soportados
+| País | URL | Terminología |
+|------|-----|--------------|
+| México | `/mx` | Llantas |
+| Argentina | `/ar` | Neumáticos |
+| Chile | `/cl` | Neumáticos |
+| Perú | `/pe` | Llantas |
+| Colombia | `/co` | Llantas |
+| Uruguay | `/uy` | Neumáticos |
+| Brasil | `/br` | Pneus |
+
+### Idiomas Base
+- Español: `/es`
+- Inglés: `/en`
+- Portugués: `/pt`
+
+### Funcionalidades
+- ✅ **Detección geográfica automática** - Redirige al usuario a su país
+- ✅ **Hreflang tags** - SEO optimizado para cada región
+- ✅ **Terminología localizada** - "Llantas" vs "Neumáticos" según el país
+- ✅ **WhatsApp dinámico** - Número de contacto por país
+- ✅ **Middleware de geolocalización** - Funciona en Vercel
+
+## 🛠️ Scripts Disponibles
+
+```bash
+npm run dev      # Servidor de desarrollo
+npm run build    # Build de producción
+npm run start    # Servidor de producción
+npm run lint     # Verificar código
+```
+
+## 📁 Estructura del Proyecto
+
+```
+├── components/          # Componentes React
+│   ├── CountryBanner.jsx    # Banner de detección geográfica
+│   ├── WhatsAppButton.jsx   # Botón WhatsApp dinámico
+│   ├── HreflangTags.jsx     # Tags SEO hreflang
+│   └── DynamicSEO.jsx       # Meta tags dinámicos
+├── config/
+│   └── countries.js         # Configuración de países
+├── context/
+│   └── LocaleContext.js     # Contexto de idioma/país
+├── lib/
+│   └── geolocation.js       # Servicio de geolocalización
+├── locales/                 # Traducciones por país
+│   ├── es/, en/, pt/        # Idiomas base
+│   └── mx/, ar/, cl/...     # Países específicos
+├── middleware.js            # Middleware de geolocalización
+├── pages/                   # Páginas Next.js
+└── sections/                # Secciones de la página
+```
+
+## 🚀 Deploy en Vercel
+
+1. Conectar repositorio a Vercel
+2. Deploy automático - **No requiere configuración adicional**
+3. El middleware detectará automáticamente el país del usuario
+
+## ⚠️ Notas Importantes
+
+- En **localhost**, la detección geográfica usa la API de ipapi.co
+- En **Vercel**, usa los headers automáticos de geolocalización
+- Los usuarios pueden limpiar preferencias desde la consola:
+  ```javascript
+  localStorage.clear(); document.cookie.split(";").forEach(c => document.cookie = c.split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
+  ```
+
+## 🔧 Built With
+
+- **Next.js 13** - Framework React
+- **Tailwind CSS** - Estilos
+- **Framer Motion** - Animaciones
+- **Middleware** - Geolocalización server-side

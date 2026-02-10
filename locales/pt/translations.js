@@ -16,6 +16,7 @@ export default {
     },
     about: {
         title: "Sobre a PressurePro LATAM",
+        companyName: "PressurePro LATAM",
         text: "A PressurePro LATAM revoluciona a manutenção de pneus, fornecendo aos motoristas e gestores de frotas todos os tipos de dados em tempo real sobre o desempenho dos pneus. A PressurePro LATAM adiciona segurança e economia em qualquer caminho que você percorra. Desde 1991, a PressurePro tem sido líder em tecnologia de monitoramento de pneus, fornecendo soluções inovadoras para a segurança e eficiência de sua frota. A PressurePro LATAM é o distribuidor exclusivo para a América Latina da PressurePro, líder em tecnologia de monitoramento de pressão de pneus."
     },
     explore: {
@@ -105,14 +106,24 @@ export default {
         title2: "Por que escolher a PressurePro?",
         newFeatures: [
             {
-                imgUrl: '/vrpano.svg',
+                imgUrl: '/pp-white.png',
                 title: "Segurança",
                 subtitle: "Previne acidentes ao detectar variações de pressão, melhorando o controle, a estabilidade e a confiabilidade do veículo."
             },
             {
-                imgUrl: '/headset.svg',
+                imgUrl: '/pp-white.png',
                 title: "Economia",
                 subtitle: "Otimiza o consumo de combustível, reduz o desgaste dos pneus e minimiza os custos de manutenção e substituição."
+            },
+            {
+                imgUrl: '/pp-white.png',
+                title: "Feito nos EUA",
+                subtitle: "Projetado e fabricado nos Estados Unidos, atendendo aos mais altos padrões de qualidade e tecnologia."
+            },
+            {
+                imgUrl: '/pp-white.png',
+                title: "Meio Ambiente",
+                subtitle: "Contribui para a sustentabilidade, reduzindo a pegada de carbono e o impacto ambiental da operação de frotas."
             }
         ]
     },

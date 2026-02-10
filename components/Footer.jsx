@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { socials } from '../constants/data';
 import { footerVariants } from '../utils/motion';
 import { LanguageContext } from '../context/LanguageContext';
+import { WHATSAPP_NUMBER } from '../config/whatsapp';
 
 const Footer = () => {
   const { translations } = useContext(LanguageContext);
@@ -22,7 +23,7 @@ const Footer = () => {
             PressurePro LATAM
           </h4>
           <a
-            href="http://api.whatsapp.com/send?phone=59898596735"
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noopener noreferrer"
           >

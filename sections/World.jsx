@@ -44,19 +44,19 @@ const World = () => {
             />
             {/* Personas superpuestas con posiciones relativas */}
             <div className='absolute bottom-[20%] right-[5%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='people-01.png' alt='people' className='w-full h-full' />
+              <img src='/people-01.png' alt='people' className='w-full h-full' />
             </div>
             <div className='absolute top-[30%] left-[15%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='people-01.png' alt='people' className='w-full h-full' />
+              <img src='/people-01.png' alt='people' className='w-full h-full' />
             </div>
             <div className='absolute top-[25%] left-[20%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='people-01.png' alt='people' className='w-full h-full' />
+              <img src='/people-01.png' alt='people' className='w-full h-full' />
             </div>
             <div className='absolute top-[25%] left-[40%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='people-01.png' alt='people' className='w-full h-full' />
+              <img src='/people-01.png' alt='people' className='w-full h-full' />
             </div>
             <div className='absolute bottom-[20%] left-[10%] w-[20vw] h-[10vw] sm:w-[25vw] sm:h-[12vw] min-w-[120px] min-h-[50px] sm:min-w-[150px] sm:min-h-[70px] max-w-[230px] max-h-[100px] p-[8px] sm:p-[10px]'>
-              <img src='people-02.png' alt='people' className='w-full h-full object-contain' />
+              <img src='/people-02.png' alt='people' className='w-full h-full object-contain' />
             </div>
           </div>
         </motion.div>

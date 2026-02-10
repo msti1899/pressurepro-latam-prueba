@@ -5,6 +5,8 @@ import { LanguageContext } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navVariants } from '../utils/motion';
 import { scrollToSection } from '../utils/motion';
+import { useLocale } from '../context/LocaleContext';
+import { COUNTRIES } from '../config/countries';
 
 /**
  * Componente de navegación principal de la aplicación
@@ -13,6 +15,11 @@ import { scrollToSection } from '../utils/motion';
 const Navbar = () => {
   // ----- CONTEXTOS Y ESTADOS -----
   const { language, changeLanguage, translations } = useContext(LanguageContext);
+  
+  // Obtener país del contexto de locale
+  const localeCtx = useLocale();
+  const currentCountry = localeCtx?.country;
+  const countryFlag = currentCountry && COUNTRIES?.[currentCountry]?.flag;
   
   // Estados para controlar la UI
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,9 +38,9 @@ const Navbar = () => {
   
   // Mapeo de idiomas a imágenes de banderas
   const FLAG_IMAGES = {
-    es: '/es.svg',
-    en: '/us.svg',
-    pt: '/br.svg'
+    es: 'https://flagcdn.com/es.svg',
+    en: 'https://flagcdn.com/us.svg',
+    pt: 'https://flagcdn.com/br.svg'
   };
   
   // Secciones del sitio para navegación
@@ -237,6 +244,16 @@ const Navbar = () => {
     </div>
   );
 
+  // Estado para detectar si es móvil (evita acceso a window en SSR)
+  const [isMobileNav, setIsMobileNav] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobileNav(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   /**
    * Componente para el menú de navegación
    */
@@ -245,9 +262,8 @@ const Navbar = () => {
       {isMenuOpen && (
         <motion.div 
           className="fixed left-0 right-0 z-40"
-          // Uso valores diferentes según el tamaño de pantalla
           style={{ 
-            top: window.innerWidth < 640 ? `${MOBILE_NAV_HEIGHT}px` : `${FIXED_NAV_HEIGHT}px` 
+            top: isMobileNav ? `${MOBILE_NAV_HEIGHT}px` : `${FIXED_NAV_HEIGHT}px` 
           }}
           variants={menuVariants}
           initial="hidden"
@@ -303,16 +319,29 @@ const Navbar = () => {
         
         {/* Contenido de la barra de navegación */}
         <div className='2xl:max-w-[1280px] w-full mx-auto flex justify-between items-center gap-8'>
-          {/* Selector de idioma */}
+          {/* Selector de idioma (slide) */}
           <LanguageSelector />
           
-          {/* Logo */}
-          <div className="flex items-center">
+          {/* Logo + badge de país */}
+          <div className="flex flex-col items-center gap-0.5">
             <img
               src="/pressurepro-latam-logo.png"
               alt="Pressure Pro LATAM"
               className="h-[33px] sm:h-[45px] w-auto object-contain"
             />
+            {/* Badge del país actual */}
+            {countryFlag && (
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/10">
+                <img
+                  src={countryFlag}
+                  alt={COUNTRIES[currentCountry]?.name || ''}
+                  className="w-[14px] h-[10px] sm:w-[16px] sm:h-[12px] rounded-[1px] object-cover"
+                />
+                <span className="text-[9px] sm:text-[10px] text-white/60 font-medium tracking-wider uppercase">
+                  {COUNTRIES[currentCountry]?.name || ''}
+                </span>
+              </div>
+            )}
           </div>
           
           {/* Botón de menú */}

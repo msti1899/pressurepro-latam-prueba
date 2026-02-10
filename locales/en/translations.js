@@ -16,6 +16,7 @@ export default {
     },
     about: {
         title: "About PressurePro LATAM",
+        companyName: "PressurePro LATAM",
         text: "PressurePro LATAM is revolutionizing tire maintenance, providing drivers and fleet managers with all kinds of real-time data on tire performance. PressurePro LATAM adds safety and savings to any road you travel. Since 1991, PressurePro has been a leader in tire monitoring technology, providing innovative solutions for the safety and efficiency of your fleet. PressurePro LATAM is the exclusive distributor for Latin America of PressurePro, a leader in tire pressure monitoring technology."
     },
     explore: {
@@ -105,14 +106,24 @@ export default {
         title2: "Why choose PressurePro?",
         newFeatures: [
             {
-                imgUrl: '/vrpano.svg',
+                imgUrl: '/pp-white.png',
                 title: "Safety",
                 subtitle: "Prevents accidents by detecting pressure variations, improving vehicle control, stability, and reliability."
             },
             {
-                imgUrl: '/headset.svg',
+                imgUrl: '/pp-white.png',
                 title: "Savings",
                 subtitle: "Optimizes fuel consumption, reduces tire wear, and minimizes maintenance and replacement costs."
+            },
+            {
+                imgUrl: '/pp-white.png',
+                title: "Made in USA",
+                subtitle: "Designed and manufactured in the United States, meeting the highest standards of quality and technology."
+            },
+            {
+                imgUrl: '/pp-white.png',
+                title: "Environment",
+                subtitle: "Contributes to sustainability by reducing the carbon footprint and environmental impact of fleet operations."
             }
         ]
     },

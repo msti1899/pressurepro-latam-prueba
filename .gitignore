@@ -30,3 +30,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# helper scripts
+_write_countries.js
