@@ -32,7 +32,7 @@ const Hero = () => {
   const textY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
 
   return (
-    <section id='hero' className="w-full h-screen flex flex-col pt-[72px] sm:pt-[80px]">
+    <section id='hero' className="w-full h-screen flex flex-col pt-[95px] sm:pt-[95px]">
       <motion.div
         variants={staggerContainer}
         initial='hidden'

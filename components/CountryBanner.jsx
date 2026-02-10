@@ -66,6 +66,7 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
           }
           
           // País detectado y es diferente a España → redirigir automáticamente
+          // No cambiar isLoading para evitar flash del picker durante la redirección
           document.cookie = `NEXT_LOCALE=${targetLocale}; path=/; max-age=${60 * 60 * 24 * 365}`;
           saveUserPreference(recommended.language, recommended.country);
           router.push(router.pathname, router.asPath, { locale: targetLocale });
@@ -74,11 +75,11 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
         
         // No se pudo detectar el país → mostrar selector para elegir
         setShowPicker(true);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error en detección de ubicación:', error);
         // Error en la detección → mostrar selector
         setShowPicker(true);
-      } finally {
         setIsLoading(false);
       }
     };
