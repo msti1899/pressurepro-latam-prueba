@@ -27,22 +27,44 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
         return;
       }
 
+      // Si el usuario ya eligió un país (tiene cookie NEXT_LOCALE), no molestar
+      const hasCookie = document.cookie.split(';').some(c => c.trim().startsWith('NEXT_LOCALE='));
+      if (hasCookie) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const location = await detectUserCountry();
         
         if (location && location.countryCode) {
           const recommended = getRecommendedRoute(location.countryCode);
           
-          // Determinar la ruta actual
+          // Locale actual del router
           const currentLocale = router.locale || 'es';
-          const currentPath = `/${currentLocale}`;
           
-          if (recommended.path !== currentPath) {
-            // Mostrar banner preguntando al usuario
-            setDetectedLocation(location);
-            setRecommendedRoute(recommended);
-            setShowBanner(true);
+          // No mostrar banner si:
+          // 1. Ya estamos en el locale exacto recomendado
+          if (recommended.country === currentLocale || recommended.language === currentLocale) {
+            setIsLoading(false);
+            return;
           }
+          
+          // 2. El locale actual es un país del mismo idioma que el recomendado
+          //    (ej: estás en /mx y se detecta /co — ambos español, no molestar)
+          const currentLang = COUNTRIES[currentLocale]?.language || 
+                             (LANGUAGES[currentLocale] ? currentLocale : null);
+          const recommendedLang = recommended.language;
+          
+          if (currentLang && recommendedLang && currentLang === recommendedLang) {
+            setIsLoading(false);
+            return;
+          }
+          
+          // Solo mostrar si el idioma es diferente (ej: estás en /en y se detecta Uruguay/es)
+          setDetectedLocation(location);
+          setRecommendedRoute(recommended);
+          setShowBanner(true);
         }
       } catch (error) {
         console.error('Error en detección de ubicación:', error);

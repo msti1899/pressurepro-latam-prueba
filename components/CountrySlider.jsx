@@ -2,14 +2,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocale } from '../context/LocaleContext';
-import { COUNTRIES, LANGUAGES } from '../config/countries';
+import { COUNTRIES } from '../config/countries';
 
 /**
- * Slider horizontal de banderas para seleccionar país/idioma
+ * Slider horizontal de banderas para seleccionar país
  * Se abre debajo del badge de país en la Navbar
  */
 const CountrySlider = ({ isOpen, onClose }) => {
-  const { language, country, changeLanguage, changeCountry } = useLocale();
+  const { language, country, changeCountry } = useLocale();
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -25,13 +25,6 @@ const CountrySlider = ({ isOpen, onClose }) => {
         flag: c.flag,
         type: 'country',
       })),
-    // Idiomas sin país (EN, PT)
-    ...Object.values(LANGUAGES).map((l) => ({
-      code: l.code,
-      name: l.name,
-      flag: l.flag,
-      type: 'language',
-    })),
   ];
 
   // Determinar cuál item está activo
@@ -60,11 +53,7 @@ const CountrySlider = ({ isOpen, onClose }) => {
   }, [isOpen, activeCode]);
 
   const handleSelect = (item) => {
-    if (item.type === 'country') {
-      changeCountry(item.code);
-    } else {
-      changeLanguage(item.code);
-    }
+    changeCountry(item.code);
     onClose();
   };
 

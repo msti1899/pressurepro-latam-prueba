@@ -7,6 +7,7 @@ import { features } from '../constants/data';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import { WHATSAPP_NUMBER } from '../config/whatsapp';
 import { getUserPreference, saveUserPreference } from '../lib/geolocation';
+import countryOverrides from '../config/countryOverrides';
 
 export const LocaleContext = createContext();
 
@@ -139,8 +140,11 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     features: features
   };
 
+  // Aplicar overrides por país (textos específicos por región)
+  const withOverrides = applyCountryOverrides(currentTranslations, country);
+
   // Aplicar terminología local a las traducciones
-  const localizedTranslations = applyLocalTerminology(currentTranslations, countryConfig);
+  const localizedTranslations = applyLocalTerminology(withOverrides, countryConfig);
 
   return (
     <LocaleContext.Provider value={{ 
@@ -169,6 +173,47 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     </LocaleContext.Provider>
   );
 };
+
+/**
+ * Aplica overrides de contenido por país
+ * Mezcla recursivamente los overrides sobre las traducciones base
+ * Solo sobreescribe las claves que existen en el override
+ */
+function applyCountryOverrides(translations, countryCode) {
+  if (!countryCode || !countryOverrides[countryCode]) {
+    return translations;
+  }
+
+  const overrides = countryOverrides[countryCode];
+  
+  // Deep merge: override sobreescribe solo las claves que trae
+  return deepMerge(
+    JSON.parse(JSON.stringify(translations)),
+    overrides
+  );
+}
+
+/**
+ * Merge profundo de dos objetos
+ * target = traducciones base, source = overrides del país
+ */
+function deepMerge(target, source) {
+  for (const key of Object.keys(source)) {
+    if (
+      source[key] &&
+      typeof source[key] === 'object' &&
+      !Array.isArray(source[key]) &&
+      target[key] &&
+      typeof target[key] === 'object' &&
+      !Array.isArray(target[key])
+    ) {
+      deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
 
 /**
  * Aplica la terminología local a las traducciones
