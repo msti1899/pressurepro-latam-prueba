@@ -15,7 +15,6 @@ import {
   ID_TO_SLUG, 
   SLUG_MAP, 
   INDUSTRY_SLUGS,
-  BENEFIT_ICONS,
   getIndustryContent 
 } from '../../constants/industries';
 
@@ -56,10 +55,6 @@ export default function IndustryPage() {
   const pageTitle = content.pageTitle;
   const description = content.description;
   const additional = content.additional;
-  const benefits = content.benefits.map((label, i) => ({
-    label,
-    icon: BENEFIT_ICONS[industry.benefitIcons[i]] || BENEFIT_ICONS.efficiency,
-  }));
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
   const slug = industry.slug;
@@ -103,7 +98,7 @@ export default function IndustryPage() {
         "@type": "ListItem",
         "position": 2,
         "name": translations?.explore?.title || 'Mercados',
-        "item": `${baseUrl}/${locale}#explore`
+        "item": `${baseUrl}/${locale}#mercados`
       },
       {
         "@type": "ListItem",
@@ -187,7 +182,7 @@ export default function IndustryPage() {
         <Navbar />
 
         {/* Hero de la industria */}
-        <section className="relative w-full h-[60vh] md:h-[70vh] pt-[95px]">
+        <section className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] pt-[77px] sm:pt-[95px]">
           <div className="absolute inset-0">
             <img 
               src={industry.imgUrl} 
@@ -209,7 +204,7 @@ export default function IndustryPage() {
             </motion.div>
             <motion.h1
               variants={textVariant(0.5)}
-              className="font-bold text-[36px] md:text-[56px] lg:text-[72px] text-white leading-tight mt-2"
+              className="font-bold text-[32px] sm:text-[36px] md:text-[56px] lg:text-[72px] text-white leading-tight mt-2"
             >
               {industryName}
             </motion.h1>
@@ -219,32 +214,6 @@ export default function IndustryPage() {
             >
               {marketInfo}
             </motion.p>
-          </motion.div>
-        </section>
-
-        {/* Beneficios */}
-        <section className="py-12 md:py-20 px-6 sm:px-16">
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.25 }}
-            className="2xl:max-w-[1280px] mx-auto"
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {benefits.map((benefit, i) => (
-                <motion.div
-                  key={benefit.label}
-                  variants={fadeIn('up', 'spring', i * 0.15, 0.75)}
-                  className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-purple-500/20 transition-all"
-                >
-                  <div className="w-[60px] h-[60px] rounded-full bg-gradient-to-br from-purple-600/30 to-indigo-600/20 flex items-center justify-center">
-                    {benefit.icon}
-                  </div>
-                  <span className="text-white font-semibold text-sm md:text-base">{benefit.label}</span>
-                </motion.div>
-              ))}
-            </div>
           </motion.div>
         </section>
 
@@ -289,7 +258,7 @@ export default function IndustryPage() {
               variants={fadeIn('up', 'tween', 0.2, 1)}
               className="relative rounded-3xl overflow-hidden"
             >
-              <img src={industry.imgUrl} alt="" className="w-full h-[300px] md:h-[400px] object-cover" />
+              <img src={industry.imgUrl} alt="" className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-indigo-900/70 to-black/60 flex flex-col items-center justify-center text-center px-6">
                 <h3 className="text-white font-bold text-2xl md:text-4xl mb-4">
                   {translations?.getStarted?.subtitle || '¿Listo para optimizar su flota?'}
@@ -299,7 +268,7 @@ export default function IndustryPage() {
                 </p>
                 <Link
                   href="/#feedback"
-                  className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20"
+                  className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] flex items-center active:scale-95"
                 >
                   {translations?.footer?.contact || 'Contactar'}
                 </Link>
@@ -311,11 +280,11 @@ export default function IndustryPage() {
         {/* Otras industrias */}
         <section className="py-12 md:py-20 px-6 sm:px-16">
           <div className="2xl:max-w-[1280px] mx-auto">
-            <h2 className="font-bold md:text-[64px] text-[40px] text-white text-center">
+            <h2 className="font-bold text-[28px] sm:text-[40px] md:text-[64px] text-white text-center">
               {translations?.explore?.subtitle || 'Una solución para cada industria'}
             </h2>
 
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
               {otherIndustries.map((ind) => {
                 const otherLang = COUNTRIES[locale]?.language || locale;
                 const otherContent = ind[otherLang] || ind.es;
@@ -324,7 +293,7 @@ export default function IndustryPage() {
                     key={ind.id}
                     href={`/industries/${ind.slug}`}
                     scroll={true}
-                    className="group block relative h-[180px] md:h-[220px] rounded-2xl overflow-hidden"
+                    className="group block relative h-[160px] sm:h-[180px] md:h-[220px] rounded-2xl overflow-hidden active:scale-[0.97] transition-transform"
                   >
                     <img src={ind.imgUrl} alt={otherContent.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
@@ -340,7 +309,7 @@ export default function IndustryPage() {
             <div className="flex justify-center mt-10">
               <Link
                 href="/"
-                className="px-6 py-2.5 rounded-full border border-white/10 text-white/60 text-sm hover:bg-white/5 hover:text-white transition-all"
+                className="px-6 py-3 rounded-full border border-white/10 text-white/60 text-sm hover:bg-white/5 hover:text-white transition-all min-h-[44px] flex items-center active:scale-95"
               >
                 ← {translations?.navbar?.about ? 'Volver al inicio' : 'Volver al inicio'}
               </Link>

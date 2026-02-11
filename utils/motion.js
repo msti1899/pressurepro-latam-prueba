@@ -12,9 +12,10 @@ export const navVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      type: 'spring',
-      stiffness: 80,
-      delay: 1,
+      type: 'tween',
+      ease: 'easeOut',
+      duration: 0.4,
+      delay: 0.1,
     },
   },
 };

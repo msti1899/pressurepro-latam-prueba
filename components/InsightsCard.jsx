@@ -104,8 +104,8 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
 
             {/* Botón de descarga móvil - Solo visible en móviles */}
             <div className="flex flex-row items-center justify-center mt-8 md:hidden">
-              <div
-                className={`flex items-center justify-center w-[60px] h-[60px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 ${isArrowClicked ? 'scale-95' : ''
+              <button
+                className={`flex items-center justify-center w-[60px] h-[60px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 min-w-[60px] min-h-[60px] ${isArrowClicked ? 'scale-95' : ''
                   }`}
                 onMouseEnter={() => setIsArrowHovered(true)}
                 onMouseLeave={() => setIsArrowHovered(false)}
@@ -113,7 +113,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
                   setIsArrowClicked(true);
                   window.open(specsUrl, '_blank', 'noopener,noreferrer');
                 }}
-                title="Descargar especificaciones"
+                aria-label={`Descargar especificaciones de ${title}`}
               >
                 {/* Ícono de descarga */}
                 <motion.svg
@@ -130,7 +130,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                 </motion.svg>
-              </div>
+              </button>
               <p className="ml-4 text-white text-sm font-light tracking-wide opacity-80 hover:opacity-100 transition-opacity">
                 {translations.insights?.downloadSpecs || "Descargar especificaciones"}
               </p>
@@ -139,7 +139,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
 
           {/* Botón de descarga desktop - Solo visible en desktop */}
           <div className="hidden md:flex md:flex-col items-center justify-center">
-            <div
+            <button
               className={`flex items-center justify-center w-[100px] h-[100px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 ${isArrowClicked ? 'scale-95' : ''
                 }`}
               onMouseEnter={() => setIsArrowHovered(true)}
@@ -148,7 +148,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
                 setIsArrowClicked(true);
                 window.open(specsUrl, '_blank', 'noopener,noreferrer');
               }}
-              title="Descargar especificaciones"
+              aria-label={`Descargar especificaciones de ${title}`}
             >
               {/* Ícono de descarga */}
               <motion.svg
@@ -165,7 +165,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
               </motion.svg>
-            </div>
+            </button>
             <p className="mt-2 text-white text-xs font-light text-opacity-70 hover:text-opacity-100 transition-opacity text-center">
               {translations.insights?.downloadSpecs || "Descargar especificaciones"}
             </p>
@@ -187,9 +187,20 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
               height: `calc(100vh - ${navbarHeight}px)`
             }}
             onClick={() => setIsImageOpen(false)}
+            role="dialog"
+            aria-label={`Imagen ampliada de ${title}`}
           >
             {/* Contenedor de la imagen */}
             <div className="w-full max-w-4xl px-4 relative">
+              <button 
+                onClick={() => setIsImageOpen(false)} 
+                className="absolute top-2 right-6 z-10 w-10 h-10 rounded-full bg-black/50 flex items-center justify-center text-white min-w-[44px] min-h-[44px]"
+                aria-label="Cerrar imagen"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
               <div className="w-full flex items-center justify-center">
                 {/* Imagen */}
                 <motion.div

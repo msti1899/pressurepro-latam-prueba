@@ -10,22 +10,26 @@ import { LanguageContext } from '../context/LanguageContext';
 const Explore = () => {
   const [active, setActive] = useState('world-2');
   const { translations } = useContext(LanguageContext);
-  const [isMobile, setIsMobile] = useState(false);
+  const [viewMode, setViewMode] = useState('desktop'); // 'mobile' | 'tablet' | 'desktop'
 
-  // Detectar dispositivos móviles
   useEffect(() => {
-    const checkIfMobile = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
+    const checkViewMode = () => {
+      const w = window.innerWidth;
+      if (w < 768) setViewMode('mobile');
+      else if (w < 1024) setViewMode('tablet');
+      else setViewMode('desktop');
     };
-    
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    return () => window.removeEventListener('resize', checkIfMobile);
+
+    checkViewMode();
+    window.addEventListener('resize', checkViewMode);
+    return () => window.removeEventListener('resize', checkViewMode);
   }, []);
 
+  const isMobile = viewMode === 'mobile';
+  const isTablet = viewMode === 'tablet';
+
   return (
-    <section className='sm:p-16 xs:p-8 px-6 py-5 md:py-12' id='explore'>
+    <section className='sm:p-16 xs:p-8 px-4 py-5 md:py-12' id='mercados'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'
@@ -41,20 +45,41 @@ const Explore = () => {
           title={<>{translations.explore.subtitle} <br className='md:block hidden'/></>} 
           textStyles='text-center'
         />
-        <div className={`mt-[30px] md:mt-[10px] flex ${isMobile ? 'flex-col' : 'lg:flex-row flex-col'} gap-5 pb-8`}>
-          {worlds.map((world, index) => (
-            <ExploreCard
-              key={world.id}
-              {...world}
-              index={index}
-              active={active}
-              handleClick={setActive}
-              isMobileView={isMobile}
-              translations={translations} // Pasamos el objeto completo de traducciones
-              marketInfo={translations.explore.marketInfo}
-            />
-          ))}
-        </div>
+
+        {/* Móvil: grid 2 cols  |  Tablet: grid 3 cols  |  Desktop: accordion horizontal */}
+        {isMobile || isTablet ? (
+          <div className={`mt-[20px] grid gap-3 pb-4 ${
+            isMobile ? 'grid-cols-2' : 'grid-cols-3'
+          }`}>
+            {worlds.map((world, index) => (
+              <ExploreCard
+                key={world.id}
+                {...world}
+                index={index}
+                active={active}
+                handleClick={setActive}
+                viewMode={viewMode}
+                translations={translations}
+                marketInfo={translations.explore.marketInfo}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className='mt-[10px] flex lg:flex-row flex-col gap-5 pb-8'>
+            {worlds.map((world, index) => (
+              <ExploreCard
+                key={world.id}
+                {...world}
+                index={index}
+                active={active}
+                handleClick={setActive}
+                viewMode={viewMode}
+                translations={translations}
+                marketInfo={translations.explore.marketInfo}
+              />
+            ))}
+          </div>
+        )}
       </motion.div>
     </section>
   )

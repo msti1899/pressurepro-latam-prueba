@@ -19,7 +19,7 @@ const Footer = () => {
       <div className='footer-gradient' />
       <div className='2xl:max-w-[1280px] w-full mx-auto flex flex-col gap-8'>
         <div className='flex items-center justify-between flex-wrap gap-5'>
-          <h4 className='font-bold mb:text-[64px] text-[44px] text-white'>
+          <h4 className='font-bold md:text-[64px] text-[36px] text-white'>
             PressurePro LATAM
           </h4>
           <a
@@ -27,7 +27,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button type='button' className='flex items-center h-fit py-4 px-6 bg-[#25d366] rounded-[32px] gap-[12px]'>
+            <button type='button' className='flex items-center h-fit py-4 px-6 bg-[#25d366] rounded-[32px] gap-[12px] min-h-[48px] active:scale-95 transition-transform'>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -44,10 +44,10 @@ const Footer = () => {
         <div className='flex flex-col'>
           <div className='mb-[50px] h-[2px] bg-white opacity-10' />
           <div className='flex items-center justify-between flex-wrap gap-4'>
-            <h4 className='font-normal text-[18px] text-white opacity-70'>
+            <h4 className='font-normal text-[14px] sm:text-[18px] text-white opacity-70'>
               info@pressurepro-latam.com
             </h4>
-            <p className='font-normal text-[18px] text-white opacity-70'>
+            <p className='font-normal text-[14px] sm:text-[18px] text-white opacity-70'>
               Av. Dr. Enrique Pouey 830, 90200 - Las Piedras , Canelones, Uruguay
             </p>
             <div className='flex gap-4'>
@@ -58,6 +58,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Visitar ${social.name}`}
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center"
                 >
                   <img
                     src={social.url}

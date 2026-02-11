@@ -17,14 +17,20 @@ const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = ['/truck.jpg', '/port-truck.jpg', '/miner-truck.jpg'];
 
-  // Cambiar la imagen cada 5 segundos
+  // Autoplay: cambiar la imagen cada 5 segundos, reinicia al hacer click
+  const [autoKey, setAutoKey] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
+    }, 8000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [autoKey]);
+
+  const goToSlide = (index) => {
+    setCurrentImageIndex(index);
+    setAutoKey((k) => k + 1); // reinicia el timer
+  };
 
   // Transformamos el valor del scroll para crear el efecto parallax
   const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
@@ -59,7 +65,7 @@ const Hero = () => {
                 <motion.img
                   key={currentImageIndex}
                   src={images[currentImageIndex]}
-                  alt='mining_truck'
+                  alt={`PressurePro TPMS - ${['Camión de transporte', 'Camión portuario', 'Camión minero'][currentImageIndex]}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -67,25 +73,13 @@ const Hero = () => {
                   className='w-full h-full object-cover object-center z-0 absolute opacity-90 shadow-lg hover:opacity-100 transition-opacity rounded-2xl'
                 />
               </AnimatePresence>
-
-              {/* Indicadores de slider */}
-              <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-20">
-                {images.map((_, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'
-                      }`}
-                  />
-                ))}
-              </div>
             </motion.div>
           </div>
 
           {/* Capa de texto que se desplaza junto con la imagen */}
           <motion.div
             style={{ y: textY }}
-            className="absolute inset-0 flex flex-col justify-center items-center z-10 gap-2 md:gap-1"
+            className="absolute inset-0 flex flex-col justify-center items-center z-10 gap-2 md:gap-1 pointer-events-none"
           >
             <motion.img 
               variants={textVariant(1.0)}
@@ -111,15 +105,32 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
+          {/* Indicadores de slider — encima de todo para ser clickeables */}
+          <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-2 z-[30]">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); goToSlide(index); }}
+                aria-label={`Ir a imagen ${index + 1} de ${images.length}`}
+                aria-current={index === currentImageIndex ? 'true' : undefined}
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+              >
+                <span className={`block rounded-full transition-all duration-300 ${
+                  index === currentImageIndex
+                    ? 'w-8 h-3 bg-white shadow-lg'
+                    : 'w-3 h-3 bg-white/50 hover:bg-white/80'
+                }`} />
+              </button>
+            ))}
+          </div>
+
           {/* Sello que se mantiene fijo en su posición */}
-          <a href='#explore'>
-            <div className='w-full flex justify-end pr-20 absolute bottom-4 z-[20]'>
+          <a href='#mercados' aria-label='Ver industrias' className='absolute bottom-4 right-10 sm:right-20 z-[20]'>
               <img
                 src='/stamp.png'
                 alt='stamp'
                 className='sm:w-[85px] w-[55px] sm:h-[145px] h-[75px] object-contain'
               />
-            </div>
           </a>
         </motion.div>
       </motion.div>

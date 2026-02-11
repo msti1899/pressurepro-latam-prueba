@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { LanguageContext } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navVariants } from '../utils/motion';
@@ -51,7 +52,7 @@ const Navbar = () => {
   // Secciones del sitio para navegación
   const sections = [
     { id: 'about', name: translations?.navbar?.about || 'Acerca de' },
-    { id: 'explore', name: translations?.navbar?.explore || 'Mercados' },
+    { id: 'mercados', name: translations?.navbar?.explore || 'Mercados' },
     { id: 'getstarted', name: translations?.navbar?.getStarted || 'Comenzar' },
     { id: 'whatsnew', name: translations?.navbar?.whatsNew || 'Novedades' },
     { id: 'world', name: translations?.navbar?.world || 'Ubicaciones' },
@@ -198,7 +199,10 @@ const Navbar = () => {
     <div className="language-selector relative">
       <button
         onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-        className="relative z-10 flex items-center space-x-1 group"
+        className="relative z-10 flex items-center space-x-1 group min-w-[44px] min-h-[44px] justify-center"
+        aria-label={`Cambiar idioma. Idioma actual: ${language === 'es' ? 'Español' : language === 'en' ? 'English' : 'Português'}`}
+        aria-expanded={isLanguageMenuOpen}
+        aria-haspopup="listbox"
       >
         <div className="hover:opacity-100 transition-opacity">
           <img
@@ -240,14 +244,19 @@ const Navbar = () => {
             initial="hidden"
             animate="visible"
             exit="hidden"
+            role="listbox"
+            aria-label="Seleccionar idioma"
           >
             {Object.entries(FLAG_IMAGES).map(([langCode, flagPath]) => (
               <motion.button
                 key={langCode}
                 onClick={() => handleLanguageChange(langCode)}
-                className={`block w-full my-1.5 ${language === langCode ? 'opacity-100' : 'opacity-60'} hover:opacity-100 transition-opacity`}
+                className={`w-full my-1.5 min-w-[44px] min-h-[44px] flex items-center justify-center ${language === langCode ? 'opacity-100' : 'opacity-60'} hover:opacity-100 transition-opacity`}
                 variants={languageItemVariants}
                 whileHover={{ scale: 1.05 }}
+                role="option"
+                aria-selected={language === langCode}
+                aria-label={langCode === 'es' ? 'Español' : langCode === 'en' ? 'English' : 'Português'}
               >
                 <img
                   src={flagPath}
@@ -279,6 +288,9 @@ const Navbar = () => {
     <AnimatePresence>
       {isMenuOpen && (
         <motion.div 
+          id="navigation-menu"
+          role="navigation"
+          aria-label="Menú principal"
           className="fixed left-0 right-0 z-40"
           style={{ 
             top: isMobileNav ? `${MOBILE_NAV_HEIGHT}px` : `${FIXED_NAV_HEIGHT}px` 
@@ -303,7 +315,7 @@ const Navbar = () => {
                     href={`#${section.id}`}
                     variants={itemVariants}
                     onClick={(e) => handleNavigation(e, section.id)}
-                    className="block py-2 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold"
+                    className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold min-h-[44px]"
                   >
                     {section.name}
                   </motion.a>
@@ -330,7 +342,7 @@ const Navbar = () => {
           display: "flex",
           alignItems: "center"
         }}
-        className={`sm:px-16 px-6 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${hasScrolled ? 'bg-primary-black/40 backdrop-blur-md shadow-lg' : ''}`}
+        className={`sm:px-16 px-6 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${hasScrolled ? 'bg-primary-black/80 backdrop-blur-md shadow-lg' : 'bg-gradient-to-b from-black/60 to-transparent'}`}
       >
         {/* Gradiente de fondo */}
         <div className={`absolute w-[50%] inset-0 gradient-01 ${hasScrolled ? 'opacity-30' : 'opacity-100'}`} />
@@ -342,15 +354,19 @@ const Navbar = () => {
           
           {/* Logo + badge de país (clickeable para abrir slider) */}
           <div className="relative flex flex-col items-center gap-0.5">
-            <img
-              src="/pressurepro-latam-logo.png"
-              alt="Pressure Pro LATAM"
-              className="h-[33px] sm:h-[45px] w-auto object-contain"
-            />
+            <Link href="/">
+              <img
+                src="/pressurepro-latam-logo.png"
+                alt="Pressure Pro LATAM"
+                className="h-[33px] sm:h-[45px] w-auto object-contain cursor-pointer"
+              />
+            </Link>
             {/* Badge del país actual — abre el slider */}
             <button
               onClick={() => setIsCountrySliderOpen(!isCountrySliderOpen)}
-              className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group"
+              className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group min-h-[32px]"
+              aria-label={`Seleccionar país. País actual: ${currentCountry ? (COUNTRIES[currentCountry]?.name || '') : 'No seleccionado'}`}
+              aria-expanded={isCountrySliderOpen}
             >
               {countryFlag ? (
                 <img
@@ -390,7 +406,10 @@ const Navbar = () => {
           >
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex items-center justify-center"
+              className="flex items-center justify-center min-w-[44px] min-h-[44px]"
+              aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
+              aria-expanded={isMenuOpen}
+              aria-controls="navigation-menu"
             >
               <motion.img
                 src='/menu.svg'

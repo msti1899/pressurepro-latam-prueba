@@ -45,10 +45,10 @@ const CountrySlider = ({ isOpen, onClose }) => {
             animate={{ opacity: 1, y: 0, scaleY: 1 }}
             exit={{ opacity: 0, y: -8, scaleY: 0.95 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed left-0 right-0 top-[100px] z-[100] flex justify-center px-4"
+            className="fixed left-1/2 -translate-x-1/2 top-[90px] sm:top-[95px] z-[100] px-4 w-full max-w-[440px]"
             style={{ originY: 0 }}
           >
-            <div className="bg-[#1A232E]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden w-full max-w-[420px]">
+            <div className="bg-[#1A232E]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden w-full">
               {/* Título */}
               <div className="px-4 pt-3 pb-1">
                 <p className="text-[11px] text-white/40 uppercase tracking-widest font-medium text-center">
