@@ -1,6 +1,13 @@
+import { COUNTRIES, LANGUAGES } from '../config/countries';
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
 
 function generateRobotsTxt() {
+  // Generar Allow dinámicamente desde los locales configurados
+  const allLocales = [...Object.keys(LANGUAGES), ...Object.keys(COUNTRIES)];
+  const allowLines = allLocales.map(locale => `Allow: /${locale}`).join('\n');
+  const allowIndustryLines = allLocales.map(locale => `Allow: /${locale}/industries/`).join('\n');
+
   return `# robots.txt for PressurePro LATAM
 User-agent: *
 Allow: /
@@ -14,16 +21,10 @@ Disallow: /_next/
 Disallow: /static/
 
 # Permitir todas las versiones de idioma y país
-Allow: /es
-Allow: /en
-Allow: /pt
-Allow: /mx
-Allow: /ar
-Allow: /br
-Allow: /pe
-Allow: /cl
-Allow: /co
-Allow: /bo
+${allowLines}
+
+# Permitir páginas de industrias
+${allowIndustryLines}
 `;
 }
 

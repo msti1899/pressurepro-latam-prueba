@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
 import { LanguageContext } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navVariants } from '../utils/motion';
@@ -166,14 +167,27 @@ const Navbar = () => {
     setIsLanguageMenuOpen(false);
   };
 
+  // Router para detectar la ruta actual
+  const router = useRouter();
+
   /**
    * Maneja la navegación entre secciones
+   * Si estamos en la home, hace scroll directo.
+   * Si estamos en otra página (ej. industrias), navega a la home con hash.
    * @param {string} sectionId - ID de la sección a la que navegar
    */
   const handleNavigation = (e, sectionId) => {
     e.preventDefault();
-    scrollToSection(sectionId);
     setIsMenuOpen(false);
+
+    // Verificar si estamos en la página principal
+    const isHome = router.pathname === '/' || router.pathname === '/index';
+    if (isHome) {
+      scrollToSection(sectionId);
+    } else {
+      // Navegar a la home con el hash para que haga scroll al llegar
+      router.push(`/#${sectionId}`);
+    }
   };
 
   // ----- COMPONENTES INTERNOS -----

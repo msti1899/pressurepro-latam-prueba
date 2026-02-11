@@ -50,14 +50,7 @@ const nextConfig = {
 
   // Redirecciones para URLs antiguas
   async redirects() {
-    return [
-      // Redirigir /industries a /es con hash
-      {
-        source: '/industries/:id',
-        destination: '/es#explore',
-        permanent: true,
-      },
-    ];
+    return [];
   },
 }
 

@@ -118,16 +118,10 @@ const DynamicSEO = ({
         "@type": "Country",
         "name": countryConfig?.name || "Latinoamérica"
       }
-    ] : [
-      { "@type": "Country", "name": "México" },
-      { "@type": "Country", "name": "Argentina" },
-      { "@type": "Country", "name": "Brasil" },
-      { "@type": "Country", "name": "Chile" },
-      { "@type": "Country", "name": "Colombia" },
-      { "@type": "Country", "name": "Perú" },
-      { "@type": "Country", "name": "Bolivia" },
-      { "@type": "Country", "name": "España" }
-    ],
+    ] : Object.values(COUNTRIES).map(c => ({
+      "@type": "Country",
+      "name": c.name
+    })),
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "sales",
