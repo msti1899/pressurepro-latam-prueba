@@ -82,8 +82,7 @@ function generateSiteMap() {
   // Agregar comentario con estadísticas en el XML (útil para debugging)
   const stats = `
   <!--
-    stats}
-  ${📊 Estadísticas del Sitemap:
+    Estadísticas del Sitemap:
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     • Homes (idiomas):        ${languageUrls.length} URLs
     • Homes (países):         ${countryUrls.length} URLs

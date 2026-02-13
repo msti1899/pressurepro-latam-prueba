@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { TitleText, TypingText } from '../components/CustomTexts';
@@ -245,12 +246,12 @@ export default function FAQPage() {
                   ? 'Our team of experts is ready to help you optimize your fleet with the best TPMS technology'
                   : 'Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS'}
               </p>
-              <a
+              <Link
                 href="/#feedback"
                 className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
               >
                 {language === 'es' ? 'Contactar Ahora' : language === 'en' ? 'Contact Now' : 'Contatar Agora'}
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
         </section>
