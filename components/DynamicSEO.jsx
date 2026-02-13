@@ -86,8 +86,13 @@ const DynamicSEO = ({
   
   // Generar URL canónica
   const getCanonicalUrl = () => {
+    // IMPORTANTE: Para producción, siempre usar el dominio real
+    // Esto evita contenido duplicado si se accede desde vercel.app
+    // El "error" en audits de staging es esperado y correcto
     const locale = country || language;
-    return `${baseUrl}/${locale}${pagePath}`;
+    // Asegurar que no haya doble slash // (excepto en https://)
+    const cleanPath = pagePath.startsWith('/') ? pagePath : `/${pagePath}`;
+    return `${baseUrl}/${locale}${cleanPath === '/' ? '' : cleanPath}`;
   };
   
   // Generar locale para Open Graph
@@ -106,12 +111,14 @@ const DynamicSEO = ({
   // Generar hreflang alternates
   const generateAlternates = () => {
     const alternates = [];
+    const cleanPath = pagePath.startsWith('/') ? pagePath : `/${pagePath}`;
+    const pathSuffix = cleanPath === '/' ? '' : cleanPath;
     
     // Versiones por idioma
     Object.keys(LANGUAGES).forEach(langCode => {
       alternates.push({
         hreflang: LANGUAGES[langCode].hreflang,
-        href: `${baseUrl}/${langCode}${pagePath}`
+        href: `${baseUrl}/${langCode}${pathSuffix}`
       });
     });
     
@@ -119,14 +126,14 @@ const DynamicSEO = ({
     Object.keys(COUNTRIES).forEach(countryCode => {
       alternates.push({
         hreflang: COUNTRIES[countryCode].hreflang,
-        href: `${baseUrl}/${countryCode}${pagePath}`
+        href: `${baseUrl}/${countryCode}${pathSuffix}`
       });
     });
     
-    // x-default
+    // x-default (Global fallback -> 'es' o una página específica de aterrizaje global)
     alternates.push({
       hreflang: 'x-default',
-      href: `${baseUrl}/es${pagePath}`
+      href: `${baseUrl}/es${pathSuffix}`
     });
     
     return alternates;
