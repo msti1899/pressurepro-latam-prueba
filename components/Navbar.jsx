@@ -311,6 +311,7 @@ const Navbar = () => {
                     <motion.div key={section.id} variants={itemVariants}>
                       <Link
                         href="/faq"
+                        title={`Ir a ${section.name}`}
                         className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/15 hover:pl-6 rounded-lg transition-all duration-300 font-semibold min-h-[44px] group"
                         onClick={() => setIsMenuOpen(false)}
                       >
@@ -321,6 +322,7 @@ const Navbar = () => {
                     <motion.a
                       key={section.id}
                       href={`#${section.id}`}
+                      title={`Ir a la sección ${section.name}`}
                       variants={itemVariants}
                       onClick={(e) => handleNavigation(e, section.id)}
                       className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/15 hover:pl-6 rounded-lg transition-all duration-300 font-semibold min-h-[44px] group"
@@ -360,7 +362,7 @@ const Navbar = () => {
         <div className='2xl:max-w-[1280px] w-full mx-auto flex justify-between items-center'>
           
           {/* LEFT: Logo principal (más grande y limpio) */}
-          <Link href="/" className="relative z-40">
+          <Link href="/" className="relative z-40" title="Volver al inicio - PressurePro Latam">
             <img
               src="/pressurepro-latam-logo.png"
               alt="Pressure Pro LATAM"

@@ -24,7 +24,7 @@ const DynamicSEO = ({
   
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
   
-  // Generar título SEO
+  // Generar título SEO (Meta Title) - Optimizado < 60 chars
   const getTitle = () => {
     if (pageTitle) return pageTitle;
     
@@ -33,26 +33,29 @@ const DynamicSEO = ({
     }
     
     if (country && COUNTRIES[country]) {
-      return `PressurePro ${COUNTRIES[country].name} - Monitoreo de ${countryConfig?.terminology?.tires || 'Neumáticos'}`;
+      const term = countryConfig?.terminology?.tires || 'Neumáticos';
+      return `PressurePro ${COUNTRIES[country].name} | Monitoreo TPMS ${term}`;
     }
     
-    return translations?.hero?.title || 'PressurePro LATAM - Monitoreo de Neumáticos';
+    return 'PressurePro LATAM | Monitoreo de Neumáticos TPMS';
   };
   
   // Generar descripción SEO con keywords optimizadas
   const getDescription = () => {
     if (pageDescription) return pageDescription;
     
-    // Descripciones específicas por país con keywords
+    // Descripciones específicas por país con keywords (Optimizadas < 160 chars)
     const countryDescriptions = {
-      'cl': `Sistema TPMS PressurePro para monitoreo de neumáticos en tiempo real en Chile. Especializado en minería, transporte y flotas comerciales. Ahorro de combustible hasta 15%, prevención de accidentes y optimización operativa.`,
-      'pe': `Sistema TPMS PressurePro para monitoreo de neumáticos en Perú. Soluciones para minería, transporte pesado y maquinaria. Sensores de presión y temperatura en tiempo real para máxima seguridad operacional.`,
-      'mx': `Sistema TPMS PressurePro para monitoreo de llantas en México. Tecnología de sensores inteligentes para flotillas comerciales. Reducción de costos operativos y mayor seguridad vehicular.`,
-      'br': `Sistema TPMS PressurePro para monitoramento de pneus no Brasil. Soluções para frotas comerciais, mineração e agricultura. Tecnologia de sensores em tempo real para economia de combustível.`,
-      'ar': `Sistema TPMS PressurePro para monitoreo de neumáticos en Argentina. Soluciones para agricultura, transporte y flotas comerciales. Ahorro operativo y prevención de accidentes en rutas argentinas.`,
-      'co': `Sistema TPMS PressurePro para monitoreo de neumáticos en Colombia. Tecnología de sensores para transporte de carga, minería y flotas. Optimización de costos operativos y seguridad vial.`,
-      'uy': `Sistema TPMS PressurePro para monitoreo de neumáticos en Uruguay. Soluciones para transporte, agricultura y flotas comerciales. Sensores de presión en tiempo real para máxima eficiencia.`,
-      'bo': `Sistema TPMS PressurePro para monitoreo de neumáticos en Bolivia. Especializado en transporte de carga, minería y operaciones de altura. Sensores de presión y temperatura en tiempo real.`,
+      'cl': `Monitoreo TPMS PressurePro en Chile para minería y transporte. Controle neumáticos en tiempo real, ahorre combustible y mejore la seguridad de su flota.`,
+      'pe': `TPMS PressurePro Perú: Monitoreo de neumáticos para minería y carga. Tecnología de sensores en tiempo real para optimizar costos y seguridad vehicular.`,
+      'mx': `PressurePro México: Sistema TPMS para monitoreo de llantas en flotillas. Reduzca costos y evite accidentes en carreteras con nuestros sensores inteligentes.`,
+      'br': `TPMS PressurePro Brasil: Monitoramento de pneus para frotas e mineração. Economize combustível e aumente a segurança com tecnologia em tempo real.`,
+      'ar': `Monitoreo de neumáticos PressurePro en Argentina. Solución TPMS para agro y transporte. Prevenga accidentes y controle la presión de su flota hoy.`,
+      'co': `PressurePro Colombia: Monitoreo de llantas para transporte y carga. Sistema TPMS líder para optimizar costos operativos y seguridad en rutas.`,
+      'uy': `TPMS PressurePro Uruguay: Monitoreo de neumáticos para agro y transporte forestal. Tecnología oficial para control de presión y temperatura.`,
+      'bo': `PressurePro Bolivia: Sistema de monitoreo de neumáticos para minería y transporte. Controle su flota en tiempo real y reduzca costos operativos.`,
+      'es': `PressurePro España: Monitorización TPMS certificada CE para flotas. Cumpla la normativa europea, ahorre combustible y mejore la seguridad vial.`,
+      'us': `PressurePro TPMS: Real-time tire monitoring for commercial fleets. Reduce fuel costs and improve safety with our advanced sensor technology.`,
     };
     
     if (country && countryDescriptions[country]) {
@@ -62,8 +65,17 @@ const DynamicSEO = ({
     if (countryConfig?.seo?.description) {
       return countryConfig.seo.description;
     }
+
+    if (language === 'pt') {
+        return `Sistema TPMS PressurePro para monitoramento de pressão de pneus. Soluções para frotas comerciais em toda a América Latina.`;
+    }
     
-    return 'Sistema TPMS PressurePro para monitoreo de presión y temperatura de neumáticos en tiempo real. Soluciones para flotas comerciales, minería y transporte en toda América Latina. Ahorro de combustible, prevención de accidentes y optimización operativa.';
+    if (language === 'en') {
+        return `PressurePro TPMS: Real-time tire pressure monitoring system for commercial fleets across Latin America. Save fuel and improve safety.`;
+    }
+    
+    // Default global abreviado
+    return `Sistema TPMS PressurePro para monitoreo de neumáticos en tiempo real. Optimice su flota comercial, reduzca costos y mejore la seguridad en LATAM.`;
   };
   
   // Generar keywords

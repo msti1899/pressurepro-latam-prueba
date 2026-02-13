@@ -32,32 +32,32 @@ const Footer = () => {
             <h3 className='font-bold text-[18px] text-white mb-4'>Industrias</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/industries/mineria' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/industries/mineria' title="Minería" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Minería
                 </Link>
               </li>
               <li>
-                <Link href='/industries/transporte' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/industries/transporte' title="Transporte" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Transporte
                 </Link>
               </li>
               <li>
-                <Link href='/industries/agricultura' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/industries/agricultura' title="Agricultura" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Agricultura
                 </Link>
               </li>
               <li>
-                <Link href='/industries/forestal' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/industries/forestal' title="Forestal" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Forestal
                 </Link>
               </li>
               <li>
-                <Link href='/industries/portuario' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/industries/portuario' title="Portuario" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Portuario
                 </Link>
               </li>
               <li>
-                <Link href='/industries/industrial' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/industries/industrial' title="Industrial" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Industrial
                 </Link>
               </li>
@@ -69,22 +69,22 @@ const Footer = () => {
             <h3 className='font-bold text-[18px] text-white mb-4'>Productos</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#insights' title="Sensores TPMS" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Sensores TPMS
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#insights' title="Pulse Display" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Pulse Display
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#insights' title="Link HD/LT/UR" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Link HD/LT/UR
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#insights' title="Fx Fleet" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Fx Fleet
                 </Link>
               </li>
@@ -96,22 +96,22 @@ const Footer = () => {
             <h3 className='font-bold text-[18px] text-white mb-4'>Recursos</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/faq' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/faq' title="Preguntas Frecuentes" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Preguntas Frecuentes
                 </Link>
               </li>
               <li>
-                <Link href='/#getstarted' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#getstarted' title="Beneficios TPMS" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Beneficios TPMS
                 </Link>
               </li>
               <li>
-                <Link href='/#whatsnew' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#whatsnew' title="Por qué PressurePro" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Por qué PressurePro
                 </Link>
               </li>
               <li>
-                <Link href='/#about' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#about' title="Acerca de Nosotros" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Acerca de Nosotros
                 </Link>
               </li>
@@ -123,22 +123,22 @@ const Footer = () => {
             <h3 className='font-bold text-[18px] text-white mb-4'>Contacto</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/#feedback' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#feedback' title="Solicitar Cotización" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Solicitar Cotización
                 </Link>
               </li>
               <li>
-                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target='_blank' rel='noopener noreferrer' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} title="Chat WhatsApp" target='_blank' rel='noopener noreferrer' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   WhatsApp
                 </a>
               </li>
               <li>
-                <a href='mailto:info@pressurepro-latam.com' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <a href='mailto:info@pressurepro-latam.com' title="Enviar Email" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Email
                 </a>
               </li>
               <li>
-                <Link href='/#world' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <Link href='/#world' title="Cobertura" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Cobertura
                 </Link>
               </li>

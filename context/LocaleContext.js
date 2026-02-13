@@ -240,7 +240,23 @@ function applyLocalTerminology(translations, countryConfig) {
 export const useLocale = () => {
   const context = useContext(LocaleContext);
   if (!context) {
-    throw new Error('useLocale must be used within a LocaleProvider');
+    console.warn('useLocale must be used within a LocaleProvider');
+    // Return default context to prevent crash during build/SSR specific edge cases
+    return {
+      language: 'es',
+      country: null,
+      countryConfig: null,
+      translations: { es, en, pt }['es'], // fallback to es
+      changeLanguage: () => {},
+      changeCountry: () => {},
+      getLocalTerm: (t) => t,
+      getWhatsAppNumber: () => WHATSAPP_NUMBER,
+      getPriorityIndustries: () => [],
+      getSeoKeywords: () => [],
+      getRegionalClients: () => [],
+      availableLanguages: LANGUAGES,
+      availableCountries: COUNTRIES
+    };
   }
   return context;
 };
