@@ -11,7 +11,7 @@ const Explore = () => {
   const { translations } = useContext(LanguageContext);
 
   return (
-    <section className='sm:px-16 xs:px-8 px-4 py-8 md:py-12' id='mercados'>
+    <section className='sm:px-16 xs:px-8 px-4 py-16 md:py-24' id='mercados'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'

@@ -9,7 +9,7 @@ const Feedback = () => {
   const { translations } = useContext(LanguageContext);
 
   return (
-    <section id='feedback' className='sm:px-16 xs:px-8 px-6 py-8 md:py-12 relative z-10'>
+    <section id='feedback' className='sm:px-16 xs:px-8 px-6 py-16 md:py-24 relative z-10'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'
@@ -53,7 +53,7 @@ const Feedback = () => {
           />
           <motion.div
             variants={zoomIn(0.4, 1)}
-            className='lg:block hidden absolute -left-[10%] top-[3%] w-[155px] h-[155px] z-10'
+            className='lg:block hidden absolute -left-[10%] top-[3%] w-[155px] h-[155px] z-10 hover:scale-110 hover:rotate-3 transition-transform duration-500 cursor-pointer drop-shadow-2xl'
           >
             <Image
               src='/stamp.png'

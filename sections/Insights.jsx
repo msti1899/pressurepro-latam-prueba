@@ -10,7 +10,7 @@ const Insights = () => {
   const { translations } = useContext(LanguageContext);
 
   return (
-    <section id='insights' className='sm:px-16 xs:px-8 px-6 py-8 md:py-12 relative z-10'>
+    <section id='insights' className='sm:px-16 xs:px-8 px-6 py-16 md:py-24 relative z-10'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'
@@ -23,7 +23,7 @@ const Insights = () => {
       >
         <TypingText title={`| ${translations.insights.typingTex}`} textStyles='text-center'/>
         <TitleText title={translations.insights.title} textStyles='text-center' as='h2' />
-        <div className='mt-[30px] flex flex-col gap-[20px]'>
+        <div className='mt-[50px] grid grid-cols-1 md:grid-cols-2 gap-[30px]'>
           {translations.insights.products.map((insight, index) => (
             <InsightsCard key={`insight-${index}`} {...insight} index={index + 1}/>
           ))}

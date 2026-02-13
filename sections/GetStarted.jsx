@@ -12,7 +12,7 @@ const GetStarted = () => {
   const { translations, language } = useContext(LanguageContext);
 
   return (
-    <section id='getstarted' className='sm:px-16 xs:px-8 px-6 py-8 md:py-12 relative z-10'>
+    <section id='getstarted' className='sm:px-16 xs:px-8 px-6 py-16 md:py-24 relative z-10'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'
@@ -34,6 +34,7 @@ const GetStarted = () => {
             height={450}
             loading="lazy"
             quality={85}
+            sizes="(max-width: 1024px) 100vw, 450px"
             className='w-[80%] md:w-[90%] h-auto object-contain'
           />
         </motion.div>
@@ -43,7 +44,7 @@ const GetStarted = () => {
         >
           <TypingText title={`| ${translations.getStarted.subtitle}`}/>
           <TitleText title={translations.getStarted.title} as='h2' />
-          <div className='mt-[20px] flex flex-col max-w-[370px] gap-[20px]'>
+          <div className='mt-[20px] flex flex-col max-w-[370px] gap-[30px]'>
             {translations.features[language].map((feature, index) => (
               <StartSteps
                 key={feature}

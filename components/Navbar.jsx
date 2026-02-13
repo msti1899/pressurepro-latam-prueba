@@ -39,6 +39,7 @@ const Navbar = () => {
   // ----- CONSTANTES Y CONFIGURACIÓN -----
   // Altura fija de la navbar en píxeles
   const FIXED_NAV_HEIGHT = 95;
+  const SCROLLED_NAV_HEIGHT = 70; // Altura reducida al hacer scroll
   // Altura adaptada para móviles (elimina el espacio no deseado)
   const MOBILE_NAV_HEIGHT = 77; // Ajustado para eliminar el gap de 18px
   
@@ -310,10 +311,10 @@ const Navbar = () => {
                     <motion.div key={section.id} variants={itemVariants}>
                       <Link
                         href="/faq"
-                        className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold min-h-[44px]"
+                        className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/15 hover:pl-6 rounded-lg transition-all duration-300 font-semibold min-h-[44px] group"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        {section.name}
+                        <span className="group-hover:text-purple-300 transition-colors">{section.name}</span>
                       </Link>
                     </motion.div>
                   ) : (
@@ -322,9 +323,9 @@ const Navbar = () => {
                       href={`#${section.id}`}
                       variants={itemVariants}
                       onClick={(e) => handleNavigation(e, section.id)}
-                      className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold min-h-[44px]"
+                      className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/15 hover:pl-6 rounded-lg transition-all duration-300 font-semibold min-h-[44px] group"
                     >
-                      {section.name}
+                      <span className="group-hover:text-purple-300 transition-colors">{section.name}</span>
                     </motion.a>
                   )
                 ))}
@@ -346,11 +347,11 @@ const Navbar = () => {
         initial='hidden'
         whileInView='show'
         style={{
-          height: `${FIXED_NAV_HEIGHT}px`,
+          height: hasScrolled ? `${SCROLLED_NAV_HEIGHT}px` : `${FIXED_NAV_HEIGHT}px`,
           display: "flex",
           alignItems: "center"
         }}
-        className={`sm:px-16 px-6 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${hasScrolled ? 'bg-primary-black/80 backdrop-blur-md shadow-lg' : 'bg-gradient-to-b from-black/60 to-transparent'}`}
+        className={`sm:px-16 px-6 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${hasScrolled ? 'bg-primary-black/80 backdrop-blur-md shadow-lg py-2' : 'bg-gradient-to-b from-black/60 to-transparent py-4'}`}
       >
         {/* Gradiente de fondo */}
         <div className={`absolute w-[50%] inset-0 gradient-01 ${hasScrolled ? 'opacity-30' : 'opacity-100'}`} />
@@ -363,7 +364,7 @@ const Navbar = () => {
             <img
               src="/pressurepro-latam-logo.png"
               alt="Pressure Pro LATAM"
-              className="h-[48px] sm:h-[60px] w-auto object-contain cursor-pointer hover:scale-105 transition-transform"
+              className={`w-auto object-contain cursor-pointer hover:scale-105 transition-all duration-300 ${hasScrolled ? 'h-[40px] sm:h-[48px]' : 'h-[48px] sm:h-[60px]'}`}
             />
           </Link>
           
@@ -374,7 +375,7 @@ const Navbar = () => {
             <div className="relative flex items-center">
               <button
                 onClick={() => setIsCountrySliderOpen(!isCountrySliderOpen)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer group backdrop-blur-sm"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 hover:border-white/40 hover:scale-105 active:scale-95 transition-all cursor-pointer group backdrop-blur-sm shadow-sm hover:shadow-md"
                 aria-label={`Seleccionar país. País actual: ${currentCountry ? (COUNTRIES[currentCountry]?.name || '') : 'No seleccionado'}`}
                 aria-expanded={isCountrySliderOpen}
               >
@@ -419,7 +420,7 @@ const Navbar = () => {
             >
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="flex items-center justify-center min-w-[44px] min-h-[44px] bg-white/5 hover:bg-white/10 rounded-full transition-colors backdrop-blur-sm"
+                className="flex items-center justify-center min-w-[44px] min-h-[44px] bg-white/5 hover:bg-white/10 rounded-full transition-colors backdrop-blur-sm p-2.5"
                 aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
                 aria-expanded={isMenuOpen}
                 aria-controls="navigation-menu"

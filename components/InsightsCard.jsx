@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeIn } from '@/utils/motion'
 import { LanguageContext } from '../context/LanguageContext';
@@ -57,23 +58,25 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
     <>
       {/* Card principal */}
       <motion.div
-        variants={fadeIn('up', 'spring', index * 0.5, 1)}
-        className='flex md:flex-row flex-col gap-4 mb-9'
+        variants={fadeIn('up', 'spring', index * 0.3, 1)}
+        className='flex flex-col gap-6 w-full h-full bg-white/5 border border-white/10 rounded-[32px] p-6 hover:border-white/30 transition-colors'
       >
         {/* Imagen con hover effect */}
         <div
-          className="relative cursor-pointer"
+          className="relative cursor-pointer w-full h-[250px] sm:h-[300px] rounded-[24px] overflow-hidden"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onClick={() => setIsImageOpen(true)}
         >
-          <img
+          <Image
             src={imgUrl}
             alt={`Producto TPMS PressurePro ${title} - Sensor de monitoreo de neumáticos`}
-            className='md:w-[290px] w-full h-[270px] rounded-[32px] object-cover transition-all duration-300 hover:brightness-110'
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className='object-cover transition-all duration-300 hover:scale-110 hover:brightness-110'
           />
           <div
-            className={`absolute inset-0 flex items-center justify-center rounded-[32px] bg-black bg-opacity-40 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
+            className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
               }`}
           >
             <div className="w-12 h-12 rounded-full bg-white bg-opacity-70 flex items-center justify-center">
@@ -92,20 +95,25 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
         </div>
 
         {/* Contenido de texto y botón */}
-        <div className='w-full flex flex-col md:flex-row justify-between md:items-center md:gap-6 mt-4 md:mt-0'>
+        <div className='flex flex-col justify-between flex-1 gap-6'>
           {/* Texto descriptivo */}
-          <div className='flex-1 md:ml-[62px] flex flex-col max-w-[650px]'>
-            <h3 className='font-normal lg:text-[42px] text-[26px] text-white leading-tight'>
+          <div className='flex flex-col gap-4'>
+            <h3 className='font-normal md:text-[32px] text-[24px] text-white leading-tight'>
               {title}
             </h3>
-            <p className='mt-[16px] font-normal lg:text-[20px] text-[16px] text-secondary-white leading-relaxed tracking-wide opacity-90'>
+            <p className='font-normal text-[16px] text-secondary-white leading-relaxed tracking-wide opacity-90 line-clamp-4'>
               {description}
             </p>
+          </div>
 
-            {/* Botón de descarga móvil - Solo visible en móviles */}
-            <div className="flex flex-row items-center justify-center mt-8 md:hidden">
-              <button
-                className={`flex items-center justify-center w-[60px] h-[60px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 min-w-[60px] min-h-[60px] ${isArrowClicked ? 'scale-95' : ''
+          {/* Botón de descarga unificado */}
+          <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-auto">
+             <span className="text-sm text-white/60 font-medium">
+               {translations.insights?.downloadSpecs || "Especificaciones"}
+             </span>
+             
+             <button
+                className={`group flex items-center justify-center w-[50px] h-[50px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 hover:bg-white/10 hover:border-white hover:scale-110 ${isArrowClicked ? 'scale-95' : ''
                   }`}
                 onMouseEnter={() => setIsArrowHovered(true)}
                 onMouseLeave={() => setIsArrowHovered(false)}
@@ -118,7 +126,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
                 {/* Ícono de descarga */}
                 <motion.svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-[40%] h-[40%]"
+                  className="w-[24px] h-[24px]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="white"
@@ -131,44 +139,6 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                 </motion.svg>
               </button>
-              <p className="ml-4 text-white text-sm font-light tracking-wide opacity-80 hover:opacity-100 transition-opacity">
-                {translations.insights?.downloadSpecs || "Descargar especificaciones"}
-              </p>
-            </div>
-          </div>
-
-          {/* Botón de descarga desktop - Solo visible en desktop */}
-          <div className="hidden md:flex md:flex-col items-center justify-center">
-            <button
-              className={`flex items-center justify-center w-[100px] h-[100px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 ${isArrowClicked ? 'scale-95' : ''
-                }`}
-              onMouseEnter={() => setIsArrowHovered(true)}
-              onMouseLeave={() => setIsArrowHovered(false)}
-              onClick={() => {
-                setIsArrowClicked(true);
-                window.open(specsUrl, '_blank', 'noopener,noreferrer');
-              }}
-              aria-label={`Descargar especificaciones de ${title}`}
-            >
-              {/* Ícono de descarga */}
-              <motion.svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-[40%] h-[40%]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="white"
-                strokeWidth="2"
-                animate={{
-                  y: isArrowHovered ? 2 : 0,
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-              </motion.svg>
-            </button>
-            <p className="mt-2 text-white text-xs font-light text-opacity-70 hover:text-opacity-100 transition-opacity text-center">
-              {translations.insights?.downloadSpecs || "Descargar especificaciones"}
-            </p>
           </div>
         </div>
       </motion.div>

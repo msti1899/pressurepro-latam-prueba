@@ -78,7 +78,7 @@ const About = () => {
   };
   
   return (
-    <section id='about' className='sm:px-16 xs:px-8 px-6 py-8 md:py-12 relative z-10'>
+    <section id='about' className='sm:px-16 xs:px-8 px-6 py-16 md:py-24 relative z-10'>
       <div className='gradient-02 z-0'/>
       <motion.div
         variants={staggerContainer}
@@ -94,7 +94,7 @@ const About = () => {
         <TitleText title={translations.about.companyName} textStyles='text-center' as='h2' />
         <motion.p
           variants={fadeIn('up', 'tween', 0.2, 1)}
-          className='mt-[8px] font-normal sm:text-[24px] text-[18px] sm:leading-[38px] leading-[30px] text-center text-secondary-white max-w-[1000px] mx-auto'
+          className='mt-[8px] font-normal sm:text-[24px] text-[18px] sm:leading-[38px] leading-[30px] text-center text-gray-200 max-w-[850px] mx-auto'
         >
           <span className='font-extrabold text-white'>{translations.about.companyName} </span>
           {renderTextWithLinks(translations.about.text)}

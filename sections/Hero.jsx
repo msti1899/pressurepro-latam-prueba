@@ -70,7 +70,13 @@ const Hero = () => {
   return (
     <section id='hero' className="relative w-full h-screen min-h-screen flex flex-col justify-center overflow-hidden">
       {/* Background Image Container - Absolute to Section coverage 100% */}
-      <div className="absolute inset-0 w-full h-full z-0">
+      <div 
+        className="absolute inset-0 w-full h-full z-0"
+        style={{
+          maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)'
+        }}
+      >
         <motion.div
           style={{ y: imageY }}
           className="w-full h-[120%] absolute -top-[20px] left-0" // Posicionamiento absoluto y un poco hacia arriba para compensar el parallax inicial

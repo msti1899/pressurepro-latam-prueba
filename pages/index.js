@@ -40,7 +40,7 @@ const Page = () => {
       {/* Banner de detección de país */}
       <CountryBanner currentLanguage={language} currentCountry={country} />
       
-      <div className="bg-primary-black overflow-hidden">
+      <div className="bg-primary-black tech-bg overflow-hidden">
         <Navbar />
         <Hero />
         <div className="relative">

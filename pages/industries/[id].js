@@ -201,7 +201,7 @@ export default function IndustryPage() {
         />
       </Head>
 
-      <div className="bg-primary-black overflow-hidden min-h-screen">
+      <div className="bg-primary-black tech-bg overflow-hidden min-h-screen">
         <Navbar />
         
         {/* Breadcrumbs para navegación y SEO */}
