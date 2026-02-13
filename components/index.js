@@ -7,6 +7,7 @@ import CountryLanguageSelector from "./CountryLanguageSelector";
 import RegionalClients from "./RegionalClients";
 import WhatsAppButton from "./WhatsAppButton";
 import DynamicSEO from "./DynamicSEO";
+import Breadcrumbs from "./Breadcrumbs";
 
 export {
     Navbar,
@@ -17,5 +18,6 @@ export {
     CountryLanguageSelector,
     RegionalClients,
     WhatsAppButton,
-    DynamicSEO
+    DynamicSEO,
+    Breadcrumbs
 }

@@ -57,6 +57,7 @@ const Navbar = () => {
     { id: 'whatsnew', name: translations?.navbar?.whatsNew || 'Novedades' },
     { id: 'world', name: translations?.navbar?.world || 'Ubicaciones' },
     { id: 'insights', name: translations?.navbar?.insights || 'Insights' },
+    { id: 'faq', name: 'FAQ', isExternal: true },
     { id: 'feedback', name: translations?.navbar?.feedback || 'Contacto' },
   ];
 
@@ -199,18 +200,14 @@ const Navbar = () => {
     <div className="language-selector relative">
       <button
         onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-        className="relative z-10 flex items-center space-x-1 group min-w-[44px] min-h-[44px] justify-center"
+        className="relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer group backdrop-blur-sm"
         aria-label={`Cambiar idioma. Idioma actual: ${language === 'es' ? 'Español' : language === 'en' ? 'English' : 'Português'}`}
         aria-expanded={isLanguageMenuOpen}
         aria-haspopup="listbox"
       >
-        <div className="hover:opacity-100 transition-opacity">
-          <img
-            src={FLAG_IMAGES[language]}
-            alt={`${language === 'es' ? 'Spanish' : language === 'en' ? 'English' : 'Portuguese'}`}
-            className='w-[24px] h-[24px] sm:w-[32px] sm:h-[32px] object-contain'
-          />
-        </div>
+        <span className="text-[11px] sm:text-[12px] text-white/90 font-medium tracking-wider uppercase group-hover:text-white transition-colors">
+          {language === 'es' ? 'ES' : language === 'en' ? 'EN' : 'PT'}
+        </span>
         
         <motion.div 
           className="flex items-center justify-center h-4 opacity-70 group-hover:opacity-100 transition-opacity"
@@ -251,18 +248,17 @@ const Navbar = () => {
               <motion.button
                 key={langCode}
                 onClick={() => handleLanguageChange(langCode)}
-                className={`w-full my-1.5 min-w-[44px] min-h-[44px] flex items-center justify-center ${language === langCode ? 'opacity-100' : 'opacity-60'} hover:opacity-100 transition-opacity`}
+                className={`w-full my-1 px-3 py-1.5 min-w-[44px] min-h-[44px] flex items-center justify-start gap-2 rounded-md ${language === langCode ? 'bg-white/10 opacity-100' : 'opacity-70'} hover:bg-white/5 hover:opacity-100 transition-all`}
                 variants={languageItemVariants}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
                 role="option"
                 aria-selected={language === langCode}
                 aria-label={langCode === 'es' ? 'Español' : langCode === 'en' ? 'English' : 'Português'}
               >
-                <img
-                  src={flagPath}
-                  alt={langCode === 'es' ? 'Spanish' : langCode === 'en' ? 'English' : 'Portuguese'}
-                  className='w-[24px] h-[24px] sm:w-[32px] sm:h-[32px] object-contain'
-                />
+                {/* Bandera eliminada del dropdown de idiomas */}
+                <span className="text-[14px] font-medium text-white uppercase tracking-wider">
+                  {langCode === 'es' ? 'ES' : langCode === 'en' ? 'EN' : 'PT'}
+                </span>
               </motion.button>
             ))}
           </motion.div>
@@ -310,15 +306,27 @@ const Navbar = () => {
             >
               <div className="py-4 px-2">
                 {sections.map((section) => (
-                  <motion.a
-                    key={section.id}
-                    href={`#${section.id}`}
-                    variants={itemVariants}
-                    onClick={(e) => handleNavigation(e, section.id)}
-                    className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold min-h-[44px]"
-                  >
-                    {section.name}
-                  </motion.a>
+                  section.isExternal ? (
+                    <motion.div key={section.id} variants={itemVariants}>
+                      <Link
+                        href="/faq"
+                        className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold min-h-[44px]"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {section.name}
+                      </Link>
+                    </motion.div>
+                  ) : (
+                    <motion.a
+                      key={section.id}
+                      href={`#${section.id}`}
+                      variants={itemVariants}
+                      onClick={(e) => handleNavigation(e, section.id)}
+                      className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/10 rounded-lg transition-all duration-200 font-semibold min-h-[44px]"
+                    >
+                      {section.name}
+                    </motion.a>
+                  )
                 ))}
               </div>
             </div>
@@ -348,80 +356,86 @@ const Navbar = () => {
         <div className={`absolute w-[50%] inset-0 gradient-01 ${hasScrolled ? 'opacity-30' : 'opacity-100'}`} />
         
         {/* Contenido de la barra de navegación */}
-        <div className='2xl:max-w-[1280px] w-full mx-auto flex justify-between items-center gap-8'>
-          {/* Selector de idioma (slide) */}
-          <LanguageSelector />
+        <div className='2xl:max-w-[1280px] w-full mx-auto flex justify-between items-center'>
           
-          {/* Logo + badge de país (clickeable para abrir slider) */}
-          <div className="relative flex flex-col items-center gap-0.5">
-            <Link href="/">
-              <img
-                src="/pressurepro-latam-logo.png"
-                alt="Pressure Pro LATAM"
-                className="h-[33px] sm:h-[45px] w-auto object-contain cursor-pointer"
-              />
-            </Link>
-            {/* Badge del país actual — abre el slider */}
-            <button
-              onClick={() => setIsCountrySliderOpen(!isCountrySliderOpen)}
-              className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer group min-h-[32px]"
-              aria-label={`Seleccionar país. País actual: ${currentCountry ? (COUNTRIES[currentCountry]?.name || '') : 'No seleccionado'}`}
-              aria-expanded={isCountrySliderOpen}
-            >
-              {countryFlag ? (
-                <img
-                  src={countryFlag}
-                  alt={COUNTRIES[currentCountry]?.name || ''}
-                  className="w-[14px] h-[10px] sm:w-[16px] sm:h-[12px] rounded-[1px] object-cover"
-                />
-              ) : (
-                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" className="opacity-40">
-                  <rect width="14" height="10" rx="1" fill="white" fillOpacity="0.3"/>
-                </svg>
-              )}
-              <span className="text-[9px] sm:text-[10px] text-white/60 font-medium tracking-wider uppercase group-hover:text-white/80 transition-colors">
-                {currentCountry ? (COUNTRIES[currentCountry]?.name || '') : (language === 'en' ? 'English' : language === 'pt' ? 'Português' : 'España')}
-              </span>
-              <motion.div
-                animate={{ rotate: isCountrySliderOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <svg width="8" height="5" viewBox="0 0 8 5" fill="none">
-                  <path d="M1 1L4 4L7 1" stroke="white" strokeOpacity="0.5" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </motion.div>
-            </button>
-            
-            {/* Country Slider */}
-            <CountrySlider 
-              isOpen={isCountrySliderOpen} 
-              onClose={() => setIsCountrySliderOpen(false)} 
+          {/* LEFT: Logo principal (más grande y limpio) */}
+          <Link href="/" className="relative z-40">
+            <img
+              src="/pressurepro-latam-logo.png"
+              alt="Pressure Pro LATAM"
+              className="h-[48px] sm:h-[60px] w-auto object-contain cursor-pointer hover:scale-105 transition-transform"
             />
-          </div>
+          </Link>
           
-          {/* Botón de menú */}
-          <motion.div
-            className="relative"
-            whileTap={{ scale: 0.95 }}
-          >
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex items-center justify-center min-w-[44px] min-h-[44px]"
-              aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
-              aria-expanded={isMenuOpen}
-              aria-controls="navigation-menu"
-            >
-              <motion.img
-                src='/menu.svg'
-                alt='menu'
-                className='w-[24px] h-[24px] object-contain'
-                animate={{
-                  rotate: isMenuOpen ? 90 : 0,
-                }}
-                transition={{ duration: 0.3 }}
+          {/* RIGHT: Grupo de Acciones (País + Idioma + Menú) */}
+          <div className="flex items-center gap-3 sm:gap-5 relative z-40">
+            
+            {/* 1. Selector de País (Badge) */}
+            <div className="relative flex items-center">
+              <button
+                onClick={() => setIsCountrySliderOpen(!isCountrySliderOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer group backdrop-blur-sm"
+                aria-label={`Seleccionar país. País actual: ${currentCountry ? (COUNTRIES[currentCountry]?.name || '') : 'No seleccionado'}`}
+                aria-expanded={isCountrySliderOpen}
+              >
+                {countryFlag ? (
+                  <img
+                    src={countryFlag}
+                    alt={COUNTRIES[currentCountry]?.name || ''}
+                    className="w-[16px] h-[12px] sm:w-[20px] sm:h-[15px] rounded-[1px] object-cover shadow-sm"
+                  />
+                ) : (
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none" className="opacity-40">
+                    <rect width="14" height="10" rx="1" fill="white" fillOpacity="0.3"/>
+                  </svg>
+                )}
+                <span className="hidden sm:block text-[11px] sm:text-[12px] text-white/90 font-medium tracking-wider uppercase group-hover:text-white transition-colors">
+                  {currentCountry ? (COUNTRIES[currentCountry]?.name || '') : (language === 'en' ? 'English' : language === 'pt' ? 'Português' : 'España')}
+                </span>
+                <motion.div
+                  animate={{ rotate: isCountrySliderOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <svg width="10" height="6" viewBox="0 0 8 5" fill="none">
+                    <path d="M1 1L4 4L7 1" stroke="white" strokeOpacity="0.8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </motion.div>
+              </button>
+              
+              {/* Country Slider injection */}
+              <CountrySlider 
+                isOpen={isCountrySliderOpen} 
+                onClose={() => setIsCountrySliderOpen(false)} 
               />
-            </button>
-          </motion.div>
+            </div>
+
+            {/* 2. Selector de Idioma */}
+            <LanguageSelector />
+            
+            {/* 3. Botón de menú */}
+            <motion.div
+              className="relative"
+              whileTap={{ scale: 0.95 }}
+            >
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="flex items-center justify-center min-w-[44px] min-h-[44px] bg-white/5 hover:bg-white/10 rounded-full transition-colors backdrop-blur-sm"
+                aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
+                aria-expanded={isMenuOpen}
+                aria-controls="navigation-menu"
+              >
+                <motion.img
+                  src='/menu.svg'
+                  alt='menu'
+                  className='w-[24px] h-[24px] object-contain'
+                  animate={{
+                    rotate: isMenuOpen ? 90 : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              </button>
+            </motion.div>
+          </div>
         </div>
       </motion.nav>
 

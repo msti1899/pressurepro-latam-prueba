@@ -1,5 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { socials } from '../constants/data';
 import { footerVariants } from '../utils/motion';
@@ -41,6 +42,128 @@ const Footer = () => {
             </button>
           </a>
         </div>
+        
+        {/* Sección de enlaces rápidos para SEO interno */}
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-6 py-8'>
+          {/* Industrias */}
+          <div>
+            <h3 className='font-bold text-[18px] text-white mb-4'>Industrias</h3>
+            <ul className='flex flex-col gap-2'>
+              <li>
+                <Link href='/industries/mineria' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Minería
+                </Link>
+              </li>
+              <li>
+                <Link href='/industries/transporte' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Transporte
+                </Link>
+              </li>
+              <li>
+                <Link href='/industries/agricultura' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Agricultura
+                </Link>
+              </li>
+              <li>
+                <Link href='/industries/forestal' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Forestal
+                </Link>
+              </li>
+              <li>
+                <Link href='/industries/portuario' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Portuario
+                </Link>
+              </li>
+              <li>
+                <Link href='/industries/industrial' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Industrial
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Productos */}
+          <div>
+            <h3 className='font-bold text-[18px] text-white mb-4'>Productos</h3>
+            <ul className='flex flex-col gap-2'>
+              <li>
+                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Sensores TPMS
+                </Link>
+              </li>
+              <li>
+                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Pulse Display
+                </Link>
+              </li>
+              <li>
+                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Link HD/LT/UR
+                </Link>
+              </li>
+              <li>
+                <Link href='/#insights' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Fx Fleet
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Recursos */}
+          <div>
+            <h3 className='font-bold text-[18px] text-white mb-4'>Recursos</h3>
+            <ul className='flex flex-col gap-2'>
+              <li>
+                <Link href='/faq' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Preguntas Frecuentes
+                </Link>
+              </li>
+              <li>
+                <Link href='/#getstarted' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Beneficios TPMS
+                </Link>
+              </li>
+              <li>
+                <Link href='/#whatsnew' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Por qué PressurePro
+                </Link>
+              </li>
+              <li>
+                <Link href='/#about' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Acerca de Nosotros
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Contacto */}
+          <div>
+            <h3 className='font-bold text-[18px] text-white mb-4'>Contacto</h3>
+            <ul className='flex flex-col gap-2'>
+              <li>
+                <Link href='/#feedback' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Solicitar Cotización
+                </Link>
+              </li>
+              <li>
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target='_blank' rel='noopener noreferrer' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  WhatsApp
+                </a>
+              </li>
+              <li>
+                <a href='mailto:info@pressurepro-latam.com' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Email
+                </a>
+              </li>
+              <li>
+                <Link href='/#world' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Cobertura
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
         <div className='flex flex-col'>
           <div className='mb-[50px] h-[2px] bg-white opacity-10' />
           <div className='flex items-center justify-between flex-wrap gap-4'>

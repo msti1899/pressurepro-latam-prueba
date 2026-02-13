@@ -13,6 +13,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
 /* Focus visible para accesibilidad por teclado */
 *:focus-visible {
   outline: 2px solid rgba(139, 92, 246, 0.8);

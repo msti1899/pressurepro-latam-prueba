@@ -69,7 +69,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
         >
           <img
             src={imgUrl}
-            alt='product'
+            alt={`Producto TPMS PressurePro ${title} - Sensor de monitoreo de neumáticos`}
             className='md:w-[290px] w-full h-[270px] rounded-[32px] object-cover transition-all duration-300 hover:brightness-110'
           />
           <div
@@ -95,9 +95,9 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
         <div className='w-full flex flex-col md:flex-row justify-between md:items-center md:gap-6 mt-4 md:mt-0'>
           {/* Texto descriptivo */}
           <div className='flex-1 md:ml-[62px] flex flex-col max-w-[650px]'>
-            <h4 className='font-normal lg:text-[42px] text-[26px] text-white leading-tight'>
+            <h3 className='font-normal lg:text-[42px] text-[26px] text-white leading-tight'>
               {title}
-            </h4>
+            </h3>
             <p className='mt-[16px] font-normal lg:text-[20px] text-[16px] text-secondary-white leading-relaxed tracking-wide opacity-90'>
               {description}
             </p>

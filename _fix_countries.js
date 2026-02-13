@@ -11,10 +11,10 @@ const uyBlock = [
   "    timezone: 'America/Montevideo',",
   "    hreflang: 'es-UY',",
   "    whatsapp: '+59899000000',",
-  "    terminology: { tires: 'Neum\u00e1ticos', truck: 'Cami\u00f3n', fleet: 'Flota' },",
+  "    terminology: { tires: 'Neumáticos', truck: 'Camión', fleet: 'Flota' },",
   "    priorityIndustries: ['agriculture', 'transport', 'forestry'],",
   '    regionalClients: [],',
-  "    seoKeywords: ['monitoreo de neum\u00e1ticos', 'TPMS Uruguay', 'presi\u00f3n de neum\u00e1ticos']",
+    "seoKeywords: ['monitoreo de neumáticos', 'TPMS Uruguay', 'presión de neumáticos']",
   '  },',
 ].join('\n');
 

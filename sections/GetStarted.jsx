@@ -1,5 +1,6 @@
 'use client';
 import React from 'react'
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn, planetVariants } from '../utils/motion';
 import { TitleText, TypingText } from '../components/CustomTexts';
@@ -11,7 +12,7 @@ const GetStarted = () => {
   const { translations, language } = useContext(LanguageContext);
 
   return (
-    <section id='getstarted' className='sm:p-16 xs:p-8 px-6 py-20 relative z-10'>
+    <section id='getstarted' className='sm:px-16 xs:px-8 px-6 py-8 md:py-12 relative z-10'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'
@@ -24,12 +25,16 @@ const GetStarted = () => {
       >
         <motion.div
           variants={planetVariants('left')}
-          className='flex-1 flex justify-center items-center'
+          className='flex-1 flex justify-center items-center relative'
         >
-          <img
+          <Image
             src='/get-started.png'
-            alt='get-started'
-            className='w-[90%] h-[100%] object-contain'
+            alt='Beneficios sistema TPMS PressurePro - Monitoreo de presión y temperatura de neumáticos para flotas comerciales'
+            width={450}
+            height={450}
+            loading="lazy"
+            quality={85}
+            className='w-[80%] md:w-[90%] h-auto object-contain'
           />
         </motion.div>
         <motion.div
@@ -37,8 +42,8 @@ const GetStarted = () => {
           className='flex-[0.75] flex justify-center flex-col'
         >
           <TypingText title={`| ${translations.getStarted.subtitle}`}/>
-          <TitleText title={translations.getStarted.title} />
-          <div className='mt-[31px] flex flex-col max-w-[370px] gap-[24px]'>
+          <TitleText title={translations.getStarted.title} as='h2' />
+          <div className='mt-[20px] flex flex-col max-w-[370px] gap-[20px]'>
             {translations.features[language].map((feature, index) => (
               <StartSteps
                 key={feature}

@@ -138,13 +138,54 @@ const countryOverrides = {
   // ─────────────────────────────────────────────
   es: {
     hero: {
-      subtitle: 'Monitorización de neumáticos en tiempo real para España',
+      subtitle: 'Monitorización de neumáticos certificada CE para flotas en España',
     },
     about: {
-      text: 'PressurePro LATAM extiende su presencia a España con tecnología líder en monitorización de neumáticos. Nuestros sistemas están adaptados para el transporte por carretera en la Península Ibérica, las operaciones industriales y la actividad portuaria en los principales puertos españoles.',
+      title: "Acerca de PressurePro España",
+      companyName: "PressurePro España",
+      text: 'PressurePro España es el distribuidor oficial de sistemas TPMS en la Península Ibérica, ofreciendo tecnología de monitorización de neumáticos que cumple con normativas europeas CE. Desde 1991, PressurePro lidera el mercado global en sistemas de control de presión y temperatura para flotas de transporte comercial, vehículos industriales y operaciones logísticas. Nuestras soluciones TPMS reducen costes operativos hasta un 15%, mejoran la seguridad vial y contribuyen a la sostenibilidad ambiental en el sector del transporte europeo.',
     },
     world: {
-      description: 'Presencia en España con soluciones para transporte por carretera, industria y operaciones portuarias.',
+      typingTex: "Tecnología TPMS certificada para el mercado europeo",
+      title: "Distribuidor Oficial PressurePro para España y Portugal",
+      description: 'Especialistas en sistemas de monitorización de presión de neumáticos para flotas comerciales en España. Soluciones TPMS certificadas CE que cumplen con las normativas europeas de seguridad vial y medio ambiente. Reducción demostrada de costes operativos, mejora en eficiencia de combustible y minimización de la huella de carbono en el transporte por carretera según directivas UE.',
+    },
+    getStarted: {
+      title: "Beneficios del Sistema TPMS Certificado CE",
+      subtitle: "Descubra cómo PressurePro cumple con normativas europeas"
+    },
+    whatsNew: {
+      title: "¿Por qué elegirnos en España?",
+      title2: "Ventajas de la Monitorización TPMS Certificada",
+      newFeatures: [
+        {
+          imgUrl: '/pp-white.png',
+          title: "Certificación CE Europea",
+          subtitle: "Cumplimiento total con normativas CE y directivas europeas de seguridad vial. Homologado para transporte de mercancías en toda la UE."
+        },
+        {
+          imgUrl: '/pp-white.png',
+          title: "Ahorro Operativo hasta 15%",
+          subtitle: "Reducción de costes en combustible y neumáticos. Contribución a objetivos de sostenibilidad según directivas europeas de reducción de emisiones."
+        },
+        {
+          imgUrl: '/pp-white.png',
+          title: "Tecnología Americana Probada",
+          subtitle: "Diseñado y fabricado en Estados Unidos desde 1991, cumpliendo con los más altos estándares internacionales de calidad y fiabilidad."
+        },
+        {
+          imgUrl: '/pp-white.png',
+          title: "Soporte Técnico Península Ibérica",
+          subtitle: "Asistencia técnica especializada para España y Portugal. Integración con tacógrafos digitales y sistemas de gestión de flotas europeos."
+        }
+      ]
+    },
+    feedback: {
+      text: 'Desde 1991, PressurePro lidera el mercado de monitorización TPMS con sistemas certificados CE que cumplen las normativas europeas más exigentes. Tecnología americana con soporte local en la Península Ibérica para optimizar la gestión de flotas de transporte comercial, reducir costes operativos y contribuir a la sostenibilidad ambiental según directivas UE.',
+      title: '¿Listo para Optimizar su Flota con Tecnología Certificada CE?'
+    },
+    footer: {
+      contact: "Contáctenos - España",
     },
   },
 };

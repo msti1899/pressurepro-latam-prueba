@@ -14,8 +14,8 @@ export default {
         feedback: "Contato"
     },
     hero: {
-        title: "PressurePro LATAM",
-        subtitle: "Monitoramento de pneus em tempo real"
+        title: "Monitoramento TPMS de Pneus em Tempo Real Brasil",
+        subtitle: "Sistema de Pressão e Temperatura para Frotas | PressurePro"
     },
     about: {
         title: "Sobre a PressurePro LATAM",
@@ -23,29 +23,29 @@ export default {
         text: "A PressurePro LATAM revoluciona a manutenção de pneus, fornecendo aos motoristas e gestores de frotas todos os tipos de dados em tempo real sobre o desempenho dos pneus. A PressurePro LATAM adiciona segurança e economia em qualquer caminho que você percorra. Desde 1991, a PressurePro tem sido líder em tecnologia de monitoramento de pneus, fornecendo soluções inovadoras para a segurança e eficiência de sua frota. A PressurePro LATAM é o distribuidor exclusivo para a América Latina da PressurePro, líder em tecnologia de monitoramento de pressão de pneus."
     },
     explore: {
-        title: "Mercados",
-        subtitle: "Uma solução para cada setor",
+        title: "Setores",
+        subtitle: "Sistemas TPMS para Cada Indústria Brasileira",
         showInfo: "+ Info",
         closeInfo: "Fechar",
         // Contenido de industrias importado de constants/industries.js
         ...industryData,
     },
     getStarted: {
-        title: "Comece agora",
-        subtitle: "Descubra como a PressurePro LATAM pode ajudá-lo a manter seus pneus"
+        title: "Benefícios do Sistema TPMS",
+        subtitle: "Descubra como a PressurePro otimiza sua frota brasileira"
     },
     whatsNew: {
         title: "Por que nos escolher?",
-        title2: "Por que escolher a PressurePro?",
+        title2: "Vantagens do Monitoramento TPMS em Tempo Real",
         newFeatures: [
             {
                 imgUrl: '/pp-white.png',
-                title: "Segurança",
+                title: "Segurança Veicular Aprimorada",
                 subtitle: "Previne acidentes ao detectar variações de pressão, melhorando o controle, a estabilidade e a confiabilidade do veículo."
             },
             {
                 imgUrl: '/pp-white.png',
-                title: "Economia",
+                title: "Economia Operacional até 15%",
                 subtitle: "Otimiza o consumo de combustível, reduz o desgaste dos pneus e minimiza os custos de manutenção e substituição."
             },
             {

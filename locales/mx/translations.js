@@ -16,15 +16,33 @@ mxTranslations.terminology = {
   monitoring: 'Monitoreo'
 };
 
-// Actualizar textos con terminología mexicana
+// Actualizar textos con terminología mexicana y keywords
 mxTranslations.hero = {
   ...mxTranslations.hero,
-  subtitle: "Monitoreo de llantas en tiempo real"
+  title: "Monitoreo TPMS de Llantas en Tiempo Real México",
+  subtitle: "Sistema de Presión y Temperatura para Flotillas | PressurePro"
 };
 
 mxTranslations.about = {
   ...mxTranslations.about,
   text: "PressurePro LATAM revoluciona el mantenimiento de llantas, brindando a los conductores y los responsables de flotillas todo tipo de datos en tiempo real sobre el rendimiento de las llantas. PressurePro LATAM agrega seguridad y ahorro en cualquier camino que recorra. Desde 1991, PressurePro ha sido líder en tecnología de monitoreo de llantas, brindando soluciones innovadoras para la seguridad y eficiencia de su flotilla. PressurePro LATAM es el distribuidor exclusivo para América Latina de PressurePro, líder en tecnología de monitoreo de presión de llantas."
+};
+
+mxTranslations.explore = {
+  ...mxTranslations.explore,
+  title: "Industrias",
+  subtitle: "Sistemas TPMS para Flotillas Mexicanas"
+};
+
+mxTranslations.getStarted = {
+  ...mxTranslations.getStarted,
+  title: "Beneficios del Sistema TPMS",
+  subtitle: "Descubra cómo PressurePro optimiza su flotilla"
+};
+
+mxTranslations.whatsNew = {
+  ...mxTranslations.whatsNew,
+  title2: "Ventajas del Monitoreo TPMS en Flotillas"
 };
 
 // SEO específico para México

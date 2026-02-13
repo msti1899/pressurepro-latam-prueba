@@ -1,5 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { TitleText, TypingText } from '../components/CustomTexts';
@@ -9,7 +10,7 @@ const World = () => {
   const { translations } = useContext(LanguageContext);
 
   return (
-    <section id='world' className='sm:p-16 xs:p-8 px-6 py-12 relative z-10'>
+    <section id='world' className='sm:px-16 xs:px-8 px-6 py-8 md:py-12 relative z-10'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'
@@ -34,29 +35,33 @@ const World = () => {
         {/* Imagen que se muestra después del título */}
         <motion.div
           variants={fadeIn('up', 'tween', 0.3, 1)}
-          className='relative mt-[68px] w-full h-0 pb-[56.25%] order-2 md:order-3' // Cambiado el orden para móviles
+          className='relative mt-[30px] w-full h-0 pb-[56.25%] order-2 md:order-3'
         >
           <div className='absolute top-0 left-0 w-full h-full'>
-            <img
+            <Image
               src='/map.png'
-              alt='map'
-              className='w-full h-full object-contain'
+              alt='Mapa de cobertura PressurePro LATAM - Distribuidor TPMS en Chile, Perú, Brasil, México, Argentina, Colombia, Uruguay'
+              fill
+              loading="lazy"
+              quality={85}
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              className='object-contain'
             />
             {/* Personas superpuestas con posiciones relativas */}
             <div className='absolute bottom-[20%] right-[5%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='/people-01.png' alt='people' className='w-full h-full' />
+              <Image src='/people-01.png' alt='Clientes PressurePro TPMS en Latinoamérica' width={70} height={70} loading="lazy" className='w-full h-full' />
             </div>
             <div className='absolute top-[30%] left-[15%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='/people-01.png' alt='people' className='w-full h-full' />
+              <Image src='/people-01.png' alt='Usuarios sistema TPMS en América Latina' width={70} height={70} loading="lazy" className='w-full h-full' />
             </div>
             <div className='absolute top-[25%] left-[20%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='/people-01.png' alt='people' className='w-full h-full' />
+              <Image src='/people-01.png' alt='Distribuidores TPMS en LATAM' width={70} height={70} loading="lazy" className='w-full h-full' />
             </div>
             <div className='absolute top-[25%] left-[40%] w-[8vw] h-[8vw] sm:w-[10vw] sm:h-[10vw] min-w-[30px] min-h-[30px] sm:min-w-[40px] sm:min-h-[40px] max-w-[70px] max-h-[70px] p-[6px] rounded-full bg-[#5d6680]'>
-              <img src='/people-01.png' alt='people' className='w-full h-full' />
+              <Image src='/people-01.png' alt='Red de soporte PressurePro' width={70} height={70} loading="lazy" className='w-full h-full' />
             </div>
             <div className='absolute bottom-[20%] left-[10%] w-[20vw] h-[10vw] sm:w-[25vw] sm:h-[12vw] min-w-[120px] min-h-[50px] sm:min-w-[150px] sm:min-h-[70px] max-w-[230px] max-h-[100px] p-[8px] sm:p-[10px]'>
-              <img src='/people-02.png' alt='people' className='w-full h-full object-contain' />
+              <Image src='/people-02.png' alt='Equipo técnico PressurePro LATAM' width={230} height={100} loading="lazy" className='w-full h-full object-contain' />
             </div>
           </div>
         </motion.div>
