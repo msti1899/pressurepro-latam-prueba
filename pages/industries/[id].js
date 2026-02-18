@@ -8,14 +8,14 @@ import { TypingText, TitleText } from '../../components/CustomTexts';
 import { Navbar, Footer, WhatsAppButton, Breadcrumbs } from '../../components';
 import { LanguageContext } from '../../context/LanguageContext';
 import { COUNTRIES, LANGUAGES } from '../../config/countries';
-import { 
-  INDUSTRIES, 
-  INDUSTRY_BY_SLUG, 
+import {
+  INDUSTRIES,
+  INDUSTRY_BY_SLUG,
   INDUSTRY_BY_ID,
-  ID_TO_SLUG, 
-  SLUG_MAP, 
+  ID_TO_SLUG,
+  SLUG_MAP,
   INDUSTRY_SLUGS,
-  getIndustryContent 
+  getIndustryContent
 } from '../../constants/industries';
 
 export default function IndustryPage() {
@@ -61,7 +61,7 @@ export default function IndustryPage() {
     const countryConfig = COUNTRIES[locale];
     const terminology = countryConfig?.terminology?.tires || 'Neumáticos';
     const countryName = countryConfig?.name || '';
-    
+
     // H1 optimizado según país e industria
     const h1Map = {
       'cl': `Sistema TPMS para ${industryName} en Chile | Monitoreo de ${terminology}`,
@@ -73,7 +73,7 @@ export default function IndustryPage() {
       'uy': `Sistema TPMS para ${industryName} en Uruguay | Monitoreo de ${terminology}`,
       'bo': `Sistema TPMS para ${industryName} en Bolivia | Monitoreo de ${terminology}`,
     };
-    
+
     return h1Map[locale] || `${industryName} - Sistema TPMS PressurePro`;
   };
 
@@ -203,25 +203,28 @@ export default function IndustryPage() {
 
       <div className="bg-primary-black tech-bg overflow-hidden min-h-screen">
         <Navbar />
-        
-        {/* Breadcrumbs para navegación y SEO */}
-        <Breadcrumbs items={[
-          { label: translations?.navbar?.about || 'Inicio', href: '/' },
-          { label: translations?.explore?.title || 'Industrias', href: '/#mercados' },
-          { label: industryName, href: null }
-        ]} />
 
+        {/* Breadcrumbs para navegación y SEO */}
         {/* Hero de la industria */}
         <section className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] pt-[77px] sm:pt-[95px]">
           <div className="absolute inset-0">
-            <img 
-              src={industry.imgUrl} 
-              alt={industryName} 
+            <img
+              src={industry.imgUrl}
+              alt={industryName}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary-black via-black/60 to-black/30" />
           </div>
-          
+
+          {/* Breadcrumbs para navegación y SEO - Posicionamiento absoluto bajo el navbar */}
+          <div className="absolute top-[77px] sm:top-[95px] left-0 w-full z-20">
+            <Breadcrumbs items={[
+              { label: translations?.navbar?.about || 'Inicio', href: '/' },
+              { label: translations?.explore?.title || 'Industrias', href: '/#mercados' },
+              { label: industryName, href: null }
+            ]} />
+          </div>
+
           <motion.div
             variants={staggerContainer}
             initial="hidden"
@@ -251,6 +254,7 @@ export default function IndustryPage() {
         </section>
 
         {/* Contenido principal */}
+        {/* Contenido principal */}
         <section className="py-12 md:py-20 px-6 sm:px-16">
           <motion.div
             variants={staggerContainer}
@@ -260,29 +264,106 @@ export default function IndustryPage() {
             className="2xl:max-w-[1280px] mx-auto"
           >
             <motion.div variants={fadeIn('up', 'tween', 0.2, 1)}>
-              <h2 className="font-bold text-[24px] sm:text-[28px] md:text-[38px] text-white">
+              <h2 className="font-bold text-[24px] sm:text-[28px] md:text-[38px] text-white mb-8">
                 {pageTitle}
               </h2>
             </motion.div>
-            
-            <div className="mt-8 md:mt-12 grid md:grid-cols-2 gap-8 md:gap-12">
-              <motion.div variants={fadeIn('right', 'tween', 0.3, 1)}>
-                <h3 className="text-white font-semibold text-[18px] md:text-[22px] mb-4">
-                  {translations?.explore?.marketInfo ? 'Soluciones Especializadas' : 'Características'}
-                </h3>
-                <p className="text-secondary-white text-[15px] md:text-[17px] leading-relaxed">
-                  {description}
-                </p>
-              </motion.div>
-              <motion.div variants={fadeIn('left', 'tween', 0.4, 1)}>
-                <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-4">
-                  {translations?.whatsNew?.title ? 'Beneficios Clave' : 'Ventajas'}
-                </h3>
-                <p className="text-secondary-white text-base md:text-lg leading-relaxed">
-                  {additional}
-                </p>
-              </motion.div>
-            </div>
+
+            {content.structuredContent ? (
+              <div className="space-y-16">
+                {/* Section 1: Problems & Solution */}
+                <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+                  <motion.div variants={fadeIn('right', 'tween', 0.3, 1)} className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                    <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-4 text-red-400">
+                      {content.structuredContent.problems.title}
+                    </h3>
+                    <ul className="space-y-3">
+                      {content.structuredContent.problems.items.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-3 text-secondary-white">
+                          <span className="text-red-400 mt-1">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  <motion.div variants={fadeIn('left', 'tween', 0.3, 1)} className="bg-white/5 p-6 rounded-2xl border border-white/10">
+                    <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-4 text-purple-400">
+                      {content.structuredContent.solution.title}
+                    </h3>
+                    <p className="text-secondary-white text-[16px] leading-relaxed">
+                      {content.structuredContent.solution.text}
+                    </p>
+                  </motion.div>
+                </div>
+
+                {/* Section 2: Features & Equipment */}
+                <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+                  <motion.div variants={fadeIn('up', 'tween', 0.4, 1)}>
+                    <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-6 border-b border-white/10 pb-2">
+                      {content.structuredContent.features.title}
+                    </h3>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {content.structuredContent.features.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3 bg-white/5 p-3 rounded-lg">
+                          <div className="w-2 h-2 rounded-full bg-purple-500" />
+                          <span className="text-secondary-white text-sm font-medium">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  <motion.div variants={fadeIn('up', 'tween', 0.5, 1)}>
+                    <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-6 border-b border-white/10 pb-2">
+                      {content.structuredContent.equipment.title}
+                    </h3>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {content.structuredContent.equipment.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3 bg-white/5 p-3 rounded-lg">
+                          <div className="w-2 h-2 rounded-full bg-cyan-500" />
+                          <span className="text-secondary-white text-sm font-medium">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Section 3: Benefits */}
+                <motion.div variants={fadeIn('up', 'tween', 0.6, 1)} className="bg-gradient-to-r from-purple-900/20 to-indigo-900/20 p-8 rounded-3xl border border-white/10">
+                  <h3 className="text-center text-white font-bold text-[24px] mb-8">
+                    {content.structuredContent.benefits.title}
+                  </h3>
+                  <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {content.structuredContent.benefits.items.map((item, idx) => (
+                      <div key={idx} className="text-center p-4 bg-black/20 rounded-xl hover:bg-white/5 transition-colors">
+                        <span className="block text-green-400 font-bold text-xl mb-2">✓</span>
+                        <span className="text-white font-medium">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            ) : (
+              // Fallback for industries without structuredContent
+              <div className="mt-8 md:mt-12 grid md:grid-cols-2 gap-8 md:gap-12">
+                <motion.div variants={fadeIn('right', 'tween', 0.3, 1)}>
+                  <h3 className="text-white font-semibold text-[18px] md:text-[22px] mb-4">
+                    {translations?.explore?.marketInfo ? 'Soluciones Especializadas' : 'Características'}
+                  </h3>
+                  <p className="text-secondary-white text-[15px] md:text-[17px] leading-relaxed">
+                    {description}
+                  </p>
+                </motion.div>
+                <motion.div variants={fadeIn('left', 'tween', 0.4, 1)}>
+                  <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-4">
+                    {translations?.whatsNew?.title ? 'Beneficios Clave' : 'Ventajas'}
+                  </h3>
+                  <p className="text-secondary-white text-base md:text-lg leading-relaxed">
+                    {additional}
+                  </p>
+                </motion.div>
+              </div>
+            )}
           </motion.div>
         </section>
 
@@ -299,7 +380,11 @@ export default function IndustryPage() {
               variants={fadeIn('up', 'tween', 0.2, 1)}
               className="relative rounded-3xl overflow-hidden"
             >
-              <img src={industry.imgUrl} alt="" className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover" />
+              <img
+                src={industry.secondaryImgUrl || industry.imgUrl}
+                alt=""
+                className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover object-top"
+              />
               <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-indigo-900/70 to-black/60 flex flex-col items-center justify-center text-center px-6">
                 <h3 className="text-white font-bold text-2xl md:text-4xl mb-4">
                   {translations?.getStarted?.subtitle || '¿Listo para optimizar su flota?'}
@@ -327,13 +412,13 @@ export default function IndustryPage() {
               whileInView="show"
               viewport={{ once: true }}
             >
-              <motion.h2 
+              <motion.h2
                 variants={textVariant(0.2)}
                 className="font-bold text-[24px] sm:text-[32px] md:text-[42px] text-white text-center mb-3"
               >
                 Industrias Relacionadas
               </motion.h2>
-              <motion.p 
+              <motion.p
                 variants={textVariant(0.3)}
                 className="text-secondary-white text-center text-base md:text-lg mt-4 max-w-[800px] mx-auto mb-12"
               >
@@ -355,10 +440,10 @@ export default function IndustryPage() {
                         className="group block relative h-[180px] sm:h-[200px] md:h-[240px] rounded-2xl overflow-hidden active:scale-[0.97] transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20"
                         aria-label={`Ver soluciones TPMS para ${otherContent.name}`}
                       >
-                        <img 
-                          src={ind.imgUrl} 
+                        <img
+                          src={ind.imgUrl}
                           alt={`Sistemas TPMS PressurePro para ${otherContent.name}`}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -376,7 +461,7 @@ export default function IndustryPage() {
               </div>
 
               {/* Volver al inicio */}
-              <motion.div 
+              <motion.div
                 variants={fadeIn('up', 'tween', 0.5, 1)}
                 className="flex justify-center mt-12"
               >

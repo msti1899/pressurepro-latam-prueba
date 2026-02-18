@@ -14,7 +14,7 @@ export default function FAQPage() {
   const locale = router.locale || 'es';
   const language = COUNTRIES[locale]?.language || locale;
   const countryConfig = COUNTRIES[locale];
-  
+
   const faqs = getFAQsByLanguage(language);
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -116,14 +116,16 @@ export default function FAQPage() {
 
       <div className="bg-primary-black tech-bg overflow-hidden min-h-screen">
         <Navbar />
-        
-        <Breadcrumbs items={[
-          { label: 'Inicio', href: '/' },
-          { label: 'Preguntas Frecuentes', href: null }
-        ]} />
+
+        <div className="pt-[77px] sm:pt-[95px]">
+          <Breadcrumbs items={[
+            { label: 'Inicio', href: '/' },
+            { label: 'Preguntas Frecuentes', href: null }
+          ]} />
+        </div>
 
         {/* Header */}
-        <section className="py-12 md:py-20 px-6 sm:px-16 pt-[120px]">
+        <section className="py-12 md:py-20 px-6 sm:px-16">
           <motion.div
             variants={staggerContainer}
             initial="hidden"
@@ -199,7 +201,7 @@ export default function FAQPage() {
                           <p className="text-secondary-white text-sm md:text-base leading-relaxed">
                             {faq.answer}
                           </p>
-                          
+
                           {/* Keywords relacionadas */}
                           {faq.keywords && faq.keywords.length > 0 && (
                             <div className="mt-4 flex flex-wrap gap-2">
@@ -240,11 +242,11 @@ export default function FAQPage() {
                 {language === 'es' ? '¿Tiene más preguntas?' : language === 'en' ? 'Have more questions?' : 'Tem mais perguntas?'}
               </h2>
               <p className="text-white/80 text-sm md:text-base max-w-[600px] mx-auto mb-8">
-                {language === 'es' 
+                {language === 'es'
                   ? 'Nuestro equipo de expertos está listo para ayudarlo a optimizar su flota con la mejor tecnología TPMS'
                   : language === 'en'
-                  ? 'Our team of experts is ready to help you optimize your fleet with the best TPMS technology'
-                  : 'Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS'}
+                    ? 'Our team of experts is ready to help you optimize your fleet with the best TPMS technology'
+                    : 'Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS'}
               </p>
               <Link
                 href="/#feedback"

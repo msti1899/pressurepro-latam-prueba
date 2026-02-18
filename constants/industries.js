@@ -51,33 +51,187 @@ export const INDUSTRIES = [
   {
     id: 'world-1',
     slug: 'mineria',
-    imgUrl: '/mineria.jpeg',
+    imgUrl: '/mining-hero.jpg',
+    secondaryImgUrl: '/mining-maintenance.jpg',
     // Iconos de beneficios (referencia a BENEFIT_ICONS)
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
     // ── Contenido por idioma ──
     es: {
       name: 'Minería',
-      benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
-      marketInfo: 'En minería, nuestro sistema de monitoreo de neumáticos optimiza la vida útil de equipos de alto costo y mejora la seguridad operacional en entornos extremos.',
-      pageTitle: 'Minería - Soluciones Avanzadas',
-      description: 'Nuestras soluciones avanzadas para el sector minero detectan problemas de presión y temperatura en tiempo real, anticipando riesgos potenciales en neumáticos de equipos críticos. Este monitoreo constante permite intervenir antes de que ocurran averías mayores, extendiendo la vida útil del caucho y protegiendo inversiones significativas.',
-      additional: 'La tecnología PressurePro permite configurar parámetros específicos para cada tipo de maquinaria minera, considerando factores como carga, velocidad y condiciones del terreno. Este enfoque personalizado maximiza el retorno de inversión al reducir hasta un 20% el gasto en neumáticos, uno de los mayores costos operativos en la industria minera después del combustible.',
+      benefits: ['Menos paradas', 'Mayor vida útil', 'Menor costo/ton', 'Seguridad'],
+      marketInfo: 'Plataforma TPMS diseñada para condiciones mineras extremas. Monitoreo continuo que protege la producción y reduce el costo por tonelada.',
+      pageTitle: 'PressurePro Connect 2.0 para Operaciones Mineras',
+      description: 'Los neumáticos representan el 20-25% del gasto de mantenimiento y causan aproximadamente el 38% de las paradas no planificadas. Un solo incidente puede costar más de USD 100.000, además de los riesgos de seguridad por reventones y mayor distancia de frenado. PressurePro Connect 2.0 es la plataforma TPMS diseñada específicamente para estas condiciones extremas, ofreciendo monitoreo continuo que combate el 70% del desgaste prematuro por subinflación y elimina los puntos ciegos de las inspecciones manuales.',
+      additional: 'Nuestra solución ofrece visibilidad total del sitio con alertas inteligentes priorizadas, mapas de localización y análisis predictivo. Compatible con una amplia gama de equipos: camiones de acarreo (ultra/medianos), cargadores frontales, bulldozers, motoniveladoras, camiones cisterna y equipos subterráneos. Los beneficios incluyen una drástica reducción del costo por tonelada, mayor vida útil de los neumáticos y protección continua de la producción mediante mantenimiento predictivo.',
+      structuredContent: {
+        problems: {
+          title: "Desafíos y Problemas en Minería",
+          items: [
+            "Neumáticos representan 20–25% del gasto de mantenimiento",
+            "~38% de paradas no planificadas son por neumáticos",
+            "Un incidente puede costar > USD 100.000",
+            "~50% de máquinas operan con neumáticos desinflados",
+            "Hasta 70% del desgaste prematuro es por subinflación",
+            "Inspecciones manuales generan puntos ciegos y riesgos de seguridad"
+          ]
+        },
+        solution: {
+          title: "Solución Tecnológica: Connect 2.0",
+          text: "Plataforma TPMS diseñada para soportar las condiciones más extremas de la minería. Ofrece monitoreo continuo global, prevención activa de fallas, protección de la producción y extensión de la vida útil de los activos, convirtiendo datos en acciones inmediatas."
+        },
+        features: {
+          title: "Funcionalidades Principales",
+          items: [
+            "Alertas inteligentes priorizadas",
+            "Localización con mapas del sitio",
+            "Agrupación por tipo de equipo",
+            "Reportes de rendimiento detallados",
+            "Análisis predictivo de tendencias",
+            "Dashboards personalizables",
+            "Visibilidad total de la flota"
+          ]
+        },
+        equipment: {
+          title: "Equipos Compatibles",
+          items: [
+            "Camiones de acarreo (ultra/medianos)",
+            "Cargadores frontales",
+            "Bulldozers y motoniveladoras",
+            "Camiones cisterna y de servicio",
+            "Vehículos livianos (camionetas)",
+            "Equipos subterráneos"
+          ]
+        },
+        benefits: {
+          title: "Beneficios Operativos",
+          items: [
+            "Menos paradas no planificadas",
+            "Mayor vida útil de neumáticos",
+            "Reducción del costo por tonelada",
+            "Seguridad mejorada para operadores",
+            "Mantenimiento predictivo real",
+            "Protección de la producción continua"
+          ]
+        }
+      }
     },
     en: {
       name: 'Mining',
-      benefits: ['Efficiency', 'Savings', 'Safety', 'Innovation'],
-      marketInfo: 'In mining, our tire monitoring system optimizes the lifespan of high-cost equipment and enhances operational safety in extreme environments.',
-      pageTitle: 'Mining - Advanced Solutions',
-      description: 'Our advanced solutions for the mining sector detect pressure and temperature issues in real time, anticipating potential risks in critical equipment tires. This constant monitoring allows intervention before major breakdowns occur, extending rubber life and protecting significant investments.',
-      additional: 'PressurePro technology allows configuring specific parameters for each type of mining machinery, considering factors such as load, speed, and terrain conditions. This customized approach maximizes return on investment by reducing tire expenses by up to 20%, one of the largest operating costs in the mining industry after fuel.',
+      benefits: ['Less downtime', 'Longer lifespan', 'Lower cost/ton', 'Safety'],
+      marketInfo: 'TPMS platform designed for extreme mining conditions. Continuous monitoring that protects production and reduces cost per ton.',
+      pageTitle: 'PressurePro Connect 2.0 for Mining Operations',
+      description: 'Tires account for 20-25% of maintenance costs and cause approximately 38% of unplanned downtime. A single incident can cost over USD 100,000, in addition to safety risks from blowouts and increased braking distances. PressurePro Connect 2.0 is the TPMS platform specifically designed for these extreme conditions, offering continuous monitoring that combats 70% of premature wear due to under-inflation and eliminates manual inspection blind spots.',
+      additional: 'Our solution offers total site visibility with prioritized intelligent alerts, location maps, and predictive analysis. Compatible with a wide range of equipment: haul trucks (ultra/medium), front loaders, bulldozers, graders, tanker trucks, and underground equipment. Benefits include a drastic reduction in cost per ton, longer tire lifespan, and continuous production protection through predictive maintenance.',
+      structuredContent: {
+        problems: {
+          title: "Mining Challenges & Problems",
+          items: [
+            "Tires represent 20–25% of maintenance spend",
+            "~38% of unplanned downtime caused by tires",
+            "A single incident can cost > USD 100,000",
+            "~50% of machines operate with under-inflated tires",
+            "Up to 70% of premature wear due to under-inflation",
+            "Manual inspections create blind spots and safety risks"
+          ]
+        },
+        solution: {
+          title: "Technology Solution: Connect 2.0",
+          text: "TPMS platform designed to withstand extreme mining conditions. Offers continuous global monitoring, active failure prevention, production protection, and asset lifespan extension, converting data into immediate actions."
+        },
+        features: {
+          title: "Key Features",
+          items: [
+            "Prioritized intelligent alerts",
+            "Location with site maps",
+            "Grouping by equipment type",
+            "Detailed performance reports",
+            "Predictive trend analysis",
+            "Customizable dashboards",
+            "Total fleet visibility"
+          ]
+        },
+        equipment: {
+          title: "Compatible Equipment",
+          items: [
+            "Haul trucks (ultra/medium)",
+            "Front loaders",
+            "Bulldozers and graders",
+            "Tanker and service trucks",
+            "Light vehicles (pickups)",
+            "Underground equipment"
+          ]
+        },
+        benefits: {
+          title: "Operational Benefits",
+          items: [
+            "Less unplanned downtime",
+            "Longer tire lifespan",
+            "Reduced cost per ton",
+            "Improved operator safety",
+            "Real predictive maintenance",
+            "Continuous production protection"
+          ]
+        }
+      }
     },
     pt: {
       name: 'Mineração',
-      benefits: ['Eficiência', 'Economia', 'Segurança', 'Inovação'],
-      marketInfo: 'Na mineração, nosso sistema de monitoramento de pneus otimiza a vida útil de equipamentos de alto custo e melhora a segurança operacional em ambientes extremos.',
-      pageTitle: 'Mineração - Soluções Avançadas',
-      description: 'Nossas soluções avançadas para o setor de mineração detectam problemas de pressão e temperatura em tempo real, antecipando riscos potenciais em pneus de equipamentos críticos. Este monitoramento constante permite intervenção antes que ocorram avarias maiores, estendendo a vida útil da borracha e protegendo investimentos significativos.',
-      additional: 'A tecnologia PressurePro permite configurar parâmetros específicos para cada tipo de maquinário de mineração, considerando fatores como carga, velocidade e condições do terreno. Esta abordagem personalizada maximiza o retorno do investimento ao reduzir as despesas com pneus em até 20%, um dos maiores custos operacionais na indústria de mineração depois do combustível.',
+      benefits: ['Menos paradas', 'Maior vida útil', 'Menor custo/ton', 'Segurança'],
+      marketInfo: 'Plataforma TPMS projetada para condições extremas de mineração. Monitoramento contínuo que protege a produção e reduz o custo por tonelada.',
+      pageTitle: 'PressurePro Connect 2.0 para Operações de Mineração',
+      description: 'Pneus representam 20-25% dos custos de manutenção e causam aproximadamente 38% das paradas não planejadas. Um único incidente pode custar mais de USD 100.000, além dos riscos de segurança por estouros e maior distância de frenagem. O PressurePro Connect 2.0 é a plataforma TPMS projetada especificamente para essas condições extremas, oferecendo monitoramento contínuo que combate 70% do desgaste prematuro por subinflação e elimina pontos cegos das inspeções manuais.',
+      additional: 'Nossa solução oferece visibilidade total do local com alertas inteligentes priorizados, mapas de localização e análise preditiva. Compatível com uma ampla gama de equipamentos: caminhões de transporte (ultra/médios), carregadeiras frontais, tratores, motoniveladoras, caminhões-tanque e equipamentos subterrâneos. Os benefícios incluem uma redução drástica no custo por tonelada, maior vida útil dos pneus e proteção contínua da produção através de manutenção preditiva.',
+      structuredContent: {
+        problems: {
+          title: "Desafios e Problemas na Mineração",
+          items: [
+            "Pneus representam 20–25% dos custos de manutenção",
+            "~38% das paradas não planejadas são causadas por pneus",
+            "Um incidente pode custar > USD 100.000",
+            "~50% das máquinas operam com pneus desinflados",
+            "Até 70% do desgaste prematuro devido à subinflação",
+            "Inspeções manuais geram pontos cegos e riscos de segurança"
+          ]
+        },
+        solution: {
+          title: "Solução Tecnológica: Connect 2.0",
+          text: "Plataforma TPMS projetada para suportar condições extremas de mineração. Oferece monitoramento global contínuo, prevenção ativa de falhas, proteção da produção e extensão da vida útil dos ativos, convertendo dados em ações imediatas."
+        },
+        features: {
+          title: "Funcionalidades Principais",
+          items: [
+            "Alertas inteligentes priorizados",
+            "Localização com mapas do local",
+            "Agrupamento por tipo de equipamento",
+            "Relatórios de desempenho detalhados",
+            "Análise preditiva de tendências",
+            "Dashboards personalizáveis",
+            "Visibilidade total da frota"
+          ]
+        },
+        equipment: {
+          title: "Equipamentos Compatíveis",
+          items: [
+            "Caminhões de transporte (ultra/médios)",
+            "Carregadeiras frontais",
+            "Bulldozers e motoniveladoras",
+            "Caminhões-tanque e de serviço",
+            "Veículos leves (pickups)",
+            "Equipamentos subterrâneos"
+          ]
+        },
+        benefits: {
+          title: "Benefícios Operacionais",
+          items: [
+            "Menos paradas não planejadas",
+            "Maior vida útil dos pneus",
+            "Redução do custo por tonelada",
+            "Segurança melhorada para operadores",
+            "Manutenção preditiva real",
+            "Proteção da produção contínua"
+          ]
+        }
+      }
     },
   },
   {
@@ -143,31 +297,191 @@ export const INDUSTRIES = [
   {
     id: 'world-4',
     slug: 'portuario',
-    imgUrl: '/portuario.jpeg',
+    imgUrl: '/port-overhead.jpg',
+    secondaryImgUrl: '/port-manager.jpg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
     es: {
       name: 'Portuario',
-      benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
-      marketInfo: 'La operación portuaria se beneficia con nuestro sistema, optimizando flotas de manejo de carga donde el tiempo de inactividad representa costos significativos.',
-      pageTitle: 'Portuario - Optimización de Operaciones',
-      description: 'Nuestra tecnología responde a las exigencias de la industria portuaria moderna, donde los equipos de manejo de carga operan bajo presión constante. El monitoreo en tiempo real permite a los operadores identificar problemas potenciales antes de que afecten los estrictos cronogramas de carga y descarga, reduciendo significativamente los costos por retrasos.',
-      additional: 'Adaptamos nuestras soluciones a la variedad de equipos utilizados en terminales portuarias, desde reach stackers hasta RTGs, donde cada tipo de máquina enfrenta diferentes patrones de desgaste. La implementación de PressurePro en entornos portuarios ha demostrado reducir hasta un 30% los incidentes relacionados con neumáticos en flotas de alta exigencia.',
+      benefits: ['Menos fallas', 'Mayor vida útil', 'Menor downtime', 'Seguridad'],
+      marketInfo: 'Plataforma TPMS cloud para flotas mixtas portuarias. Monitoreo en tiempo real que previene fallas, reduce el downtime y mejora la seguridad operativa.',
+      pageTitle: 'PressurePro Connect 2.0 para Operaciones Portuarias',
+      description: 'El 50% de las fallas de neumáticos en puertos se deben a una inflación incorrecta, lo que aumenta peligrosamente la inestabilidad de equipos críticos como RTGs y Straddle carriers. Un incidente puede costar más de USD 5.000 y generar interrupciones en cadena. PressurePro Connect 2.0 es la solución cloud que convierte datos en tareas accionables, previniendo que el 30% de subinflación cause daños permanentes y garantizando la seguridad en el patio.',
+      additional: 'Funcionalidades clave incluyen alertas configurables, ubicación con timestamp, agrupación por terminal/equipo y dashboards personalizables para análisis de tendencias. Soporte completo para RTGs, Straddle carriers, Top/side picks, camiones de patio, tractores terminales, Reach stackers y montacargas. Optimice su operación reduciendo el downtime, mejorando la seguridad y extendiendo la vida útil de los activos con nuestra arquitectura escalable.',
+      structuredContent: {
+        problems: {
+          title: "Problemas en Entornos Portuarios",
+          items: [
+            "50% de fallas de neumáticos por inflación incorrecta",
+            "Neumáticos desinflados causan inestabilidad en equipos",
+            "Un incidente puede costar USD 5.000+",
+            "30% de subinflación causa daño permanente",
+            "Interrupciones operativas en cadena",
+            "Riesgo directo para operadores y carga"
+          ]
+        },
+        solution: {
+          title: "Solución Tecnológica: Connect 2.0",
+          text: "Plataforma TPMS cloud para flotas mixtas portuarias. Monitoreo en tiempo real, alertas priorizadas y prevención de fallas evitables para un mayor control operativo y reducción de downtime."
+        },
+        features: {
+          title: "Funcionalidades Principales",
+          items: [
+            "Alertas configurables y priorizadas",
+            "Ubicación con timestamp y mapas",
+            "Agrupación por vehículo/terminal/equipo",
+            "Reportes descargables",
+            "Análisis de tendencias",
+            "Dashboards personalizables",
+            "Visibilidad total de flota"
+          ]
+        },
+        equipment: {
+          title: "Equipos Compatibles",
+          items: [
+            "RTGs (grúas pórtico con ruedas)",
+            "Straddle carriers",
+            "Top/side picks",
+            "Camiones de patio",
+            "Tractores terminales",
+            "Reach stackers",
+            "Montacargas",
+            "Camiones pesados"
+          ]
+        },
+        benefits: {
+          title: "Beneficios Operativos",
+          items: [
+            "Menos fallas de neumáticos",
+            "Mayor vida útil",
+            "Menor downtime",
+            "Mejora en seguridad",
+            "Reducción de costos",
+            "Mantenimiento predictivo"
+          ]
+        }
+      }
     },
     en: {
       name: 'Port',
-      benefits: ['Efficiency', 'Savings', 'Safety', 'Innovation'],
-      marketInfo: 'Port operation benefits from our system, optimizing cargo handling fleets where downtime represents significant costs.',
-      pageTitle: 'Port - Operations Optimization',
-      description: 'Our technology responds to the demands of the modern port industry, where cargo handling equipment operates under constant pressure. Real-time monitoring allows operators to identify potential problems before they affect strict loading and unloading schedules, significantly reducing costs due to delays.',
-      additional: 'We adapt our solutions to the variety of equipment used in port terminals, from reach stackers to RTGs, where each type of machine faces different wear patterns. PressurePro implementation in port environments has been shown to reduce tire-related incidents in high-demand fleets by up to 30%.',
+      benefits: ['Less failures', 'Longer lifespan', 'Less downtime', 'Safety'],
+      marketInfo: 'Cloud TPMS platform for mixed port fleets. Real-time monitoring that prevents failures, reduces downtime, and improves operational safety.',
+      pageTitle: 'PressurePro Connect 2.0 for Port Operations',
+      description: '50% of tire failures in ports are due to incorrect inflation, dangerously increasing the instability of critical equipment like RTGs and Straddle carriers. An incident can cost over USD 5,000 and create chain reaction interruptions. PressurePro Connect 2.0 is the cloud solution that converts data into actionable tasks, preventing 30% under-inflation from causing permanent damage and ensuring yard safety.',
+      additional: 'Key features include configurable alerts, timestamped location, grouping by terminal/equipment, and customizable dashboards for trend analysis. Full support for RTGs, Straddle carriers, Top/side picks, yard trucks, terminal tractors, Reach stackers, and forklifts. Optimize your operation by reducing downtime, improving safety, and extending asset lifespan with our scalable architecture.',
+      structuredContent: {
+        problems: {
+          title: "Problems in Port Environments",
+          items: [
+            "50% of tire failures due to incorrect inflation",
+            "Under-inflated tires cause equipment instability",
+            "An incident can cost USD 5,000+",
+            "30% under-inflation causes permanent damage",
+            "Chain reaction operational interruptions",
+            "Direct risk to operators and cargo"
+          ]
+        },
+        solution: {
+          title: "Technology Solution: Connect 2.0",
+          text: "Cloud TPMS platform for mixed port fleets. Real-time monitoring, prioritized alerts, and preventable failure prevention for greater operational control and reduced downtime."
+        },
+        features: {
+          title: "Key Features",
+          items: [
+            "Configurable and prioritized alerts",
+            "Location with timestamp and maps",
+            "Grouping by vehicle/terminal/equipment",
+            "Downloadable reports",
+            "Trend analysis",
+            "Customizable dashboards",
+            "Total fleet visibility"
+          ]
+        },
+        equipment: {
+          title: "Compatible Equipment",
+          items: [
+            "RTGs (Rubber Tyred Gantry cranes)",
+            "Straddle carriers",
+            "Top/side picks",
+            "Yard trucks",
+            "Terminal tractors",
+            "Reach stackers",
+            "Forklifts",
+            "Heavy trucks"
+          ]
+        },
+        benefits: {
+          title: "Operational Benefits",
+          items: [
+            "Fewer tire failures",
+            "Longer lifespan",
+            "Less downtime",
+            "Improved safety",
+            "Cost reduction",
+            "Predictive maintenance"
+          ]
+        }
+      }
     },
     pt: {
       name: 'Portuário',
-      benefits: ['Eficiência', 'Economia', 'Segurança', 'Inovação'],
-      marketInfo: 'A operação portuária se beneficia de nosso sistema, otimizando frotas de manuseio de carga onde o tempo de inatividade representa custos significativos.',
-      pageTitle: 'Portuário - Otimização de Operações',
-      description: 'Nossa tecnologia responde às exigências da indústria portuária moderna, onde equipamentos de movimentação de carga operam sob pressão constante. O monitoramento em tempo real permite aos operadores identificar problemas potenciais antes que afetem os rígidos cronogramas de carga e descarga, reduzindo significativamente os custos devido a atrasos.',
-      additional: 'Adaptamos nossas soluções à variedade de equipamentos utilizados em terminais portuários, desde reach stackers até RTGs, onde cada tipo de máquina enfrenta diferentes padrões de desgaste. A implementação do PressurePro em ambientes portuários demonstrou reduzir incidentes relacionados a pneus em frotas de alta demanda em até 30%.',
+      benefits: ['Menos falhas', 'Maior vida útil', 'Menor downtime', 'Segurança'],
+      marketInfo: 'Plataforma TPMS em nuvem para frotas portuárias mistas. Monitoramento em tempo real que previne falhas, reduz o downtime e melhora a segurança operacional.',
+      pageTitle: 'PressurePro Connect 2.0 para Operações Portuárias',
+      description: '50% das falhas de pneus em portos devem-se à inflação incorreta, aumentando perigosamente a instabilidade de equipamentos críticos como RTGs e Straddle carriers. Um incidente pode custar mais de USD 5.000 e gerar interrupções em cadeia. O PressurePro Connect 2.0 é a solução em nuvem que converte dados em tarefas acionáveis, prevenindo que 30% de subinflação cause danos permanentes e garantindo a segurança no pátio.',
+      additional: 'Funcionalidades principais incluem alertas configuráveis, localização com timestamp, agrupamento por terminal/equipamento e dashboards personalizáveis para análise de tendências. Suporte completo para RTGs, Straddle carriers, Top/side picks, caminhões de pátio, tratores terminais, Reach stackers e empilhadeiras. Otimize sua operação reduzindo o downtime, melhorando a segurança e estendendo a vida útil dos ativos com nossa arquitetura escalável.',
+      structuredContent: {
+        problems: {
+          title: "Problemas em Ambientes Portuários",
+          items: [
+            "50% das falhas de pneus devido à inflação incorreta",
+            "Pneus desinflados causam instabilidade no equipamento",
+            "Um incidente pode custar USD 5.000+",
+            "30% de subinflação causa dano permanente",
+            "Interrupções operacionais em cadeia",
+            "Risco direto para operadores e carga"
+          ]
+        },
+        solution: {
+          title: "Solução Tecnológica: Connect 2.0",
+          text: "Plataforma TPMS em nuvem para frotas portuárias mistas. Monitoramento em tempo real, alertas priorizados e prevenção de falhas evitáveis para maior controle operacional e redução de downtime."
+        },
+        features: {
+          title: "Funcionalidades Principais",
+          items: [
+            "Alertas configuráveis e priorizados",
+            "Localização com timestamp e mapas",
+            "Agrupamento por veículo/terminal/equipamento",
+            "Relatórios para download",
+            "Análise de tendências",
+            "Dashboards personalizáveis",
+            "Visibilidade total da frota"
+          ]
+        },
+        equipment: {
+          title: "Equipamentos Compatíveis",
+          items: [
+            "RTGs (guindastes pórticos sobre pneus)",
+            "Straddle carriers",
+            "Top/side picks",
+            "Caminhões de pátio",
+            "Tratores terminais",
+            "Reach stackers",
+            "Empilhadeiras",
+            "Caminhões pesados"
+          ]
+        },
+        benefits: {
+          title: "Benefícios Operacionais",
+          items: [
+            "Menos falhas de pneus",
+            "Maior vida útil",
+            "Menor downtime",
+            "Melhoria na segurança",
+            "Redução de custos",
+            "Manutenção preditiva"
+          ]
+        }
+      }
     },
   },
   {
