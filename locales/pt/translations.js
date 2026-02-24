@@ -11,7 +11,8 @@ export default {
         whatsNew: "Por que PressurePro",
         world: "Representação",
         insights: "Produtos",
-        feedback: "Contato"
+        feedback: "Contato",
+        faq: 'FAQ',
     },
     hero: {
         title: "Monitoramento TPMS de Pneus em Tempo Real Brasil",
@@ -27,12 +28,19 @@ export default {
         subtitle: "Sistemas TPMS para Cada Indústria Brasileira",
         showInfo: "+ Info",
         closeInfo: "Fechar",
+        viewMore: "Saiba mais",
+        viewAllIndustries: "Ver todas as indústrias →",
         // Contenido de industrias importado de constants/industries.js
         ...industryData,
     },
     getStarted: {
         title: "Benefícios do Sistema TPMS",
-        subtitle: "Descubra como a PressurePro otimiza sua frota brasileira"
+        subtitle: "Descubra como a PressurePro otimiza sua frota brasileira",
+        features: [
+            'Instalação e manutenção fáceis',
+            'Alertas e notificações personalizadas',
+            'Monitoramento em tempo real na cabine ou remotamente',
+        ],
     },
     whatsNew: {
         title: "Por que nos escolher?",
@@ -105,9 +113,47 @@ export default {
         ],
     },
     feedback: {
-        text: "Desde 1991, a PressurePro revoluciona a manutenção de pneus por meio de soluções inovadoras que potencializam o desempenho dos pneus."
+        text: "Desde 1991, a PressurePro revoluciona a manutenção de pneus por meio de soluções inovadoras que potencializam o desempenho dos pneus.",
+        title: "Pronto para Otimizar sua Frota com TPMS?"
     },
     footer: {
         contact: "Contato",
+        industriesTitle: "Indústrias",
+        productsTitle: "Produtos",
+        resourcesTitle: "Recursos",
+        contactTitle: "Contato",
+        mining: "Mineração",
+        transport: "Transporte",
+        agriculture: "Agricultura",
+        forestry: "Florestal",
+        port: "Portuário",
+        industrial: "Industrial",
+        tpmsSensors: "Sensores TPMS",
+        pulseDisplay: "Pulse Display",
+        linkHDLTUR: "Link HD/LT/UR",
+        fxFleet: "Fx Fleet",
+        faq: "Perguntas Frequentes",
+        benefits: "Benefícios TPMS",
+        whyPressurePro: "Por que PressurePro",
+        aboutUs: "Sobre Nós",
+        requestQuote: "Solicitar Orçamento",
+        coverage: "Cobertura",
+    },
+    industryPage: {
+        notFound: "Indústria não encontrada",
+        backToHome: "Voltar ao início",
+        relatedIndustries: "Indústrias Relacionadas",
+        relatedSubtitle: "Descubra como a PressurePro otimiza operações em diferentes setores industriais",
+        specializedSolutions: "Soluções Especializadas",
+        keyBenefits: "Benefícios Principais",
+        readyToOptimize: "Pronto para otimizar sua frota?",
+        contactForSolution: "Entre em contato para uma solução personalizada",
+    },
+    faqPage: {
+        home: "Início",
+        breadcrumb: "Perguntas Frequentes",
+        moreQuestions: "Tem mais perguntas?",
+        moreQuestionsSubtitle: "Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS",
+        contactNow: "Contatar Agora",
     },
 };

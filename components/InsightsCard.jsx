@@ -70,7 +70,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
         >
           <Image
             src={imgUrl}
-            alt={`Producto TPMS PressurePro ${title} - Sensor de monitoreo de neumáticos`}
+            alt={`${translations?.insights?.typingText || 'TPMS'} ${title}`}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className='object-cover transition-all duration-300 hover:scale-110 hover:brightness-110'
@@ -108,37 +108,37 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
 
           {/* Botón de descarga unificado */}
           <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-auto">
-             <span className="text-sm text-white/60 font-medium">
-               {translations.insights?.downloadSpecs || "Especificaciones"}
-             </span>
-             
-             <button
-                className={`group flex items-center justify-center w-[50px] h-[50px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 hover:bg-white/10 hover:border-white hover:scale-110 ${isArrowClicked ? 'scale-95' : ''
-                  }`}
-                onMouseEnter={() => setIsArrowHovered(true)}
-                onMouseLeave={() => setIsArrowHovered(false)}
-                onClick={() => {
-                  setIsArrowClicked(true);
-                  window.open(specsUrl, '_blank', 'noopener,noreferrer');
+            <span className="text-sm text-white/60 font-medium">
+              {translations.insights?.downloadSpecs || "Especificaciones"}
+            </span>
+
+            <button
+              className={`group flex items-center justify-center w-[50px] h-[50px] rounded-full bg-transparent border-[2px] border-white cursor-pointer transition-all duration-300 hover:bg-white/10 hover:border-white hover:scale-110 ${isArrowClicked ? 'scale-95' : ''
+                }`}
+              onMouseEnter={() => setIsArrowHovered(true)}
+              onMouseLeave={() => setIsArrowHovered(false)}
+              onClick={() => {
+                setIsArrowClicked(true);
+                window.open(specsUrl, '_blank', 'noopener,noreferrer');
+              }}
+              aria-label={`${translations.insights?.downloadSpecs || 'Especificaciones'} - ${title}`}
+            >
+              {/* Ícono de descarga */}
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-[24px] h-[24px]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="white"
+                strokeWidth="2"
+                animate={{
+                  y: isArrowHovered ? 2 : 0,
+                  transition: { duration: 0.3 }
                 }}
-                aria-label={`Descargar especificaciones de ${title}`}
               >
-                {/* Ícono de descarga */}
-                <motion.svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-[24px] h-[24px]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="white"
-                  strokeWidth="2"
-                  animate={{
-                    y: isArrowHovered ? 2 : 0,
-                    transition: { duration: 0.3 }
-                  }}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                </motion.svg>
-              </button>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </motion.svg>
+            </button>
           </div>
         </div>
       </motion.div>
@@ -158,14 +158,14 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
             }}
             onClick={() => setIsImageOpen(false)}
             role="dialog"
-            aria-label={`Imagen ampliada de ${title}`}
+            aria-label={`${title}`}
           >
             {/* Contenedor de la imagen */}
             <div className="w-full max-w-4xl px-4 relative">
-              <button 
-                onClick={() => setIsImageOpen(false)} 
+              <button
+                onClick={() => setIsImageOpen(false)}
                 className="absolute top-2 right-6 z-10 w-10 h-10 rounded-full bg-black/50 flex items-center justify-center text-white min-w-[44px] min-h-[44px]"
-                aria-label="Cerrar imagen"
+                aria-label={translations.insights?.downloadSpecs || 'Close'}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

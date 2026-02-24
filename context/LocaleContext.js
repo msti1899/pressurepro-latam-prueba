@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import es from '../locales/es/translations';
 import en from '../locales/en/translations';
 import pt from '../locales/pt/translations';
-import { features } from '../constants/data';
+
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import { WHATSAPP_NUMBER } from '../config/whatsapp';
 import { getUserPreference, saveUserPreference } from '../lib/geolocation';
@@ -23,7 +23,7 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
   const [countryConfig, setCountryConfig] = useState(
     initialCountry && COUNTRIES[initialCountry] ? COUNTRIES[initialCountry] : null
   );
-  
+
   const router = useRouter();
 
   // Sincronizar con el locale de Next.js
@@ -31,7 +31,7 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     if (router.locale) {
       const locale = router.locale;
       const isCountry = COUNTRIES && COUNTRIES[locale];
-      
+
       if (isCountry) {
         setCountry(locale);
         setLanguage(COUNTRIES[locale].language);
@@ -59,7 +59,7 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
   const changeLanguage = useCallback((newLanguage, newCountry = null) => {
     const newLocale = newCountry || newLanguage;
     saveUserPreference(newLanguage, newCountry);
-    
+
     // Usar el sistema de routing de Next.js con locale
     router.push(router.pathname, router.asPath, { locale: newLocale });
   }, [router]);
@@ -71,7 +71,7 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     if (COUNTRIES[newCountry]) {
       const config = COUNTRIES[newCountry];
       saveUserPreference(config.language, newCountry);
-      
+
       // Usar el sistema de routing de Next.js con locale
       router.push(router.pathname, router.asPath, { locale: newCountry });
     }
@@ -132,12 +132,10 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     return [];
   }, [countryConfig]);
 
-  // Combinar traducciones base del idioma con features
-  // features mantiene su estructura { es: [...], en: [...], pt: [...] }
-  // para compatibilidad con código existente que accede como features[language]
+  // Usar traducciones base del idioma actual
+  // features ahora están incluidas en getStarted.features de cada archivo de traducción
   const currentTranslations = {
     ...baseTranslations[language],
-    features: features
   };
 
   // Aplicar overrides por país (textos específicos por región)
@@ -147,24 +145,24 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
   const localizedTranslations = applyLocalTerminology(withOverrides, countryConfig);
 
   return (
-    <LocaleContext.Provider value={{ 
+    <LocaleContext.Provider value={{
       // Estado actual
-      language, 
+      language,
       country,
       countryConfig,
       translations: localizedTranslations,
-      
+
       // Métodos de navegación
       changeLanguage,
       changeCountry,
-      
+
       // Helpers de localización
       getLocalTerm,
       getWhatsAppNumber,
       getPriorityIndustries,
       getSeoKeywords,
       getRegionalClients,
-      
+
       // Configuraciones disponibles
       availableLanguages: LANGUAGES,
       availableCountries: COUNTRIES
@@ -185,7 +183,7 @@ function applyCountryOverrides(translations, countryCode) {
   }
 
   const overrides = countryOverrides[countryCode];
-  
+
   // Deep merge: override sobreescribe solo las claves que trae
   return deepMerge(
     JSON.parse(JSON.stringify(translations)),
@@ -226,11 +224,11 @@ function applyLocalTerminology(translations, countryConfig) {
 
   // Crear una copia profunda para no mutar el original
   const localized = JSON.parse(JSON.stringify(translations));
-  
+
   // Por ahora retornamos las traducciones sin modificar
   // En una implementación más avanzada, podríamos hacer búsqueda y reemplazo
   // de términos en todas las cadenas de texto
-  
+
   return localized;
 }
 
@@ -247,8 +245,8 @@ export const useLocale = () => {
       country: null,
       countryConfig: null,
       translations: { es, en, pt }['es'], // fallback to es
-      changeLanguage: () => {},
-      changeCountry: () => {},
+      changeLanguage: () => { },
+      changeCountry: () => { },
       getLocalTerm: (t) => t,
       getWhatsAppNumber: () => WHATSAPP_NUMBER,
       getPriorityIndustries: () => [],

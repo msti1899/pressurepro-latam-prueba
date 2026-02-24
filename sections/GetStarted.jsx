@@ -42,10 +42,10 @@ const GetStarted = () => {
           variants={fadeIn('left', 'tween', 0.2, 1)}
           className='flex-[0.75] flex justify-center flex-col'
         >
-          <TypingText title={`| ${translations.getStarted.subtitle}`}/>
+          <TypingText title={`| ${translations.getStarted.subtitle}`} />
           <TitleText title={translations.getStarted.title} as='h2' />
           <div className='mt-[20px] flex flex-col max-w-[370px] gap-[30px]'>
-            {translations.features[language].map((feature, index) => (
+            {(translations.getStarted.features || []).map((feature, index) => (
               <StartSteps
                 key={feature}
                 number={index + 1}

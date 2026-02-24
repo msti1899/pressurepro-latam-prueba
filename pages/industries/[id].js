@@ -40,9 +40,9 @@ export default function IndustryPage() {
         <Navbar />
         <div className="flex flex-col items-center justify-center min-h-[60vh] text-white pt-[95px]">
           <h1 className="text-4xl font-bold mb-4">404</h1>
-          <p className="text-secondary-white mb-8">Industria no encontrada</p>
+          <p className="text-secondary-white mb-8">{translations?.industryPage?.notFound || 'Industria no encontrada'}</p>
           <Link href="/" className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity">
-            Volver al inicio
+            {translations?.industryPage?.backToHome || 'Volver al inicio'}
           </Link>
         </div>
         <Footer />
@@ -348,7 +348,7 @@ export default function IndustryPage() {
               <div className="mt-8 md:mt-12 grid md:grid-cols-2 gap-8 md:gap-12">
                 <motion.div variants={fadeIn('right', 'tween', 0.3, 1)}>
                   <h3 className="text-white font-semibold text-[18px] md:text-[22px] mb-4">
-                    {translations?.explore?.marketInfo ? 'Soluciones Especializadas' : 'Características'}
+                    {translations?.industryPage?.specializedSolutions || 'Soluciones Especializadas'}
                   </h3>
                   <p className="text-secondary-white text-[15px] md:text-[17px] leading-relaxed">
                     {description}
@@ -356,7 +356,7 @@ export default function IndustryPage() {
                 </motion.div>
                 <motion.div variants={fadeIn('left', 'tween', 0.4, 1)}>
                   <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-4">
-                    {translations?.whatsNew?.title ? 'Beneficios Clave' : 'Ventajas'}
+                    {translations?.industryPage?.keyBenefits || 'Beneficios Clave'}
                   </h3>
                   <p className="text-secondary-white text-base md:text-lg leading-relaxed">
                     {additional}
@@ -387,10 +387,10 @@ export default function IndustryPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-indigo-900/70 to-black/60 flex flex-col items-center justify-center text-center px-6">
                 <h3 className="text-white font-bold text-2xl md:text-4xl mb-4">
-                  {translations?.getStarted?.subtitle || '¿Listo para optimizar su flota?'}
+                  {translations?.industryPage?.readyToOptimize || '¿Listo para optimizar su flota?'}
                 </h3>
                 <p className="text-white/80 text-sm md:text-base max-w-[500px] mb-8">
-                  {translations?.footer?.contact || 'Contacte con nosotros para una solución personalizada'}
+                  {translations?.industryPage?.contactForSolution || 'Contacte con nosotros para una solución personalizada'}
                 </p>
                 <Link
                   href="/#feedback"
@@ -416,13 +416,13 @@ export default function IndustryPage() {
                 variants={textVariant(0.2)}
                 className="font-bold text-[24px] sm:text-[32px] md:text-[42px] text-white text-center mb-3"
               >
-                Industrias Relacionadas
+                {translations?.industryPage?.relatedIndustries || 'Industrias Relacionadas'}
               </motion.h2>
               <motion.p
                 variants={textVariant(0.3)}
                 className="text-secondary-white text-center text-base md:text-lg mt-4 max-w-[800px] mx-auto mb-12"
               >
-                Descubra cómo PressurePro optimiza operaciones en diferentes sectores industriales
+                {translations?.industryPage?.relatedSubtitle || 'Descubra cómo PressurePro optimiza operaciones en diferentes sectores industriales'}
               </motion.p>
 
               <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
@@ -472,7 +472,7 @@ export default function IndustryPage() {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                   </svg>
-                  {translations?.navbar?.about ? 'Volver al inicio' : 'Volver al inicio'}
+                  {translations?.industryPage?.backToHome || 'Volver al inicio'}
                 </Link>
               </motion.div>
             </motion.div>

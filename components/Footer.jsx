@@ -24,107 +24,107 @@ const Footer = () => {
             PressurePro LATAM
           </h4>
         </div>
-        
+
         {/* Sección de enlaces rápidos para SEO interno */}
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 py-8'>
           {/* Industrias */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>Industrias</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.industriesTitle || 'Industrias'}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/industries/mineria' title="Minería" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Minería
+                <Link href='/industries/mineria' title={translations?.footer?.mining || "Minería"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.mining || 'Minería'}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/transporte' title="Transporte" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Transporte
+                <Link href='/industries/transporte' title={translations?.footer?.transport || "Transporte"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.transport || 'Transporte'}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/agricultura' title="Agricultura" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Agricultura
+                <Link href='/industries/agricultura' title={translations?.footer?.agriculture || "Agricultura"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.agriculture || 'Agricultura'}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/forestal' title="Forestal" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Forestal
+                <Link href='/industries/forestal' title={translations?.footer?.forestry || "Forestal"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.forestry || 'Forestal'}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/portuario' title="Portuario" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Portuario
+                <Link href='/industries/portuario' title={translations?.footer?.port || "Portuario"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.port || 'Portuario'}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/industrial' title="Industrial" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Industrial
+                <Link href='/industries/industrial' title={translations?.footer?.industrial || "Industrial"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.industrial || 'Industrial'}
                 </Link>
               </li>
             </ul>
           </div>
-          
+
           {/* Productos */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>Productos</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.productsTitle || 'Productos'}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/#insights' title="Sensores TPMS" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Sensores TPMS
+                <Link href='/#insights' title={translations?.footer?.tpmsSensors || "Sensores TPMS"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.tpmsSensors || 'Sensores TPMS'}
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' title="Pulse Display" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Pulse Display
+                <Link href='/#insights' title={translations?.footer?.pulseDisplay || "Pulse Display"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.pulseDisplay || 'Pulse Display'}
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' title="Link HD/LT/UR" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Link HD/LT/UR
+                <Link href='/#insights' title={translations?.footer?.linkHDLTUR || "Link HD/LT/UR"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.linkHDLTUR || 'Link HD/LT/UR'}
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' title="Fx Fleet" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Fx Fleet
+                <Link href='/#insights' title={translations?.footer?.fxFleet || "Fx Fleet"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.fxFleet || 'Fx Fleet'}
                 </Link>
               </li>
             </ul>
           </div>
-          
+
           {/* Recursos */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>Recursos</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.resourcesTitle || 'Recursos'}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/faq' title="Preguntas Frecuentes" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Preguntas Frecuentes
+                <Link href='/faq' title={translations?.footer?.faq || "Preguntas Frecuentes"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.faq || 'Preguntas Frecuentes'}
                 </Link>
               </li>
               <li>
-                <Link href='/#getstarted' title="Beneficios TPMS" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Beneficios TPMS
+                <Link href='/#getstarted' title={translations?.footer?.benefits || "Beneficios TPMS"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.benefits || 'Beneficios TPMS'}
                 </Link>
               </li>
               <li>
-                <Link href='/#whatsnew' title="Por qué PressurePro" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Por qué PressurePro
+                <Link href='/#whatsnew' title={translations?.footer?.whyPressurePro || "Por qué PressurePro"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.whyPressurePro || 'Por qué PressurePro'}
                 </Link>
               </li>
               <li>
-                <Link href='/#about' title="Acerca de Nosotros" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Acerca de Nosotros
+                <Link href='/#about' title={translations?.footer?.aboutUs || "Acerca de Nosotros"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.aboutUs || 'Acerca de Nosotros'}
                 </Link>
               </li>
             </ul>
           </div>
-          
+
           {/* Contacto */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>Contacto</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.contactTitle || 'Contacto'}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/#feedback' title="Solicitar Cotización" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Solicitar Cotización
+                <Link href='/#feedback' title={translations?.footer?.requestQuote || "Solicitar Cotización"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.requestQuote || 'Solicitar Cotización'}
                 </Link>
               </li>
               <li>
@@ -133,27 +133,27 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href='mailto:info@pressurepro-latam.com' title="Enviar Email" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <a href='mailto:info@pressurepro-latam.com' title="Email" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   Email
                 </a>
               </li>
               <li>
-                <Link href='/#world' title="Cobertura" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  Cobertura
+                <Link href='/#world' title={translations?.footer?.coverage || "Cobertura"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.coverage || 'Cobertura'}
                 </Link>
               </li>
             </ul>
           </div>
         </div>
-        
+
         <div className='flex flex-col'>
           <div className='mb-[30px] h-[1px] bg-white opacity-10' />
-          
+
           <div className='flex flex-col items-center justify-center gap-4'>
             <p className='font-normal text-[12px] sm:text-[14px] text-white/50 text-center tracking-wider uppercase'>
               Pressurepro-latam Las Piedras, Uruguay
             </p>
-            
+
             <div className='flex gap-4'>
               {socials.map((social) => (
                 <a
@@ -172,7 +172,7 @@ const Footer = () => {
                 </a>
               ))}
             </div>
-            
+
             <p className='text-[10px] text-white/20 text-center'>
               Copyright © {new Date().getFullYear()} PressurePro LATAM.
             </p>

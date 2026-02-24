@@ -11,7 +11,8 @@ export default {
         whatsNew: 'Why PressurePro',
         world: 'Representation',
         insights: 'Products',
-        feedback: 'Contact'
+        feedback: 'Contact',
+        faq: 'FAQ',
     },
     hero: {
         title: "PressurePro LATAM",
@@ -27,12 +28,19 @@ export default {
         subtitle: "A solution for every industry",
         showInfo: "+ Info",
         closeInfo: "Close",
+        viewMore: "Learn more",
+        viewAllIndustries: "View all industries →",
         // Contenido de industrias importado de constants/industries.js
         ...industryData,
     },
     getStarted: {
         title: "Get started now",
-        subtitle: "Discover how PressurePro LATAM can help you maintain your tires"
+        subtitle: "Discover how PressurePro LATAM can help you maintain your tires",
+        features: [
+            'Easy installation and maintenance',
+            'Custom alerts and notifications',
+            'Real-time monitoring in-cabin or remotely',
+        ],
     },
     whatsNew: {
         title: "Why choose us?",
@@ -105,9 +113,47 @@ export default {
         ],
     },
     feedback: {
-        text: "Since 1991 PressurePro has been revolutionizing tire maintenance through innovative solutions that enhance tire performance."
+        text: "Since 1991 PressurePro has been revolutionizing tire maintenance through innovative solutions that enhance tire performance.",
+        title: "Ready to Optimize Your Fleet with TPMS?"
     },
     footer: {
         contact: "Contact us",
+        industriesTitle: "Industries",
+        productsTitle: "Products",
+        resourcesTitle: "Resources",
+        contactTitle: "Contact",
+        mining: "Mining",
+        transport: "Transport",
+        agriculture: "Agriculture",
+        forestry: "Forestry",
+        port: "Port",
+        industrial: "Industrial",
+        tpmsSensors: "TPMS Sensors",
+        pulseDisplay: "Pulse Display",
+        linkHDLTUR: "Link HD/LT/UR",
+        fxFleet: "Fx Fleet",
+        faq: "FAQ",
+        benefits: "TPMS Benefits",
+        whyPressurePro: "Why PressurePro",
+        aboutUs: "About Us",
+        requestQuote: "Request a Quote",
+        coverage: "Coverage",
+    },
+    industryPage: {
+        notFound: "Industry not found",
+        backToHome: "Back to home",
+        relatedIndustries: "Related Industries",
+        relatedSubtitle: "Discover how PressurePro optimizes operations across different industrial sectors",
+        specializedSolutions: "Specialized Solutions",
+        keyBenefits: "Key Benefits",
+        readyToOptimize: "Ready to optimize your fleet?",
+        contactForSolution: "Contact us for a customized solution",
+    },
+    faqPage: {
+        home: "Home",
+        breadcrumb: "FAQ",
+        moreQuestions: "Have more questions?",
+        moreQuestionsSubtitle: "Our team of experts is ready to help you optimize your fleet with the best TPMS technology",
+        contactNow: "Contact Now",
     },
 }

@@ -29,7 +29,7 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
 
       {/* Overlay con gradiente y efecto de brillo en hover */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 group-hover:from-black/90 group-hover:via-black/50 transition-all duration-500 pointer-events-none" />
-      
+
       {/* Brillo superior en hover */}
       <div className="absolute inset-0 bg-gradient-to-b from-purple-500/0 to-purple-500/0 group-hover:from-purple-500/20 group-hover:to-transparent transition-all duration-500 pointer-events-none" />
 
@@ -47,7 +47,7 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
           <h3 className='font-bold text-[18px] md:text-[22px] text-white leading-tight'>
             {translations.explore.industries[id]}
           </h3>
-          
+
           {/* Descripción corta - visible en hover en desktop */}
           <p className='hidden md:block text-white/0 group-hover:text-white/90 transition-all duration-300 text-[13px] leading-relaxed line-clamp-2 transform translate-y-2 group-hover:translate-y-0'>
             {marketInfo && marketInfo[id] ? marketInfo[id].substring(0, 100) + '...' : ''}
@@ -57,7 +57,7 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
             href={`/industries/${ID_TO_SLUG[id] || id}`}
             className='inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/10 hover:bg-purple-600 backdrop-blur-sm border border-white/20 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(147,51,234,0.4)] text-white font-medium text-[14px] transition-all duration-300 min-h-[44px] pointer-events-auto transform hover:-translate-y-1'
           >
-            <span>Ver más</span>
+            <span>{translations?.explore?.viewMore || 'Ver más'}</span>
             <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>

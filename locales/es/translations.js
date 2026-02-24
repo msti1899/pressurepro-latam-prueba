@@ -11,7 +11,8 @@ export default {
         whatsNew: 'Por qué PressurePro',
         world: 'Representación',
         insights: 'Productos',
-        feedback: 'Contacto'
+        feedback: 'Contacto',
+        faq: 'FAQ',
     },
     hero: {
         title: "Monitoreo TPMS de Neumáticos en Tiempo Real",
@@ -27,12 +28,19 @@ export default {
         subtitle: "Sistemas TPMS para Cada Sector Industrial",
         showInfo: "+ Info",
         closeInfo: "Cerrar",
+        viewMore: "Ver más",
+        viewAllIndustries: "Ver todas las industrias →",
         // Contenido de industrias importado de constants/industries.js
         ...industryData,
     },
     getStarted: {
         title: "Beneficios del Sistema TPMS",
-        subtitle: "Descubra cómo PressurePro optimiza su flota"
+        subtitle: "Descubra cómo PressurePro optimiza su flota",
+        features: [
+            'Fácil instalación y mantenimiento',
+            'Alertas y notificaciones personalizadas',
+            'Monitoreo en tiempo real en cabina o remoto',
+        ],
     },
     whatsNew: {
         title: "¿Por qué elegirnos?",
@@ -110,5 +118,42 @@ export default {
     },
     footer: {
         contact: "Contáctanos",
+        industriesTitle: "Industrias",
+        productsTitle: "Productos",
+        resourcesTitle: "Recursos",
+        contactTitle: "Contacto",
+        mining: "Minería",
+        transport: "Transporte",
+        agriculture: "Agricultura",
+        forestry: "Forestal",
+        port: "Portuario",
+        industrial: "Industrial",
+        tpmsSensors: "Sensores TPMS",
+        pulseDisplay: "Pulse Display",
+        linkHDLTUR: "Link HD/LT/UR",
+        fxFleet: "Fx Fleet",
+        faq: "Preguntas Frecuentes",
+        benefits: "Beneficios TPMS",
+        whyPressurePro: "Por qué PressurePro",
+        aboutUs: "Acerca de Nosotros",
+        requestQuote: "Solicitar Cotización",
+        coverage: "Cobertura",
+    },
+    industryPage: {
+        notFound: "Industria no encontrada",
+        backToHome: "Volver al inicio",
+        relatedIndustries: "Industrias Relacionadas",
+        relatedSubtitle: "Descubra cómo PressurePro optimiza operaciones en diferentes sectores industriales",
+        specializedSolutions: "Soluciones Especializadas",
+        keyBenefits: "Beneficios Clave",
+        readyToOptimize: "¿Listo para optimizar su flota?",
+        contactForSolution: "Contacte con nosotros para una solución personalizada",
+    },
+    faqPage: {
+        home: "Inicio",
+        breadcrumb: "Preguntas Frecuentes",
+        moreQuestions: "¿Tiene más preguntas?",
+        moreQuestionsSubtitle: "Nuestro equipo de expertos está listo para ayudarlo a optimizar su flota con la mejor tecnología TPMS",
+        contactNow: "Contactar Ahora",
     },
 };

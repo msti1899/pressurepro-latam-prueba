@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,12 +8,14 @@ import { TitleText, TypingText } from '../components/CustomTexts';
 import { Navbar, Footer, WhatsAppButton, Breadcrumbs } from '../components';
 import { getFAQsByLanguage } from '../constants/faq';
 import { COUNTRIES } from '../config/countries';
+import { LanguageContext } from '../context/LanguageContext';
 
 export default function FAQPage() {
   const router = useRouter();
   const locale = router.locale || 'es';
   const language = COUNTRIES[locale]?.language || locale;
   const countryConfig = COUNTRIES[locale];
+  const { translations } = useContext(LanguageContext);
 
   const faqs = getFAQsByLanguage(language);
   const [openIndex, setOpenIndex] = useState(null);
@@ -119,8 +121,8 @@ export default function FAQPage() {
 
         <div className="pt-[77px] sm:pt-[95px]">
           <Breadcrumbs items={[
-            { label: 'Inicio', href: '/' },
-            { label: 'Preguntas Frecuentes', href: null }
+            { label: translations?.faqPage?.home || 'Inicio', href: '/' },
+            { label: translations?.faqPage?.breadcrumb || 'Preguntas Frecuentes', href: null }
           ]} />
         </div>
 
@@ -239,20 +241,20 @@ export default function FAQPage() {
               className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-purple-900/50 to-indigo-900/50 p-8 md:p-12 text-center backdrop-blur-sm border border-white/10"
             >
               <h2 className="text-white font-bold text-2xl md:text-4xl mb-4">
-                {language === 'es' ? '¿Tiene más preguntas?' : language === 'en' ? 'Have more questions?' : 'Tem mais perguntas?'}
+                {translations?.faqPage?.moreQuestions || (language === 'es' ? '¿Tiene más preguntas?' : language === 'en' ? 'Have more questions?' : 'Tem mais perguntas?')}
               </h2>
               <p className="text-white/80 text-sm md:text-base max-w-[600px] mx-auto mb-8">
-                {language === 'es'
+                {translations?.faqPage?.moreQuestionsSubtitle || (language === 'es'
                   ? 'Nuestro equipo de expertos está listo para ayudarlo a optimizar su flota con la mejor tecnología TPMS'
                   : language === 'en'
                     ? 'Our team of experts is ready to help you optimize your fleet with the best TPMS technology'
-                    : 'Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS'}
+                    : 'Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS')}
               </p>
               <Link
                 href="/#feedback"
                 className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
               >
-                {language === 'es' ? 'Contactar Ahora' : language === 'en' ? 'Contact Now' : 'Contatar Agora'}
+                {translations?.faqPage?.contactNow || (language === 'es' ? 'Contactar Ahora' : language === 'en' ? 'Contact Now' : 'Contatar Agora')}
               </Link>
             </motion.div>
           </motion.div>
