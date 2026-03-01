@@ -58,7 +58,8 @@ const Navbar = () => {
     { id: 'whatsnew', name: translations?.navbar?.whatsNew || 'Novedades' },
     { id: 'world', name: translations?.navbar?.world || 'Ubicaciones' },
     { id: 'insights', name: translations?.navbar?.insights || 'Insights' },
-    { id: 'faq', name: 'FAQ', isExternal: true },
+    { id: 'partners', name: translations?.partners?.navLabel || 'Partners', isExternal: true, href: '/partners' },
+    { id: 'faq', name: 'FAQ', isExternal: true, href: '/faq' },
     { id: 'feedback', name: translations?.navbar?.feedback || 'Contacto' },
   ];
 
@@ -310,7 +311,7 @@ const Navbar = () => {
                   section.isExternal ? (
                     <motion.div key={section.id} variants={itemVariants}>
                       <Link
-                        href="/faq"
+                        href={section.href || `/${section.id}`}
                         title={`Ir a ${section.name}`}
                         className="flex items-center py-3 px-4 text-white text-[16px] sm:text-[18px] hover:bg-white/15 hover:pl-6 rounded-lg transition-all duration-300 font-semibold min-h-[44px] group"
                         onClick={() => setIsMenuOpen(false)}

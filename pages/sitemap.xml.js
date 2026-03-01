@@ -75,9 +75,18 @@ function generateSiteMap() {
     priority: '0.7',
     pagePath: '/faq'
   }));
-  
+
+  // Generar URLs de Partners para cada locale
+  const partnersUrls = allLocales.map(locale => ({
+    loc: `${BASE_URL}/${locale}/partners`,
+    lastmod: currentDate,
+    changefreq: 'monthly',
+    priority: '0.7',
+    pagePath: '/partners'
+  }));
+
   // Combinar todas las URLs
-  const allUrls = [...languageUrls, ...countryUrls, ...industryUrls, ...faqUrls];
+  const allUrls = [...languageUrls, ...countryUrls, ...industryUrls, ...faqUrls, ...partnersUrls];
   
   // Agregar comentario con estadísticas en el XML (útil para debugging)
   const stats = `
@@ -88,6 +97,7 @@ function generateSiteMap() {
     • Homes (países):         ${countryUrls.length} URLs
     • Páginas de industrias:  ${industryUrls.length} URLs
     • Páginas FAQ:            ${faqUrls.length} URLs
+    • Páginas Partners:       ${partnersUrls.length} URLs
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     📍 Total URLs:            ${allUrls.length} URLs
     

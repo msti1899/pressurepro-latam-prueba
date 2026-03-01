@@ -15,7 +15,8 @@ import {
   ID_TO_SLUG,
   SLUG_MAP,
   INDUSTRY_SLUGS,
-  getIndustryContent
+  getIndustryContent,
+  OEM_PARTNERS
 } from '../../constants/industries';
 
 export default function IndustryPage() {
@@ -366,6 +367,73 @@ export default function IndustryPage() {
             )}
           </motion.div>
         </section>
+
+        {/* OEM Partners de esta industria */}
+        {industry.oems && industry.oems.length > 0 && (
+          <section className="py-12 md:py-20 px-6 sm:px-16 bg-gradient-to-b from-transparent to-black/10">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.1 }}
+              className="2xl:max-w-[1280px] mx-auto"
+            >
+              <motion.div variants={fadeIn('up', 'tween', 0.2, 1)} className="text-center mb-12">
+                <h2 className="font-bold text-[24px] sm:text-[28px] md:text-[38px] text-white mb-4">
+                  {translations?.partners?.oemPartnersTitle || 'Partners OEM'}
+                </h2>
+                <p className="text-secondary-white text-base md:text-lg max-w-[700px] mx-auto">
+                  {translations?.partners?.oemIndustrySubtitle
+                    ? translations.partners.oemIndustrySubtitle.replace('{industry}', industryName)
+                    : `Integramos nuestra tecnología TPMS directamente en equipos de fábrica de los principales fabricantes del sector ${industryName}`}
+                </p>
+              </motion.div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                {industry.oems.map((partner, idx) => (
+                  <motion.a
+                    key={partner.name}
+                    href={partner.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variants={fadeIn('up', 'spring', idx * 0.1, 0.8)}
+                    className="group flex flex-col items-center justify-center p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                  >
+                    <div className="w-[80px] h-[80px] md:w-[100px] md:h-[100px] flex items-center justify-center mb-4 bg-white/10 rounded-xl p-3 group-hover:bg-white/20 transition-colors">
+                      {partner.logo ? (
+                        <img
+                          src={partner.logo}
+                          alt={`${partner.name} - OEM Partner PressurePro`}
+                          className="w-full h-full object-contain filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
+                        />
+                      ) : (
+                        <span className="text-white font-bold text-lg md:text-xl text-center">{partner.name}</span>
+                      )}
+                    </div>
+                    <span className="text-white font-semibold text-sm md:text-base group-hover:text-purple-300 transition-colors text-center">
+                      {partner.name}
+                    </span>
+                    <span className="text-white/40 text-xs mt-1 group-hover:text-white/60 transition-colors">
+                      OEM Partner
+                    </span>
+                  </motion.a>
+                ))}
+              </div>
+
+              <motion.div variants={fadeIn('up', 'tween', 0.5, 1)} className="flex justify-center mt-8">
+                <Link
+                  href="/partners"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white/80 text-sm hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-white transition-all"
+                >
+                  {translations?.partners?.viewAllPartners || 'Ver todos los Partners OEM'}
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </section>
+        )}
 
         {/* CTA */}
         <section className="py-12 md:py-20 px-6 sm:px-16">

@@ -45,6 +45,44 @@ export const BENEFIT_ICONS = {
   ),
 };
 
+// ─── OEM Partners por industria ──────────────────────────────
+// Partners OEM de PressurePro organizados por industria
+export const OEM_PARTNERS = {
+  mineria: [
+    { name: 'CAT', url: 'https://www.caterpillar.com/', logo: '/partners/cat.svg' },
+    { name: 'Sandvik', url: 'https://www.home.sandvik/', logo: '/partners/sandvik.svg' },
+    { name: 'BELAZ', url: 'https://belaz.by/en/', logo: '/partners/belaz.svg' },
+  ],
+  agricultura: [
+    { name: 'CNH Industrial', url: 'https://www.cnhindustrial.com/', logo: '/partners/cnh.svg' },
+  ],
+  forestal: [
+    { name: 'Tigercat', url: 'https://www.tigercat.com/', logo: '/partners/tigercat.svg' },
+  ],
+  portuario: [
+    { name: 'Kalmar', url: 'https://www.kalmarglobal.com/', logo: '/partners/kalmar.svg' },
+    { name: 'Konecranes', url: 'https://www.konecranes.com/', logo: '/partners/konecranes.svg' },
+    { name: 'OrangeEV', url: 'https://orangeev.com/', logo: '/partners/orangeev.svg' },
+    { name: 'Taylor', url: 'https://www.taylorbigred.com/', logo: '/partners/taylor.svg' },
+  ],
+  industrial: [
+    { name: 'Hyster-Yale', url: 'https://www.hyster-yale.com/', logo: '/partners/hyster-yale.svg' },
+    { name: 'JCB', url: 'https://www.jcb.com/es-ES/', logo: '/partners/jcb.svg' },
+    { name: 'Hitachi', url: 'https://www.hitachi.com/en/', logo: '/partners/hitachi.svg' },
+  ],
+  transporte: [
+    { name: 'Bombardier', url: 'https://bombardier.com/en', logo: '/partners/bombardier.svg' },
+    { name: 'REV Group', url: 'https://revgroup.com/', logo: '/partners/revgroup.svg' },
+    { name: 'Tiffin', url: 'https://tiffinmotorhomes.com/', logo: '/partners/tiffin.svg' },
+    { name: 'Newell', url: 'https://www.newellcoach.com/', logo: '/partners/newell.svg' },
+  ],
+};
+
+// Partners OEM generales (todos combinados, sin duplicados)
+export const ALL_OEM_PARTNERS = Object.values(OEM_PARTNERS).flat().filter(
+  (partner, index, self) => self.findIndex(p => p.name === partner.name) === index
+);
+
 // ─── Definición de industrias ────────────────────────────────
 // Cada industria tiene: slug, imagen, y contenido en 3 idiomas
 export const INDUSTRIES = [
@@ -55,6 +93,8 @@ export const INDUSTRIES = [
     secondaryImgUrl: '/mining-maintenance.jpg',
     // Iconos de beneficios (referencia a BENEFIT_ICONS)
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
+    // OEM Partners de esta industria
+    oems: OEM_PARTNERS.mineria,
     // ── Contenido por idioma ──
     es: {
       name: 'Minería',
@@ -62,7 +102,7 @@ export const INDUSTRIES = [
       marketInfo: 'Plataforma TPMS diseñada para condiciones mineras extremas. Monitoreo continuo que protege la producción y reduce el costo por tonelada.',
       pageTitle: 'PressurePro Connect 2.0 para Operaciones Mineras',
       description: 'Los neumáticos representan el 20-25% del gasto de mantenimiento y causan aproximadamente el 38% de las paradas no planificadas. Un solo incidente puede costar más de USD 100.000, además de los riesgos de seguridad por reventones y mayor distancia de frenado. PressurePro Connect 2.0 es la plataforma TPMS diseñada específicamente para estas condiciones extremas, ofreciendo monitoreo continuo que combate el 70% del desgaste prematuro por subinflación y elimina los puntos ciegos de las inspecciones manuales.',
-      additional: 'Nuestra solución ofrece visibilidad total del sitio con alertas inteligentes priorizadas, mapas de localización y análisis predictivo. Compatible con una amplia gama de equipos: camiones de acarreo (ultra/medianos), cargadores frontales, bulldozers, motoniveladoras, camiones cisterna y equipos subterráneos. Los beneficios incluyen una drástica reducción del costo por tonelada, mayor vida útil de los neumáticos y protección continua de la producción mediante mantenimiento predictivo.',
+      additional: 'Nuestra solución ofrece visibilidad total del sitio con alertas inteligentes priorizadas, mapas de localización y análisis predictivo. Compatible con una amplia gama de equipos: camiones de acarreo (ultra/medianos), cargadores frontales, bulldozers, motoniveladoras, camiones cisterna y equipos subterráneos. Los beneficios incluyen una drástica reducción del costo por tonelada, mayor vida útil de los neumáticos y protección continua de la producción mediante mantenimiento predictivo. Somos OEM de CAT, Sandvik y BELAZ, integrando nuestra tecnología directamente en sus equipos de fábrica.',
       structuredContent: {
         problems: {
           title: "Desafíos y Problemas en Minería",
@@ -121,7 +161,7 @@ export const INDUSTRIES = [
       marketInfo: 'TPMS platform designed for extreme mining conditions. Continuous monitoring that protects production and reduces cost per ton.',
       pageTitle: 'PressurePro Connect 2.0 for Mining Operations',
       description: 'Tires account for 20-25% of maintenance costs and cause approximately 38% of unplanned downtime. A single incident can cost over USD 100,000, in addition to safety risks from blowouts and increased braking distances. PressurePro Connect 2.0 is the TPMS platform specifically designed for these extreme conditions, offering continuous monitoring that combats 70% of premature wear due to under-inflation and eliminates manual inspection blind spots.',
-      additional: 'Our solution offers total site visibility with prioritized intelligent alerts, location maps, and predictive analysis. Compatible with a wide range of equipment: haul trucks (ultra/medium), front loaders, bulldozers, graders, tanker trucks, and underground equipment. Benefits include a drastic reduction in cost per ton, longer tire lifespan, and continuous production protection through predictive maintenance.',
+      additional: 'Our solution offers total site visibility with prioritized intelligent alerts, location maps, and predictive analysis. Compatible with a wide range of equipment: haul trucks (ultra/medium), front loaders, bulldozers, graders, tanker trucks, and underground equipment. Benefits include a drastic reduction in cost per ton, longer tire lifespan, and continuous production protection through predictive maintenance. We are OEM partners of CAT, Sandvik and BELAZ, integrating our technology directly into their factory equipment.',
       structuredContent: {
         problems: {
           title: "Mining Challenges & Problems",
@@ -180,7 +220,7 @@ export const INDUSTRIES = [
       marketInfo: 'Plataforma TPMS projetada para condições extremas de mineração. Monitoramento contínuo que protege a produção e reduz o custo por tonelada.',
       pageTitle: 'PressurePro Connect 2.0 para Operações de Mineração',
       description: 'Pneus representam 20-25% dos custos de manutenção e causam aproximadamente 38% das paradas não planejadas. Um único incidente pode custar mais de USD 100.000, além dos riscos de segurança por estouros e maior distância de frenagem. O PressurePro Connect 2.0 é a plataforma TPMS projetada especificamente para essas condições extremas, oferecendo monitoramento contínuo que combate 70% do desgaste prematuro por subinflação e elimina pontos cegos das inspeções manuais.',
-      additional: 'Nossa solução oferece visibilidade total do local com alertas inteligentes priorizados, mapas de localização e análise preditiva. Compatível com uma ampla gama de equipamentos: caminhões de transporte (ultra/médios), carregadeiras frontais, tratores, motoniveladoras, caminhões-tanque e equipamentos subterrâneos. Os benefícios incluem uma redução drástica no custo por tonelada, maior vida útil dos pneus e proteção contínua da produção através de manutenção preditiva.',
+      additional: 'Nossa solução oferece visibilidade total do local com alertas inteligentes priorizados, mapas de localização e análise preditiva. Compatível com uma ampla gama de equipamentos: caminhões de transporte (ultra/médios), carregadeiras frontais, tratores, motoniveladoras, caminhões-tanque e equipamentos subterrâneos. Os benefícios incluem uma redução drástica no custo por tonelada, maior vida útil dos pneus e proteção contínua da produção através de manutenção preditiva. Somos OEM de CAT, Sandvik e BELAZ, integrando nossa tecnologia diretamente em seus equipamentos de fábrica.',
       structuredContent: {
         problems: {
           title: "Desafios e Problemas na Mineração",
@@ -239,13 +279,14 @@ export const INDUSTRIES = [
     slug: 'agricultura',
     imgUrl: '/agricultura.jpeg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
+    oems: OEM_PARTNERS.agricultura,
     es: {
       name: 'Agricultura',
       benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
       marketInfo: 'Para el sector agrícola, ofrecemos soluciones que maximizan el rendimiento de maquinaria y reducen tiempos de inactividad durante periodos críticos de siembra y cosecha.',
       pageTitle: 'Agricultura - Tecnología de Precisión',
       description: 'La tecnología PressurePro proporciona datos críticos para la maquinaria agrícola, permitiendo ajustes precisos que protegen los cultivos y optimizan el rendimiento del equipo. Nuestros sistemas monitorean constantemente la presión durante labores intensivas, donde cada hora de operación es crucial para el éxito de la temporada.',
-      additional: 'Nuestros dispositivos ayudan a prevenir la dañina compactación del suelo causada por neumáticos con presión incorrecta, protegiendo tanto la tierra cultivable como la inversión en maquinaria. Los agricultores que utilizan PressurePro reportan hasta un 15% de mejora en la tracción y significativa reducción en el desgaste prematuro de componentes mecánicos.',
+      additional: 'Nuestros dispositivos ayudan a prevenir la dañina compactación del suelo causada por neumáticos con presión incorrecta, protegiendo tanto la tierra cultivable como la inversión en maquinaria. Los agricultores que utilizan PressurePro reportan hasta un 15% de mejora en la tracción y significativa reducción en el desgaste prematuro de componentes mecánicos. Somos OEM de CNH Industrial, integrando nuestra tecnología TPMS directamente en sus equipos agrícolas de fábrica.',
     },
     en: {
       name: 'Agriculture',
@@ -253,7 +294,7 @@ export const INDUSTRIES = [
       marketInfo: 'For the agricultural sector, we offer solutions that maximize machinery performance and reduce downtime during critical planting and harvesting periods.',
       pageTitle: 'Agriculture - Precision Technology',
       description: 'PressurePro technology provides critical data for agricultural machinery, allowing precise adjustments that protect crops and optimize equipment performance. Our systems constantly monitor pressure during intensive work, where every hour of operation is crucial for the success of the season.',
-      additional: 'Our devices help prevent harmful soil compaction caused by tires with incorrect pressure, protecting both arable land and machinery investment. Farmers using PressurePro report up to 15% improvement in traction and significant reduction in premature wear of mechanical components.',
+      additional: 'Our devices help prevent harmful soil compaction caused by tires with incorrect pressure, protecting both arable land and machinery investment. Farmers using PressurePro report up to 15% improvement in traction and significant reduction in premature wear of mechanical components. We are OEM partners of CNH Industrial, integrating our TPMS technology directly into their factory agricultural equipment.',
     },
     pt: {
       name: 'Agricultura',
@@ -261,7 +302,7 @@ export const INDUSTRIES = [
       marketInfo: 'Para o setor agrícola, oferecemos soluções que maximizam o desempenho de máquinas e reduzem o tempo de inatividade durante períodos críticos de plantio e colheita.',
       pageTitle: 'Agricultura - Tecnologia de Precisão',
       description: 'A tecnologia PressurePro fornece dados críticos para maquinaria agrícola, permitindo ajustes precisos que protegem as culturas e otimizam o desempenho do equipamento. Nossos sistemas monitoram constantemente a pressão durante trabalhos intensivos, onde cada hora de operação é crucial para o sucesso da temporada.',
-      additional: 'Nossos dispositivos ajudam a prevenir a prejudicial compactação do solo causada por pneus com pressão incorreta, protegendo tanto a terra arável quanto o investimento em maquinaria. Agricultores que utilizam o PressurePro relatam até 15% de melhoria na tração e redução significativa no desgaste prematuro de componentes mecânicos.',
+      additional: 'Nossos dispositivos ajudam a prevenir a prejudicial compactação do solo causada por pneus com pressão incorreta, protegendo tanto a terra arável quanto o investimento em maquinaria. Agricultores que utilizam o PressurePro relatam até 15% de melhoria na tração e redução significativa no desgaste prematuro de componentes mecânicos. Somos OEM de CNH Industrial, integrando nossa tecnologia TPMS diretamente em seus equipamentos agrícolas de fábrica.',
     },
   },
   {
@@ -269,13 +310,14 @@ export const INDUSTRIES = [
     slug: 'forestal',
     imgUrl: '/forestal.jpeg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
+    oems: OEM_PARTNERS.forestal,
     es: {
       name: 'Forestal',
       benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
       marketInfo: 'En entornos forestales, nuestros sensores resisten condiciones difíciles y ayudan a mantener equipos funcionando en terrenos remotos y desafiantes.',
       pageTitle: 'Forestal - Monitoreo para Terrenos Difíciles',
       description: 'Desarrollamos tecnología especializada que soporta las exigencias únicas del trabajo forestal, donde los neumáticos enfrentan obstáculos constantes y superficies irregulares. Nuestro sistema de monitoreo mantiene la productividad en zonas donde una falla puede significar largos tiempos de espera y altos costos de recuperación.',
-      additional: 'La conectividad avanzada de nuestros sistemas permite el monitoreo incluso en zonas de difícil acceso, enviando alertas tempranas antes de que los neumáticos sufran daños irreversibles. Esta capacidad es especialmente valiosa en operaciones forestales donde las máquinas trabajan en lugares remotos con limitado acceso a servicios de mantenimiento.',
+      additional: 'La conectividad avanzada de nuestros sistemas permite el monitoreo incluso en zonas de difícil acceso, enviando alertas tempranas antes de que los neumáticos sufran daños irreversibles. Esta capacidad es especialmente valiosa en operaciones forestales donde las máquinas trabajan en lugares remotos con limitado acceso a servicios de mantenimiento. Somos OEM de Tigercat, integrando nuestra tecnología TPMS directamente en sus equipos forestales de fábrica.',
     },
     en: {
       name: 'Forestry',
@@ -283,7 +325,7 @@ export const INDUSTRIES = [
       marketInfo: 'In forestry environments, our sensors withstand tough conditions and help keep equipment running in remote and challenging terrains.',
       pageTitle: 'Forestry - Monitoring for Difficult Terrains',
       description: 'We develop specialized technology that supports the unique demands of forestry work, where tires face constant obstacles and irregular surfaces. Our monitoring system maintains productivity in areas where a failure can mean long waiting times and high recovery costs.',
-      additional: 'The advanced connectivity of our systems allows monitoring even in hard-to-reach areas, sending early alerts before tires suffer irreversible damage. This capability is especially valuable in forestry operations where machines work in remote locations with limited access to maintenance services.',
+      additional: 'The advanced connectivity of our systems allows monitoring even in hard-to-reach areas, sending early alerts before tires suffer irreversible damage. This capability is especially valuable in forestry operations where machines work in remote locations with limited access to maintenance services. We are OEM partners of Tigercat, integrating our TPMS technology directly into their factory forestry equipment.',
     },
     pt: {
       name: 'Florestal',
@@ -291,7 +333,7 @@ export const INDUSTRIES = [
       marketInfo: 'Em ambientes florestais, nossos sensores resistem a condições difíceis e ajudam a manter os equipamentos funcionando em terrenos remotos e desafiadores.',
       pageTitle: 'Florestal - Monitoramento para Terrenos Difíceis',
       description: 'Desenvolvemos tecnologia especializada que suporta as exigências únicas do trabalho florestal, onde os pneus enfrentam obstáculos constantes e superfícies irregulares. Nosso sistema de monitoramento mantém a produtividade em áreas onde uma falha pode significar longos tempos de espera e altos custos de recuperação.',
-      additional: 'A conectividade avançada de nossos sistemas permite o monitoramento mesmo em áreas de difícil acesso, enviando alertas precoces antes que os pneus sofram danos irreversíveis. Esta capacidade é especialmente valiosa em operações florestais onde as máquinas trabalham em locais remotos com acesso limitado a serviços de manutenção.',
+      additional: 'A conectividade avançada de nossos sistemas permite o monitoramento mesmo em áreas de difícil acesso, enviando alertas precoces antes que os pneus sofram danos irreversíveis. Esta capacidade é especialmente valiosa em operações florestais onde as máquinas trabalham em locais remotos com acesso limitado a serviços de manutenção. Somos OEM de Tigercat, integrando nossa tecnologia TPMS diretamente em seus equipamentos florestais de fábrica.',
     },
   },
   {
@@ -300,13 +342,14 @@ export const INDUSTRIES = [
     imgUrl: '/port-overhead.jpg',
     secondaryImgUrl: '/port-manager.jpg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
+    oems: OEM_PARTNERS.portuario,
     es: {
       name: 'Portuario',
       benefits: ['Menos fallas', 'Mayor vida útil', 'Menor downtime', 'Seguridad'],
       marketInfo: 'Plataforma TPMS cloud para flotas mixtas portuarias. Monitoreo en tiempo real que previene fallas, reduce el downtime y mejora la seguridad operativa.',
       pageTitle: 'PressurePro Connect 2.0 para Operaciones Portuarias',
       description: 'El 50% de las fallas de neumáticos en puertos se deben a una inflación incorrecta, lo que aumenta peligrosamente la inestabilidad de equipos críticos como RTGs y Straddle carriers. Un incidente puede costar más de USD 5.000 y generar interrupciones en cadena. PressurePro Connect 2.0 es la solución cloud que convierte datos en tareas accionables, previniendo que el 30% de subinflación cause daños permanentes y garantizando la seguridad en el patio.',
-      additional: 'Funcionalidades clave incluyen alertas configurables, ubicación con timestamp, agrupación por terminal/equipo y dashboards personalizables para análisis de tendencias. Soporte completo para RTGs, Straddle carriers, Top/side picks, camiones de patio, tractores terminales, Reach stackers y montacargas. Optimice su operación reduciendo el downtime, mejorando la seguridad y extendiendo la vida útil de los activos con nuestra arquitectura escalable.',
+      additional: 'Funcionalidades clave incluyen alertas configurables, ubicación con timestamp, agrupación por terminal/equipo y dashboards personalizables para análisis de tendencias. Soporte completo para RTGs, Straddle carriers, Top/side picks, camiones de patio, tractores terminales, Reach stackers y montacargas. Somos OEM de Kalmar, Konecranes, OrangeEV y Taylor, integrando nuestra tecnología TPMS directamente en sus equipos portuarios de fábrica. Optimice su operación reduciendo el downtime, mejorando la seguridad y extendiendo la vida útil de los activos con nuestra arquitectura escalable.',
       structuredContent: {
         problems: {
           title: "Problemas en Entornos Portuarios",
@@ -367,7 +410,7 @@ export const INDUSTRIES = [
       marketInfo: 'Cloud TPMS platform for mixed port fleets. Real-time monitoring that prevents failures, reduces downtime, and improves operational safety.',
       pageTitle: 'PressurePro Connect 2.0 for Port Operations',
       description: '50% of tire failures in ports are due to incorrect inflation, dangerously increasing the instability of critical equipment like RTGs and Straddle carriers. An incident can cost over USD 5,000 and create chain reaction interruptions. PressurePro Connect 2.0 is the cloud solution that converts data into actionable tasks, preventing 30% under-inflation from causing permanent damage and ensuring yard safety.',
-      additional: 'Key features include configurable alerts, timestamped location, grouping by terminal/equipment, and customizable dashboards for trend analysis. Full support for RTGs, Straddle carriers, Top/side picks, yard trucks, terminal tractors, Reach stackers, and forklifts. Optimize your operation by reducing downtime, improving safety, and extending asset lifespan with our scalable architecture.',
+      additional: 'Key features include configurable alerts, timestamped location, grouping by terminal/equipment, and customizable dashboards for trend analysis. Full support for RTGs, Straddle carriers, Top/side picks, yard trucks, terminal tractors, Reach stackers, and forklifts. We are OEM partners of Kalmar, Konecranes, OrangeEV and Taylor, integrating our TPMS technology directly into their factory port equipment. Optimize your operation by reducing downtime, improving safety, and extending asset lifespan with our scalable architecture.',
       structuredContent: {
         problems: {
           title: "Problems in Port Environments",
@@ -428,7 +471,7 @@ export const INDUSTRIES = [
       marketInfo: 'Plataforma TPMS em nuvem para frotas portuárias mistas. Monitoramento em tempo real que previne falhas, reduz o downtime e melhora a segurança operacional.',
       pageTitle: 'PressurePro Connect 2.0 para Operações Portuárias',
       description: '50% das falhas de pneus em portos devem-se à inflação incorreta, aumentando perigosamente a instabilidade de equipamentos críticos como RTGs e Straddle carriers. Um incidente pode custar mais de USD 5.000 e gerar interrupções em cadeia. O PressurePro Connect 2.0 é a solução em nuvem que converte dados em tarefas acionáveis, prevenindo que 30% de subinflação cause danos permanentes e garantindo a segurança no pátio.',
-      additional: 'Funcionalidades principais incluem alertas configuráveis, localização com timestamp, agrupamento por terminal/equipamento e dashboards personalizáveis para análise de tendências. Suporte completo para RTGs, Straddle carriers, Top/side picks, caminhões de pátio, tratores terminais, Reach stackers e empilhadeiras. Otimize sua operação reduzindo o downtime, melhorando a segurança e estendendo a vida útil dos ativos com nossa arquitetura escalável.',
+      additional: 'Funcionalidades principais incluem alertas configuráveis, localização com timestamp, agrupamento por terminal/equipamento e dashboards personalizáveis para análise de tendências. Suporte completo para RTGs, Straddle carriers, Top/side picks, caminhões de pátio, tratores terminais, Reach stackers e empilhadeiras. Somos OEM de Kalmar, Konecranes, OrangeEV e Taylor, integrando nossa tecnologia TPMS diretamente em seus equipamentos portuários de fábrica. Otimize sua operação reduzindo o downtime, melhorando a segurança e estendendo a vida útil dos ativos com nossa arquitetura escalável.',
       structuredContent: {
         problems: {
           title: "Problemas em Ambientes Portuários",
@@ -489,13 +532,14 @@ export const INDUSTRIES = [
     slug: 'industrial',
     imgUrl: '/industrial.jpeg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
+    oems: OEM_PARTNERS.industrial,
     es: {
       name: 'Industrial',
       benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
       marketInfo: 'En ambientes industriales, nuestras soluciones mejoran la confiabilidad de equipos y reducen riesgos en operaciones continuas donde la seguridad es prioritaria.',
       pageTitle: 'Industrial - Eficiencia y Seguridad',
       description: 'Las instalaciones industriales modernas requieren soluciones de monitoreo que mantengan la continuidad operativa. Nuestra tecnología se integra perfectamente en los protocolos de mantenimiento preventivo, alertando sobre variaciones de presión que podrían comprometer la seguridad del personal y la integridad de los equipos especializados.',
-      additional: 'En ambientes industriales con operación continua, nuestro sistema se integra con plataformas IoT existentes, centralizando la información para una gestión eficiente de activos. Esta conectividad permite análisis predictivos que identifican patrones de desgaste antes de que comprometan la producción, especialmente valioso en operaciones de tres turnos.',
+      additional: 'En ambientes industriales con operación continua, nuestro sistema se integra con plataformas IoT existentes, centralizando la información para una gestión eficiente de activos. Esta conectividad permite análisis predictivos que identifican patrones de desgaste antes de que comprometan la producción, especialmente valioso en operaciones de tres turnos. Somos OEM de Hyster-Yale, JCB y Hitachi, integrando nuestra tecnología TPMS directamente en sus equipos industriales de fábrica.',
     },
     en: {
       name: 'Industrial',
@@ -503,7 +547,7 @@ export const INDUSTRIES = [
       marketInfo: 'In industrial settings, our solutions enhance equipment reliability and reduce risks in continuous operations where safety is a priority.',
       pageTitle: 'Industrial - Efficiency and Safety',
       description: 'Modern industrial facilities require monitoring solutions that maintain operational continuity. Our technology integrates perfectly into preventive maintenance protocols, alerting about pressure variations that could compromise personnel safety and the integrity of specialized equipment.',
-      additional: 'In industrial environments with continuous operation, our system integrates with existing IoT platforms, centralizing information for efficient asset management. This connectivity enables predictive analysis that identifies wear patterns before they compromise production, especially valuable in three-shift operations.',
+      additional: 'In industrial environments with continuous operation, our system integrates with existing IoT platforms, centralizing information for efficient asset management. This connectivity enables predictive analysis that identifies wear patterns before they compromise production, especially valuable in three-shift operations. We are OEM partners of Hyster-Yale, JCB and Hitachi, integrating our TPMS technology directly into their factory industrial equipment.',
     },
     pt: {
       name: 'Industrial',
@@ -511,7 +555,7 @@ export const INDUSTRIES = [
       marketInfo: 'Em ambientes industriais, nossas soluções melhoram a confiabilidade dos equipamentos e reduzem riscos em operações contínuas onde a segurança é prioritária.',
       pageTitle: 'Industrial - Eficiência e Segurança',
       description: 'Instalações industriais modernas requerem soluções de monitoramento que mantenham a continuidade operacional. Nossa tecnologia se integra perfeitamente aos protocolos de manutenção preventiva, alertando sobre variações de pressão que poderiam comprometer a segurança do pessoal e a integridade dos equipamentos especializados.',
-      additional: 'Em ambientes industriais com operação contínua, nosso sistema se integra com plataformas IoT existentes, centralizando informações para uma gestão eficiente de ativos. Esta conectividade permite análises preditivas que identificam padrões de desgaste antes que comprometam a produção, especialmente valioso em operações de três turnos.',
+      additional: 'Em ambientes industriais com operação contínua, nosso sistema se integra com plataformas IoT existentes, centralizando informações para uma gestão eficiente de ativos. Esta conectividade permite análises preditivas que identificam padrões de desgaste antes que comprometam a produção, especialmente valioso em operações de três turnos. Somos OEM de Hyster-Yale, JCB e Hitachi, integrando nossa tecnologia TPMS diretamente em seus equipamentos industriais de fábrica.',
     },
   },
   {
@@ -519,29 +563,30 @@ export const INDUSTRIES = [
     slug: 'transporte',
     imgUrl: '/transport.jpeg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
+    oems: OEM_PARTNERS.transporte,
     es: {
-      name: 'Transporte',
+      name: 'Transporte y Aeronáutico',
       benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
-      marketInfo: 'En el transporte, nuestro sistema de monitoreo de neumáticos optimiza la vida útil de equipos de alto costo y mejora la seguridad operacional en entornos extremos.',
-      pageTitle: 'Transporte - Sistemas de Monitoreo',
-      description: 'Los profesionales del transporte enfrentan desafíos constantes en carreteras que ponen a prueba sus vehículos. Nuestro sistema proporciona información crucial que ayuda a programar mantenimientos sin interrumpir las rutas planificadas, garantizando entregas puntuales mientras se extiende la vida útil de la flota.',
-      additional: 'Ofrecemos configuraciones específicas para diferentes tipos de vehículos de transporte, desde camiones de larga distancia hasta flotas de distribución urbana. Los gestores de flota pueden establecer parámetros personalizados para cada ruta y carga, recibiendo alertas específicas que permiten decisiones informadas para optimizar cada kilómetro recorrido.',
+      marketInfo: 'En el transporte terrestre y aeronáutico, nuestro sistema de monitoreo de neumáticos optimiza la vida útil de equipos de alto costo y mejora la seguridad operacional en entornos extremos.',
+      pageTitle: 'Transporte y Aeronáutico - Sistemas de Monitoreo',
+      description: 'Los profesionales del transporte terrestre y aeronáutico enfrentan desafíos constantes que ponen a prueba sus vehículos. Nuestro sistema proporciona información crucial que ayuda a programar mantenimientos sin interrumpir las rutas planificadas, garantizando entregas puntuales y operaciones seguras mientras se extiende la vida útil de la flota.',
+      additional: 'Ofrecemos configuraciones específicas para diferentes tipos de vehículos de transporte y aeronáuticos, desde camiones de larga distancia hasta flotas de distribución urbana y vehículos especializados. Los gestores de flota pueden establecer parámetros personalizados para cada ruta y carga, recibiendo alertas específicas que permiten decisiones informadas para optimizar cada kilómetro recorrido. Somos OEM de Bombardier, REV Group, Tiffin y Newell, integrando nuestra tecnología TPMS directamente en sus vehículos de fábrica.',
     },
     en: {
-      name: 'Transport',
+      name: 'Transport & Aeronautics',
       benefits: ['Efficiency', 'Savings', 'Safety', 'Innovation'],
-      marketInfo: 'In transportation, our tire monitoring system optimizes the lifespan of high-cost equipment and enhances operational safety in extreme environments.',
-      pageTitle: 'Transport - Monitoring Systems',
-      description: 'Transportation professionals face constant challenges on roads that test their vehicles. Our system provides crucial information that helps schedule maintenance without interrupting planned routes, ensuring timely deliveries while extending the fleet\'s useful life.',
-      additional: 'We offer specific configurations for different types of transport vehicles, from long-distance trucks to urban distribution fleets. Fleet managers can establish customized parameters for each route and load, receiving specific alerts that allow informed decisions to optimize every kilometer traveled.',
+      marketInfo: 'In ground and aeronautical transportation, our tire monitoring system optimizes the lifespan of high-cost equipment and enhances operational safety in extreme environments.',
+      pageTitle: 'Transport & Aeronautics - Monitoring Systems',
+      description: 'Ground and aeronautical transportation professionals face constant challenges that test their vehicles. Our system provides crucial information that helps schedule maintenance without interrupting planned routes, ensuring timely deliveries and safe operations while extending the fleet\'s useful life.',
+      additional: 'We offer specific configurations for different types of transport and aeronautical vehicles, from long-distance trucks to urban distribution fleets and specialized vehicles. Fleet managers can establish customized parameters for each route and load, receiving specific alerts that allow informed decisions to optimize every kilometer traveled. We are OEM partners of Bombardier, REV Group, Tiffin and Newell, integrating our TPMS technology directly into their factory vehicles.',
     },
     pt: {
-      name: 'Transporte',
+      name: 'Transporte e Aeronáutico',
       benefits: ['Eficiência', 'Economia', 'Segurança', 'Inovação'],
-      marketInfo: 'No transporte, nosso sistema de monitoramento de pneus otimiza a vida útil de equipamentos de alto custo e melhora a segurança operacional em ambientes extremos.',
-      pageTitle: 'Transporte - Sistemas de Monitoramento',
-      description: 'Os profissionais de transporte enfrentam desafios constantes em estradas que testam seus veículos. Nosso sistema fornece informações cruciais que ajudam a programar manutenções sem interromper rotas planejadas, garantindo entregas pontuais enquanto estende a vida útil da frota.',
-      additional: 'Oferecemos configurações específicas para diferentes tipos de veículos de transporte, desde caminhões de longa distância até frotas de distribuição urbana. Os gestores de frota podem estabelecer parâmetros personalizados para cada rota e carga, recebendo alertas específicos que permitem decisões informadas para otimizar cada quilômetro percorrido.',
+      marketInfo: 'No transporte terrestre e aeronáutico, nosso sistema de monitoramento de pneus otimiza a vida útil de equipamentos de alto custo e melhora a segurança operacional em ambientes extremos.',
+      pageTitle: 'Transporte e Aeronáutico - Sistemas de Monitoramento',
+      description: 'Os profissionais de transporte terrestre e aeronáutico enfrentam desafios constantes que testam seus veículos. Nosso sistema fornece informações cruciais que ajudam a programar manutenções sem interromper rotas planejadas, garantindo entregas pontuais e operações seguras enquanto estende a vida útil da frota.',
+      additional: 'Oferecemos configurações específicas para diferentes tipos de veículos de transporte e aeronáuticos, desde caminhões de longa distância até frotas de distribuição urbana e veículos especializados. Os gestores de frota podem estabelecer parâmetros personalizados para cada rota e carga, recebendo alertas específicos que permitem decisões informadas para otimizar cada quilômetro percorrido. Somos OEM de Bombardier, REV Group, Tiffin e Newell, integrando nossa tecnologia TPMS diretamente em seus veículos de fábrica.',
     },
   },
 ];

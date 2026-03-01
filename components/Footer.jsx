@@ -61,6 +61,11 @@ const Footer = () => {
                   {translations?.footer?.industrial || 'Industrial'}
                 </Link>
               </li>
+              <li>
+                <Link href='/partners' title={translations?.partners?.navLabel || "Partners OEM"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.partners?.navLabel || 'Partners OEM'}
+                </Link>
+              </li>
             </ul>
           </div>
 
