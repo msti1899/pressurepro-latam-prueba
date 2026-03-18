@@ -10,7 +10,7 @@ const nextConfig = {
   // Configuración de internacionalización
   i18n: {
     // Idiomas soportados
-    locales: ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo', 'uy'],
+    locales: ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo', 'uy', 'epa'],
     // Idioma por defecto
     defaultLocale: 'es',
     // No detectar idioma automáticamente (lo haremos manualmente con geolocalización)
@@ -33,7 +33,7 @@ const nextConfig = {
 
   // Variables de entorno públicas
   env: {
-    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com',
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL ?? 'https://pressurepro-latam.com',
   },
 
   // Headers de seguridad y SEO

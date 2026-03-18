@@ -1,46 +1,15 @@
 'use client';
 import Head from 'next/head';
-import { COUNTRIES, LANGUAGES, getAllRoutes } from '../config/countries';
+import { buildAlternates } from '../config/localization';
+import { getBaseUrl } from '../config/runtime';
 
 /**
  * Componente que genera las etiquetas hreflang para SEO internacional
  * Estas etiquetas ayudan a Google a entender la relación entre versiones de la página
  */
 const HreflangTags = ({ currentLanguage, currentCountry, pagePath = '' }) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
-  
-  // Generar todas las alternativas de idioma/país
-  const generateAlternates = () => {
-    const alternates = [];
-    
-    // Añadir versiones por idioma (sin país específico)
-    Object.keys(LANGUAGES).forEach(langCode => {
-      const lang = LANGUAGES[langCode];
-      alternates.push({
-        hreflang: lang.hreflang,
-        href: `${baseUrl}/${langCode}${pagePath}`
-      });
-    });
-    
-    // Añadir versiones por país
-    Object.keys(COUNTRIES).forEach(countryCode => {
-      const country = COUNTRIES[countryCode];
-      alternates.push({
-        hreflang: country.hreflang,
-        href: `${baseUrl}/${countryCode}${pagePath}`
-      });
-    });
-    
-    // Añadir x-default (versión por defecto cuando no hay coincidencia)
-    alternates.push({
-      hreflang: 'x-default',
-      href: `${baseUrl}/es${pagePath}`
-    });
-    
-    return alternates;
-  };
-  
-  const alternates = generateAlternates();
+  const baseUrl = getBaseUrl();
+  const alternates = buildAlternates(baseUrl, pagePath);
   
   // Determinar el canonical actual
   const currentPath = currentCountry 

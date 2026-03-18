@@ -1,15 +1,16 @@
-import { COUNTRIES, LANGUAGES } from '../config/countries';
+import { COUNTRIES, getDefaultCountryForLanguage } from '../config/countries';
 import { INDUSTRY_SLUGS } from '../constants/industries';
+import { getBaseUrl } from '../config/runtime';
 
 /**
  * Sitemap Principal - Main Sitemap
  * =================================
  * Contiene todas las páginas principales del sitio:
- * - Homes por idioma/país (11 URLs)
- * - Páginas de industrias (66 URLs = 6 industrias × 11 locales)
- * - Páginas FAQ (11 URLs)
+ * - Homes por país (9 URLs)
+ * - Páginas de industrias por país (54 URLs = 6 industrias × 9 países)
+ * - Páginas FAQ por país (9 URLs)
  * 
- * Total: ~88 URLs
+ * Total: ~90 URLs (incluyendo partners y fuel)
  * 
  * Incluye etiquetas hreflang para cada URL para SEO internacional.
  * Google recomienda dividir en múltiples sitemaps cuando:
@@ -20,7 +21,7 @@ import { INDUSTRY_SLUGS } from '../constants/industries';
  * preparado para cuando agregues blog u otras secciones).
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+const BASE_URL = getBaseUrl();
 
 function generateSiteMap() {
   const currentDate = new Date().toISOString();
@@ -32,17 +33,7 @@ function generateSiteMap() {
     industries: new Date('2026-02-10').toISOString(), // Ajustar según última actualización
   };
   
-  // Todos los locales disponibles (idiomas + países)
-  const allLocales = [...Object.keys(LANGUAGES), ...Object.keys(COUNTRIES)];
-  
-  // Generar URLs para idiomas (home)
-  const languageUrls = Object.keys(LANGUAGES).map(lang => ({
-    loc: `${BASE_URL}/${lang}`,
-    lastmod: lastModDates.home,
-    changefreq: 'weekly',
-    priority: '0.9',
-    pagePath: ''
-  }));
+  const countryLocales = Object.keys(COUNTRIES);
   
   // Generar URLs para países (home)
   const countryUrls = Object.keys(COUNTRIES).map(country => ({
@@ -55,7 +46,7 @@ function generateSiteMap() {
 
   // Generar URLs de industrias para cada locale
   const industryUrls = [];
-  for (const locale of allLocales) {
+  for (const locale of countryLocales) {
     for (const slug of INDUSTRY_SLUGS) {
       industryUrls.push({
         loc: `${BASE_URL}/${locale}/industries/${slug}`,
@@ -68,7 +59,7 @@ function generateSiteMap() {
   }
   
   // Generar URLs de FAQ para cada locale
-  const faqUrls = allLocales.map(locale => ({
+  const faqUrls = countryLocales.map(locale => ({
     loc: `${BASE_URL}/${locale}/faq`,
     lastmod: lastModDates.faq,
     changefreq: 'monthly',
@@ -77,7 +68,7 @@ function generateSiteMap() {
   }));
 
   // Generar URLs de Partners para cada locale
-  const partnersUrls = allLocales.map(locale => ({
+  const partnersUrls = countryLocales.map(locale => ({
     loc: `${BASE_URL}/${locale}/partners`,
     lastmod: currentDate,
     changefreq: 'monthly',
@@ -85,25 +76,33 @@ function generateSiteMap() {
     pagePath: '/partners'
   }));
 
+  // Generar URLs de Fuel para cada locale
+  const fuelUrls = countryLocales.map(locale => ({
+    loc: `${BASE_URL}/${locale}/fuel`,
+    lastmod: currentDate,
+    changefreq: 'monthly',
+    priority: '0.7',
+    pagePath: '/fuel'
+  }));
+
   // Combinar todas las URLs
-  const allUrls = [...languageUrls, ...countryUrls, ...industryUrls, ...faqUrls, ...partnersUrls];
+  const allUrls = [...countryUrls, ...industryUrls, ...faqUrls, ...partnersUrls, ...fuelUrls];
   
   // Agregar comentario con estadísticas en el XML (útil para debugging)
   const stats = `
   <!--
     Estadísticas del Sitemap:
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    • Homes (idiomas):        ${languageUrls.length} URLs
     • Homes (países):         ${countryUrls.length} URLs
     • Páginas de industrias:  ${industryUrls.length} URLs
     • Páginas FAQ:            ${faqUrls.length} URLs
     • Páginas Partners:       ${partnersUrls.length} URLs
+    • Páginas Fuel:           ${fuelUrls.length} URLs
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     📍 Total URLs:            ${allUrls.length} URLs
     
     ⚙️ Prioridades:
     1.0 = Homes por país (máxima prioridad)
-    0.9 = Homes por idioma
     0.8 = Industrias (contenido principal)
     0.7 = FAQ (contenido de soporte)
     
@@ -127,11 +126,7 @@ function generateSiteMap() {
 
 function generateHreflangLinks(pagePath) {
   const links = [];
-  
-  // Agregar versiones de idioma
-  Object.keys(LANGUAGES).forEach(lang => {
-    links.push(`<xhtml:link rel="alternate" hreflang="${LANGUAGES[lang].hreflang}" href="${BASE_URL}/${lang}${pagePath}" />`);
-  });
+  const defaultCountry = getDefaultCountryForLanguage('es') || 'mx';
   
   // Agregar versiones de país
   Object.keys(COUNTRIES).forEach(country => {
@@ -139,7 +134,7 @@ function generateHreflangLinks(pagePath) {
   });
   
   // Agregar x-default
-  links.push(`<xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}/es${pagePath}" />`);
+  links.push(`<xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}/${defaultCountry}${pagePath}" />`);
   
   return links.join('\n    ');
 }

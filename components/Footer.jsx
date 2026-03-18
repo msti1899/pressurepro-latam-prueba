@@ -1,14 +1,13 @@
 'use client';
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { socials } from '../constants/data';
 import { footerVariants } from '../utils/motion';
-import { LanguageContext } from '../context/LanguageContext';
-import { WHATSAPP_NUMBER } from '../config/whatsapp';
+import { useLocale } from '../context/LocaleContext';
 
 const Footer = () => {
-  const { translations } = useContext(LanguageContext);
+  const { translations, getWhatsAppNumber } = useLocale();
 
   return (
     <motion.footer
@@ -29,41 +28,41 @@ const Footer = () => {
         <div className='grid grid-cols-2 md:grid-cols-4 gap-6 py-8'>
           {/* Industrias */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.industriesTitle || 'Industrias'}</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.industriesTitle}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/industries/mineria' title={translations?.footer?.mining || "Minería"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.mining || 'Minería'}
+                <Link href='/industries/mineria' title={translations?.footer?.mining} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.mining}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/transporte' title={translations?.footer?.transport || "Transporte"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.transport || 'Transporte'}
+                <Link href='/industries/transporte' title={translations?.footer?.transport} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.transport}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/agricultura' title={translations?.footer?.agriculture || "Agricultura"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.agriculture || 'Agricultura'}
+                <Link href='/industries/agricultura' title={translations?.footer?.agriculture} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.agriculture}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/forestal' title={translations?.footer?.forestry || "Forestal"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.forestry || 'Forestal'}
+                <Link href='/industries/forestal' title={translations?.footer?.forestry} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.forestry}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/portuario' title={translations?.footer?.port || "Portuario"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.port || 'Portuario'}
+                <Link href='/industries/portuario' title={translations?.footer?.port} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.port}
                 </Link>
               </li>
               <li>
-                <Link href='/industries/industrial' title={translations?.footer?.industrial || "Industrial"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.industrial || 'Industrial'}
+                <Link href='/industries/industrial' title={translations?.footer?.industrial} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.industrial}
                 </Link>
               </li>
               <li>
-                <Link href='/partners' title={translations?.partners?.navLabel || "Partners OEM"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.partners?.navLabel || 'Partners OEM'}
+                <Link href='/partners' title={translations?.partners?.navLabel} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.partners?.navLabel}
                 </Link>
               </li>
             </ul>
@@ -71,26 +70,26 @@ const Footer = () => {
 
           {/* Productos */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.productsTitle || 'Productos'}</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.productsTitle}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/#insights' title={translations?.footer?.tpmsSensors || "Sensores TPMS"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.tpmsSensors || 'Sensores TPMS'}
+                <Link href='/#insights' title={translations?.footer?.tpmsSensors} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.tpmsSensors}
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' title={translations?.footer?.pulseDisplay || "Pulse Display"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.pulseDisplay || 'Pulse Display'}
+                <Link href='/#insights' title={translations?.footer?.pulseDisplay} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.pulseDisplay}
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' title={translations?.footer?.linkHDLTUR || "Link HD/LT/UR"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.linkHDLTUR || 'Link HD/LT/UR'}
+                <Link href='/#insights' title={translations?.footer?.linkHDLTUR} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.linkHDLTUR}
                 </Link>
               </li>
               <li>
-                <Link href='/#insights' title={translations?.footer?.fxFleet || "Fx Fleet"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.fxFleet || 'Fx Fleet'}
+                <Link href='/#insights' title={translations?.footer?.fxFleet} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.fxFleet}
                 </Link>
               </li>
             </ul>
@@ -98,26 +97,26 @@ const Footer = () => {
 
           {/* Recursos */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.resourcesTitle || 'Recursos'}</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.resourcesTitle}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/faq' title={translations?.footer?.faq || "Preguntas Frecuentes"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.faq || 'Preguntas Frecuentes'}
+                <Link href='/faq' title={translations?.footer?.faq} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.faq}
                 </Link>
               </li>
               <li>
-                <Link href='/#getstarted' title={translations?.footer?.benefits || "Beneficios TPMS"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.benefits || 'Beneficios TPMS'}
+                <Link href='/#getstarted' title={translations?.footer?.benefits} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.benefits}
                 </Link>
               </li>
               <li>
-                <Link href='/#whatsnew' title={translations?.footer?.whyPressurePro || "Por qué PressurePro"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.whyPressurePro || 'Por qué PressurePro'}
+                <Link href='/#whatsnew' title={translations?.footer?.whyPressurePro} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.whyPressurePro}
                 </Link>
               </li>
               <li>
-                <Link href='/#about' title={translations?.footer?.aboutUs || "Acerca de Nosotros"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.aboutUs || 'Acerca de Nosotros'}
+                <Link href='/#about' title={translations?.footer?.aboutUs} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.aboutUs}
                 </Link>
               </li>
             </ul>
@@ -125,15 +124,15 @@ const Footer = () => {
 
           {/* Contacto */}
           <div>
-            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.contactTitle || 'Contacto'}</h3>
+            <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.contactTitle}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
-                <Link href='/#feedback' title={translations?.footer?.requestQuote || "Solicitar Cotización"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.requestQuote || 'Solicitar Cotización'}
+                <Link href='/#feedback' title={translations?.footer?.requestQuote} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.requestQuote}
                 </Link>
               </li>
               <li>
-                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} title="Chat WhatsApp" target='_blank' rel='noopener noreferrer' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <a href={`https://wa.me/${getWhatsAppNumber()}`} title="Chat WhatsApp" target='_blank' rel='noopener noreferrer' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   WhatsApp
                 </a>
               </li>
@@ -143,8 +142,8 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <Link href='/#world' title={translations?.footer?.coverage || "Cobertura"} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
-                  {translations?.footer?.coverage || 'Cobertura'}
+                <Link href='/#world' title={translations?.footer?.coverage} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.coverage}
                 </Link>
               </li>
             </ul>
@@ -156,7 +155,7 @@ const Footer = () => {
 
           <div className='flex flex-col items-center justify-center gap-4'>
             <p className='font-normal text-[12px] sm:text-[14px] text-white/50 text-center tracking-wider uppercase'>
-              Pressurepro-latam Las Piedras, Uruguay
+              Pressurepro-latam | Montevideo, Uruguay
             </p>
 
             <div className='flex gap-4'>

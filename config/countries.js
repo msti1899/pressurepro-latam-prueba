@@ -1,6 +1,12 @@
 // Configuracion de paises y regiones para SEO internacional
 
 export const LANGUAGES = {
+  es: {
+    code: 'es',
+    name: 'Español',
+    flag: 'https://flagcdn.com/es.svg',
+    hreflang: 'es'
+  },
   en: {
     code: 'en',
     name: 'English',
@@ -156,8 +162,8 @@ export const COUNTRIES = {
     regionalClients: [],
     seoKeywords: ['monitoreo de neumáticos', 'TPMS Uruguay', 'presión de neumáticos']
   },
-  es: {
-    code: 'es',
+  epa: {
+    code: 'epa',
     name: 'España',
     language: 'es',
     flag: 'https://flagcdn.com/es.svg',
@@ -185,7 +191,7 @@ export const ISO_TO_COUNTRY = {
   'CL': 'cl',
   'CO': 'co',
   'BO': 'bo',
-  'ES': 'es',
+  'ES': 'epa',
   'US': 'en',
   'GB': 'en',
   'CA': 'en',

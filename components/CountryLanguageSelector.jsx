@@ -84,7 +84,7 @@ const CountryLanguageSelector = () => {
   };
 
   const handleLanguageSelect = (langCode) => {
-    changeLanguage(langCode, null);
+    changeLanguage(langCode);
     setIsOpen(false);
   };
 
@@ -222,7 +222,7 @@ const CountryLanguageSelector = () => {
                       key={code}
                       onClick={() => handleLanguageSelect(code)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                        language === code && !country
+                        language === code
                           ? 'bg-purple-500/20 text-white' 
                           : 'hover:bg-white/5 text-gray-300'
                       }`}
@@ -233,7 +233,7 @@ const CountryLanguageSelector = () => {
                         className="w-6 h-5 rounded-sm object-cover"
                       />
                       <span className="flex-1 text-left text-sm">{config.name}</span>
-                      {language === code && !country && (
+                      {language === code && (
                         <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>

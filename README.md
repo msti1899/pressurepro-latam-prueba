@@ -22,6 +22,12 @@ npm run dev
 
 ## 🌎 Características SEO Internacional
 
+### Arquitectura de Localización
+- Fuente única jerárquica en `config/localization/`
+- Resolución por capas: idioma global -> país+idioma -> overrides por país
+- Locale España separado: `epa` (idioma global español permanece en `es`)
+- Documentación técnica: `docs/ARQUITECTURA-LOCALIZACION.md`
+
 ### Países Soportados
 | País | URL | Terminología |
 |------|-----|--------------|
@@ -32,6 +38,7 @@ npm run dev
 | Colombia | `/co` | Llantas |
 | Uruguay | `/uy` | Neumáticos |
 | Brasil | `/br` | Pneus |
+| España | `/epa` | Neumáticos |
 
 ### Idiomas Base
 - Español: `/es`

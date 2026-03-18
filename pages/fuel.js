@@ -7,248 +7,28 @@ import { staggerContainer, fadeIn, textVariant } from '../utils/motion';
 import { TypingText, TitleText } from '../components/CustomTexts';
 import { Navbar, Footer, WhatsAppButton, Breadcrumbs } from '../components';
 import { LanguageContext } from '../context/LanguageContext';
-import { COUNTRIES, LANGUAGES } from '../config/countries';
+import { COUNTRIES } from '../config/countries';
+import { buildAlternates, shouldNoIndexAlternateLanguage } from '../config/localization';
+import { FUEL_ARTICLE_CONTENT } from '../config/localization/pages/fuelContent';
+import { DEFAULT_LOCALE, getBaseUrl } from '../config/runtime';
 
 // ─── Contenido del artículo por idioma ───────────────────────
-const ARTICLE_CONTENT = {
-  es: {
-    seoTitle: 'La Presión de Neumáticos Ahorra Combustible | Estudio PressurePro TPMS',
-    seoDescription: 'Estudio real que demuestra cómo la presión correcta de neumáticos reduce hasta un 8.5% el consumo de combustible en camiones. Datos verificados con sistema TPMS PressurePro.',
-    breadcrumb: 'Ahorro de Combustible',
-    typingText: 'Caso de Estudio',
-    heroTitle: '¿La presión de neumáticos ahorra combustible?',
-    heroSubtitle: 'Hemos probado y demostrado la dependencia del consumo de combustible respecto a la presión de los neumáticos.',
-    // Intro
-    introTitle: 'Lo que todos saben, pero pocos miden',
-    introText1: 'La relación entre el consumo de combustible y la presión de los neumáticos es conocida desde hace mucho tiempo. Tanto conductores profesionales como aficionados aplican la regla simple: "si quieres ahorrar combustible, infla bien las ruedas". Pero muchas veces se inflan de más.',
-    introText2: 'Algunos están dispuestos a sacrificar confort y seguridad: los baches se sienten mucho más en neumáticos sobreinflados, la superficie de contacto con el camino disminuye y la distancia de frenado aumenta. Olvidan que al buscar ahorro de combustible pierden vida útil del neumático.',
-    introText3: 'La situación opuesta también es frecuente: neumáticos sin monitorear que visualmente se ven desinflados. Es un caso extremo, pero los conductores muchas veces no saben qué presión tienen. Visualmente, un neumático de camión inflado a 115 PSI es indistinguible de uno a 90 PSI.',
-    introHighlight: 'Esta diferencia de presión —115 PSI vs 90 PSI— es la que elegimos para nuestro experimento.',
-    // Experimento
-    experimentTitle: '¿En qué consiste el experimento?',
-    experimentText1: 'Una noche nos reunimos con representantes de una conocida empresa de alimentos que accedió a proporcionar su transporte para el experimento en una autopista de circunvalación. Decidimos hacer las mediciones de noche para evitar el tráfico.',
-    experimentText2: 'Se utilizaron dos camiones MAN TGS 4×2 con semirremolques de tres ejes idénticos.',
-    experimentText3: 'Por supuesto, entendíamos perfectamente que no existen vehículos con exactamente el mismo consumo de combustible. Además, nuestros camiones ya tenían 4 años. Es una edad considerable para vehículos comerciales, lo que también afecta el consumo. Pero no íbamos a comparar el consumo entre vehículos, solo necesitábamos encontrar cómo la presión de neumáticos lo afecta.',
-    experimentText4: 'Verificamos e igualamos la presión de los neumáticos a 115 PSI (en frío), llenamos completamente los tanques de combustible e instalamos rastreadores GPS GalileoSKY y el sistema TPMS PressurePro.',
-    tireInfo: 'Ambos camiones estaban equipados con neumáticos de camión con 10% de desgaste en el eje de dirección y aproximadamente 50% en las demás ruedas.',
-    // Etapa 1
-    stage1Label: 'Etapa',
-    stage1Title: 'Primera vuelta: línea base',
-    stage1Ready: '¡A rodar!',
-    stage1ReadyText: 'Los conductores están listos con todas las instrucciones necesarias. Se prepararon 14 bidones de diésel pesados y marcados para reabastecer los camiones al regreso. Balanzas electrónicas con precisión de 5 gramos permitieron determinar el volumen de diésel en litros.',
-    stage1ResultTitle: 'La primera etapa terminó, los camiones MAN están de vuelta.',
-    stage1ResultText: 'Ambos camiones recorrieron 142 km con una velocidad promedio de 77 km/h, pero el consumo de combustible fue diferente.',
-    stage1Truck1: 'Camión 1: reabastecido con 33.575 kg de combustible = 39.5 litros',
-    stage1Truck2: 'Camión 2: reabastecido con 35.335 kg = 41.57 litros',
-    stage1Consumption: 'El consumo fue de 27.81 y 29.27 l/100 km respectivamente.',
-    stage1Note: 'Hay una diferencia clara entre vehículos.',
-    // Cambio de presión
-    pressureChangeTitle: 'Modificación de presión',
-    pressureChangeText1: 'Dejamos a los conductores descansar y que los vehículos se enfriaran. Luego revisamos la presión y realizamos ajustes.',
-    pressureChangeText2: 'Reducimos la presión de neumáticos solo en 4 ruedas de las 12 en el eje motriz del primer camión, bajándola a 90 PSI.',
-    pressureChangeHighlight: 'Estas 4 ruedas son visualmente indistinguibles de las demás, que siguen infladas a 115 PSI.',
-    pressureChangeText3: 'La presión del segundo camión se mantiene sin cambios.',
-    pressureChangeText4: 'Esperamos que el consumo de combustible de ambos camiones cambie por condiciones de carretera, clima, estilo de conducción, etc. Pero para el primer camión, el cambio también será causado por la menor presión en el eje motriz.',
-    // Etapa 2
-    stage2Title: 'Segunda vuelta: el momento de la verdad',
-    stage2ResultText: 'El kilometraje y la velocidad promedio se mantuvieron iguales. Pero el primer camión, que mostró la mejor economía en la primera etapa, ahora se convirtió en el perdedor.',
-    stage2Truck1: 'Camión 1: reabastecido con 36.428 kg = 42.85 litros',
-    stage2Truck2: 'Camión 2: reabastecido con 35.875 kg = 42.18 litros',
-    stage2Consumption: 'El consumo del primer caso aumentó a 30.18 l/100 km, y en el segundo caso casi no cambió: 29.7 l/100 km.',
-    // Resultados
-    resultsTitle: 'Resultados del experimento',
-    resultsPercentage: 'En porcentaje: +1.5% por errores de medición y +8.5% por la disminución de presión.',
-    resultsHighlight: '+8.5% de aumento en consumo de combustible',
-    resultsSubtext: 'Solo por reducir la presión de 115 PSI a 90 PSI en 4 de 12 neumáticos del eje motriz.',
-    // Impacto
-    impactTitle: 'El impacto real en su operación',
-    impactText1: 'A primera vista, 7% no parece una cifra grande.',
-    impactText2: 'Pero imagine una empresa de transporte promedio con 100 vehículos, recorriendo 100.000 km al año (no es una gran distancia para camiones comerciales). Considerando que los camiones van pesados y las carreteras a menudo son peores que las autopistas, el consumo será mayor que en el experimento, digamos 35 l/100 km.',
-    impactCalculation: 'Así, cada camión consume alrededor de 35.000 litros de combustible al año.',
-    impactMultiply: 'Multiplíquelo por 100 camiones y los precios crecientes del combustible.',
-    impactConclusion: 'Y eso sin incluir las pérdidas por reducción de vida útil de los neumáticos y la seguridad del transporte.',
-    impactQuestion: '¿Realmente está dispuesto a pagar ese precio?',
-    // Stats
-    statDistance: 'km recorridos',
-    statSpeed: 'km/h promedio',
-    statWheels: 'ruedas modificadas',
-    statTotal: 'del total de ruedas',
-    // CTA
-    ctaTitle: 'Controle la presión. Controle los costos.',
-    ctaSubtitle: 'PressurePro TPMS le permite monitorear en tiempo real la presión de cada neumático de su flota, previniendo pérdidas silenciosas de combustible y extendiendo la vida útil de sus neumáticos.',
-    ctaButton: 'Solicitar demostración',
-    // Table
-    tableTitle: 'Comparativa de consumo',
-    tableHeader: ['', 'Camión 1', 'Camión 2'],
-    tableStage1: 'Etapa 1 (115 PSI)',
-    tableStage2: 'Etapa 2',
-    tableChange: 'Variación',
-    tablePressure: 'Presión etapa 2',
-    tableStage1Values: ['27.81 l/100km', '29.27 l/100km'],
-    tableStage2Values: ['30.18 l/100km', '29.70 l/100km'],
-    tableChangeValues: ['+8.5%', '+1.5%'],
-    tablePressureValues: ['90 PSI (4 ruedas)', '115 PSI (sin cambio)'],
-  },
-  en: {
-    seoTitle: 'Tire Pressure Saves Fuel | PressurePro TPMS Study',
-    seoDescription: 'Real study demonstrating how correct tire pressure reduces fuel consumption by up to 8.5% in trucks. Data verified with PressurePro TPMS system.',
-    breadcrumb: 'Fuel Savings',
-    typingText: 'Case Study',
-    heroTitle: 'Does tire pressure save fuel?',
-    heroSubtitle: 'We tested and demonstrated the dependency of fuel consumption on tire pressure.',
-    introTitle: 'What everyone knows, but few measure',
-    introText1: 'The relationship between fuel consumption and tire pressure has been known for a long time. Both professional and amateur drivers follow the simple rule: "if you want to save fuel, pump up the wheels." But they often overpump them.',
-    introText2: 'Some are willing to sacrifice both comfort and safety: bumps are felt much more on overpumped tires, the contact patch decreases and braking distance increases. They forget that in pursuit of fuel economy, tire service life is lost.',
-    introText3: 'The opposite situation is also common: unmonitored tires that visually look half-flat. It\'s an extreme case, but drivers often don\'t know what pressure they have. Visually, a truck tire inflated to 115 PSI is indistinguishable from one at 90 PSI.',
-    introHighlight: 'This pressure difference — 115 PSI vs 90 PSI — is what we chose for our experiment.',
-    experimentTitle: 'What\'s the experiment about?',
-    experimentText1: 'One night we met with representatives of a well-known food company that agreed to provide their trucks for the experiment on a city ring road. We decided to run our measurements at night to avoid traffic.',
-    experimentText2: 'Two MAN TGS 4×2 trucks with identical three-axle semi-trailers were used.',
-    experimentText3: 'Of course, we understood perfectly well that no two vehicles have exactly the same fuel consumption. Moreover, our trucks were already 4 years old — a mature age for commercial vehicles that also affects fuel consumption. But we weren\'t comparing fuel consumption between vehicles; we just needed to find how tire pressure affects it.',
-    experimentText4: 'We checked and equalized tire pressure to 115 PSI (cold state), fully refueled the trucks, and set up GalileoSKY GPS trackers and PressurePro TPMS.',
-    tireInfo: 'Both trucks were equipped with truck tires with 10% tread wear on the steering axle and around 50% on other wheels.',
-    stage1Label: 'Stage',
-    stage1Title: 'First lap: baseline',
-    stage1Ready: 'Let\'s go!',
-    stage1ReadyText: 'Drivers are ready with all necessary instructions. 14 weighed and marked diesel fuel cans were prepared to refuel the trucks upon return. Electronic scales with 5-gram accuracy allowed us to determine the diesel volume in liters.',
-    stage1ResultTitle: 'The first stage is over, the MAN trucks are back.',
-    stage1ResultText: 'Both trucks covered 142 km at an average speed of 77 km/h, but fuel consumption was different.',
-    stage1Truck1: 'Truck 1: refueled with 33.575 kg of fuel = 39.5 liters',
-    stage1Truck2: 'Truck 2: refueled with 35.335 kg = 41.57 liters',
-    stage1Consumption: 'Fuel consumption was 27.81 and 29.27 l/100 km respectively.',
-    stage1Note: 'There is a clear difference between vehicles.',
-    pressureChangeTitle: 'Pressure modification',
-    pressureChangeText1: 'We let the drivers rest and the vehicles cool down. Then we checked tire pressure again and made adjustments.',
-    pressureChangeText2: 'We decreased tire pressure on only 4 out of 12 wheels on the driving axle of the first truck, down to 90 PSI.',
-    pressureChangeHighlight: 'These 4 wheels are visually indistinguishable from the others, still inflated to 115 PSI.',
-    pressureChangeText3: 'The second truck\'s tire pressure remains the same.',
-    pressureChangeText4: 'We expect fuel consumption of both trucks to change due to road conditions, weather, driving style, etc. But for the first truck, the change will also be caused by decreased tire pressure on the driving axle.',
-    stage2Title: 'Second lap: the moment of truth',
-    stage2ResultText: 'Mileage and average speed remained the same. But the first truck, which showed the best economy in the first stage, became the outsider this time.',
-    stage2Truck1: 'Truck 1: refueled with 36.428 kg = 42.85 liters',
-    stage2Truck2: 'Truck 2: refueled with 35.875 kg = 42.18 liters',
-    stage2Consumption: 'Consumption in the first case increased to 30.18 l/100 km, and in the second case it almost didn\'t change: 29.7 l/100 km.',
-    resultsTitle: 'Experiment results',
-    resultsPercentage: 'In percentage: +1.5% for measurement errors and +8.5% for tire pressure decrease.',
-    resultsHighlight: '+8.5% increase in fuel consumption',
-    resultsSubtext: 'Just by reducing pressure from 115 PSI to 90 PSI on 4 out of 12 tires on the driving axle.',
-    impactTitle: 'The real impact on your operation',
-    impactText1: 'At first glance, 7% doesn\'t seem like a big number.',
-    impactText2: 'But imagine an average transport company with 100 vehicles, covering 100,000 km per year (not a big distance for commercial trucks). Taking into account that trucks are heavily loaded and roads are often much worse than ring roads, fuel consumption will be higher — say, 35 l/100 km.',
-    impactCalculation: 'Thus, each truck consumes about 35,000 liters of fuel per year.',
-    impactMultiply: 'Multiply that by 100 trucks and increasing fuel prices.',
-    impactConclusion: 'And that doesn\'t include losses due to decreased tire service life and transportation safety.',
-    impactQuestion: 'Are you really willing to pay that price?',
-    statDistance: 'km covered',
-    statSpeed: 'km/h average',
-    statWheels: 'wheels modified',
-    statTotal: 'of total wheels',
-    ctaTitle: 'Control pressure. Control costs.',
-    ctaSubtitle: 'PressurePro TPMS lets you monitor each tire\'s pressure in real-time across your fleet, preventing silent fuel losses and extending tire life.',
-    ctaButton: 'Request a demo',
-    tableTitle: 'Consumption comparison',
-    tableHeader: ['', 'Truck 1', 'Truck 2'],
-    tableStage1: 'Stage 1 (115 PSI)',
-    tableStage2: 'Stage 2',
-    tableChange: 'Change',
-    tablePressure: 'Stage 2 pressure',
-    tableStage1Values: ['27.81 l/100km', '29.27 l/100km'],
-    tableStage2Values: ['30.18 l/100km', '29.70 l/100km'],
-    tableChangeValues: ['+8.5%', '+1.5%'],
-    tablePressureValues: ['90 PSI (4 wheels)', '115 PSI (unchanged)'],
-  },
-  pt: {
-    seoTitle: 'Pressão dos Pneus Economiza Combustível | Estudo PressurePro TPMS',
-    seoDescription: 'Estudo real que demonstra como a pressão correta dos pneus reduz até 8,5% o consumo de combustível em caminhões. Dados verificados com sistema TPMS PressurePro.',
-    breadcrumb: 'Economia de Combustível',
-    typingText: 'Caso de Estudo',
-    heroTitle: 'A pressão dos pneus economiza combustível?',
-    heroSubtitle: 'Testamos e demonstramos a dependência do consumo de combustível em relação à pressão dos pneus.',
-    introTitle: 'O que todos sabem, mas poucos medem',
-    introText1: 'A relação entre consumo de combustível e pressão dos pneus é conhecida há muito tempo. Tanto motoristas profissionais quanto amadores seguem a regra simples: "se quer economizar combustível, calibre bem os pneus." Mas muitas vezes calibram demais.',
-    introText2: 'Alguns estão dispostos a sacrificar conforto e segurança: buracos são sentidos muito mais em pneus supercalibrados, a área de contato diminui e a distância de frenagem aumenta. Esquecem que ao buscar economia de combustível, perdem vida útil do pneu.',
-    introText3: 'A situação oposta também é frequente: pneus sem monitoramento que visualmente parecem murchos. É um caso extremo, mas os motoristas muitas vezes não sabem qual pressão têm. Visualmente, um pneu de caminhão calibrado a 115 PSI é indistinguível de um a 90 PSI.',
-    introHighlight: 'Esta diferença de pressão — 115 PSI vs 90 PSI — é a que escolhemos para nosso experimento.',
-    experimentTitle: 'Qual é o experimento?',
-    experimentText1: 'Uma noite nos reunimos com representantes de uma conhecida empresa de alimentos que concordou em fornecer seu transporte para o experimento em um anel viário. Decidimos fazer as medições à noite para evitar o trânsito.',
-    experimentText2: 'Foram utilizados dois caminhões MAN TGS 4×2 com semirreboques de três eixos idênticos.',
-    experimentText3: 'Claro, entendíamos perfeitamente que não existem veículos com exatamente o mesmo consumo de combustível. Além disso, nossos caminhões já tinham 4 anos — uma idade considerável para veículos comerciais que também afeta o consumo. Mas não íamos comparar o consumo entre veículos; apenas precisávamos encontrar como a pressão dos pneus o afeta.',
-    experimentText4: 'Verificamos e igualamos a pressão dos pneus a 115 PSI (a frio), abastecemos completamente os caminhões e instalamos rastreadores GPS GalileoSKY e o sistema TPMS PressurePro.',
-    tireInfo: 'Ambos os caminhões estavam equipados com pneus de caminhão com 10% de desgaste no eixo de direção e aproximadamente 50% nas demais rodas.',
-    stage1Label: 'Etapa',
-    stage1Title: 'Primeira volta: linha de base',
-    stage1Ready: 'Vamos lá!',
-    stage1ReadyText: 'Os motoristas estão prontos com todas as instruções necessárias. 14 galões de diesel pesados e marcados foram preparados para reabastecer os caminhões no retorno. Balanças eletrônicas com precisão de 5 gramas permitiram determinar o volume de diesel em litros.',
-    stage1ResultTitle: 'A primeira etapa terminou, os caminhões MAN estão de volta.',
-    stage1ResultText: 'Ambos os caminhões percorreram 142 km com velocidade média de 77 km/h, mas o consumo de combustível foi diferente.',
-    stage1Truck1: 'Caminhão 1: reabastecido com 33,575 kg de combustível = 39,5 litros',
-    stage1Truck2: 'Caminhão 2: reabastecido com 35,335 kg = 41,57 litros',
-    stage1Consumption: 'O consumo foi de 27,81 e 29,27 l/100 km respectivamente.',
-    stage1Note: 'Há uma diferença clara entre os veículos.',
-    pressureChangeTitle: 'Modificação de pressão',
-    pressureChangeText1: 'Deixamos os motoristas descansarem e os veículos esfriarem. Depois verificamos a pressão novamente e fizemos ajustes.',
-    pressureChangeText2: 'Reduzimos a pressão dos pneus apenas em 4 rodas das 12 no eixo motriz do primeiro caminhão, baixando para 90 PSI.',
-    pressureChangeHighlight: 'Estas 4 rodas são visualmente indistinguíveis das demais, que continuam calibradas a 115 PSI.',
-    pressureChangeText3: 'A pressão do segundo caminhão permanece inalterada.',
-    pressureChangeText4: 'Esperamos que o consumo de combustível de ambos os caminhões mude devido às condições da estrada, clima, estilo de condução, etc. Mas para o primeiro caminhão, a mudança também será causada pela menor pressão no eixo motriz.',
-    stage2Title: 'Segunda volta: o momento da verdade',
-    stage2ResultText: 'A quilometragem e a velocidade média permaneceram iguais. Mas o primeiro caminhão, que mostrou a melhor economia na primeira etapa, agora se tornou o perdedor.',
-    stage2Truck1: 'Caminhão 1: reabastecido com 36,428 kg = 42,85 litros',
-    stage2Truck2: 'Caminhão 2: reabastecido com 35,875 kg = 42,18 litros',
-    stage2Consumption: 'O consumo no primeiro caso aumentou para 30,18 l/100 km, e no segundo caso quase não mudou: 29,7 l/100 km.',
-    resultsTitle: 'Resultados do experimento',
-    resultsPercentage: 'Em porcentagem: +1,5% por erros de medição e +8,5% pela diminuição da pressão.',
-    resultsHighlight: '+8,5% de aumento no consumo de combustível',
-    resultsSubtext: 'Apenas por reduzir a pressão de 115 PSI para 90 PSI em 4 de 12 pneus do eixo motriz.',
-    impactTitle: 'O impacto real na sua operação',
-    impactText1: 'À primeira vista, 7% não parece um número grande.',
-    impactText2: 'Mas imagine uma empresa de transporte média com 100 veículos, percorrendo 100.000 km por ano (não é uma grande distância para caminhões comerciais). Considerando que os caminhões estão pesados e as estradas são frequentemente piores que os anéis viários, o consumo será maior — digamos, 35 l/100 km.',
-    impactCalculation: 'Assim, cada caminhão consome cerca de 35.000 litros de combustível por ano.',
-    impactMultiply: 'Multiplique isso por 100 caminhões e os preços crescentes do combustível.',
-    impactConclusion: 'E isso sem incluir as perdas por redução da vida útil dos pneus e da segurança do transporte.',
-    impactQuestion: 'Você realmente está disposto a pagar esse preço?',
-    statDistance: 'km percorridos',
-    statSpeed: 'km/h média',
-    statWheels: 'rodas modificadas',
-    statTotal: 'do total de rodas',
-    ctaTitle: 'Controle a pressão. Controle os custos.',
-    ctaSubtitle: 'O PressurePro TPMS permite monitorar em tempo real a pressão de cada pneu da sua frota, prevenindo perdas silenciosas de combustível e estendendo a vida útil dos pneus.',
-    ctaButton: 'Solicitar demonstração',
-    tableTitle: 'Comparativo de consumo',
-    tableHeader: ['', 'Caminhão 1', 'Caminhão 2'],
-    tableStage1: 'Etapa 1 (115 PSI)',
-    tableStage2: 'Etapa 2',
-    tableChange: 'Variação',
-    tablePressure: 'Pressão etapa 2',
-    tableStage1Values: ['27,81 l/100km', '29,27 l/100km'],
-    tableStage2Values: ['30,18 l/100km', '29,70 l/100km'],
-    tableChangeValues: ['+8,5%', '+1,5%'],
-    tablePressureValues: ['90 PSI (4 rodas)', '115 PSI (sem mudança)'],
-  },
-};
+const ARTICLE_CONTENT = FUEL_ARTICLE_CONTENT;
 
 export default function FuelArticlePage() {
   const router = useRouter();
   const { translations } = useContext(LanguageContext);
-  const locale = router.locale || 'es';
+  const locale = router.locale || DEFAULT_LOCALE;
   const langBase = COUNTRIES[locale]?.language || locale;
 
   const t = ARTICLE_CONTENT[langBase] || ARTICLE_CONTENT.es;
+  const countryCode = COUNTRIES[locale] ? locale : null;
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+  const baseUrl = getBaseUrl();
   const pageUrl = `${baseUrl}/${locale}/fuel`;
 
-  const alternates = [
-    ...Object.keys(LANGUAGES).map(langCode => ({
-      hreflang: LANGUAGES[langCode].hreflang,
-      href: `${baseUrl}/${langCode}/fuel`
-    })),
-    ...Object.keys(COUNTRIES).map(countryCode => ({
-      hreflang: COUNTRIES[countryCode].hreflang,
-      href: `${baseUrl}/${countryCode}/fuel`
-    })),
-    { hreflang: 'x-default', href: `${baseUrl}/es/fuel` }
-  ];
+  const alternates = buildAlternates(baseUrl, '/fuel');
+  const shouldNoIndex = shouldNoIndexAlternateLanguage(langBase, countryCode);
 
   // Structured Data - Article
   const articleSchema = {
@@ -275,7 +55,13 @@ export default function FuelArticlePage() {
       <Head>
         <title>{t.seoTitle}</title>
         <meta name="description" content={t.seoDescription} />
-        <meta name="keywords" content="ahorro combustible, presión neumáticos, TPMS, consumo diésel, flota camiones, PressurePro, caso de estudio" />
+        <meta name="keywords" content={t.seoKeywords} />
+        {shouldNoIndex && (
+          <>
+            <meta name="robots" content="noindex,follow" />
+            <meta name="googlebot" content="noindex,follow" />
+          </>
+        )}
         <link rel="canonical" href={pageUrl} />
 
         {alternates.map(({ hreflang, href }) => (
@@ -313,7 +99,7 @@ export default function FuelArticlePage() {
 
           <div className="absolute top-[77px] sm:top-[95px] left-0 w-full z-20">
             <Breadcrumbs items={[
-              { label: translations?.navbar?.about || 'Inicio', href: '/' },
+              { label: translations?.faqPage?.home || translations?.navbar?.about, href: '/' },
               { label: t.breadcrumb, href: null }
             ]} />
           </div>
@@ -738,15 +524,15 @@ export default function FuelArticlePage() {
               <div className="p-6 bg-gradient-to-r from-red-900/20 to-orange-900/20 rounded-2xl border border-red-500/20">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                   <div>
-                    <p className="text-white/50 text-sm">100 {langBase === 'pt' ? 'caminhões' : langBase === 'en' ? 'trucks' : 'camiones'} × 35,000 L</p>
-                    <p className="text-white font-bold text-xl mt-1">3,500,000 L/{langBase === 'pt' ? 'ano' : langBase === 'en' ? 'year' : 'año'}</p>
+                    <p className="text-white/50 text-sm">100 {t.impactFleetVehicleUnit} × 35,000 L</p>
+                    <p className="text-white font-bold text-xl mt-1">3,500,000 L/{t.impactFleetPeriodUnit}</p>
                   </div>
                   <div>
                     <p className="text-white/50 text-sm">× 8.5%</p>
                     <p className="text-red-400 font-bold text-xl mt-1">297,500 L</p>
                   </div>
                   <div>
-                    <p className="text-white/50 text-sm">{langBase === 'pt' ? 'perdidos' : langBase === 'en' ? 'wasted' : 'desperdiciados'}</p>
+                    <p className="text-white/50 text-sm">{t.impactWastedLabel}</p>
                     <p className="text-red-400 font-bold text-xl mt-1">💸</p>
                   </div>
                 </div>

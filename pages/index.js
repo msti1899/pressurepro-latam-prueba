@@ -5,6 +5,7 @@ import { Navbar, Footer, CountryBanner, WhatsAppButton } from '../components';
 import DynamicSEO from '../components/DynamicSEO';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import { scrollToSection } from '../utils/motion';
+import { DEFAULT_LOCALE } from '../config/runtime';
 
 /**
  * Página principal que se renderiza para todas las rutas de locale
@@ -12,11 +13,11 @@ import { scrollToSection } from '../utils/motion';
  */
 const Page = () => {
   const router = useRouter();
-  const locale = router.locale || 'es';
+  const locale = router.locale || DEFAULT_LOCALE;
   
   // Determinar si es un país o un idioma
   const isCountry = COUNTRIES && COUNTRIES[locale];
-  const language = isCountry ? COUNTRIES[locale].language : (LANGUAGES && LANGUAGES[locale] ? locale : 'es');
+  const language = isCountry ? COUNTRIES[locale].language : (LANGUAGES && LANGUAGES[locale] ? locale : DEFAULT_LOCALE);
   const country = isCountry ? locale : null;
   const countryConfig = isCountry ? COUNTRIES[locale] : null;
 

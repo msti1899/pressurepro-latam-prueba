@@ -1,8 +1,9 @@
 'use client';
 import Head from 'next/head';
 import { useLocale } from '../context/LocaleContext';
-import { COUNTRIES, LANGUAGES } from '../config/countries';
-import { WHATSAPP_NUMBER } from '../config/whatsapp';
+import { COUNTRIES } from '../config/countries';
+import { buildAlternates, shouldNoIndexAlternateLanguage } from '../config/localization';
+import { DEFAULT_CURRENCY, DEFAULT_OG_LOCALE, getBaseUrl } from '../config/runtime';
 
 /**
  * Componente SEO dinámico que genera meta tags optimizados
@@ -19,10 +20,18 @@ const DynamicSEO = ({
     country, 
     countryConfig, 
     translations,
-    getSeoKeywords 
+    marketContent,
+    getSeoKeywords,
+    getWhatsAppNumber,
   } = useLocale();
+
+  const availableLanguageMap = {
+    es: 'Spanish',
+    en: 'English',
+    pt: 'Portuguese',
+  };
   
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+  const baseUrl = getBaseUrl();
   
   // Generar título SEO (Meta Title) - Optimizado < 60 chars
   const getTitle = () => {
@@ -31,51 +40,27 @@ const DynamicSEO = ({
     if (countryConfig?.seo?.title) {
       return countryConfig.seo.title;
     }
-    
-    if (country && COUNTRIES[country]) {
-      const term = countryConfig?.terminology?.tires || 'Neumáticos';
-      return `PressurePro ${COUNTRIES[country].name} | Monitoreo TPMS ${term}`;
+
+    if (marketContent?.seo?.homeTitle) {
+      return marketContent.seo.homeTitle;
     }
-    
-    return 'PressurePro LATAM | Monitoreo de Neumáticos TPMS';
+
+    return '';
   };
   
   // Generar descripción SEO con keywords optimizadas
   const getDescription = () => {
     if (pageDescription) return pageDescription;
-    
-    // Descripciones específicas por país con keywords (Optimizadas < 160 chars)
-    const countryDescriptions = {
-      'cl': `Monitoreo TPMS PressurePro en Chile para minería y transporte. Controle neumáticos en tiempo real, ahorre combustible y mejore la seguridad de su flota.`,
-      'pe': `TPMS PressurePro Perú: Monitoreo de neumáticos para minería y carga. Tecnología de sensores en tiempo real para optimizar costos y seguridad vehicular.`,
-      'mx': `PressurePro México: Sistema TPMS para monitoreo de llantas en flotillas. Reduzca costos y evite accidentes en carreteras con nuestros sensores inteligentes.`,
-      'br': `TPMS PressurePro Brasil: Monitoramento de pneus para frotas e mineração. Economize combustível e aumente a segurança com tecnologia em tempo real.`,
-      'ar': `Monitoreo de neumáticos PressurePro en Argentina. Solución TPMS para agro y transporte. Prevenga accidentes y controle la presión de su flota hoy.`,
-      'co': `PressurePro Colombia: Monitoreo de llantas para transporte y carga. Sistema TPMS líder para optimizar costos operativos y seguridad en rutas.`,
-      'uy': `TPMS PressurePro Uruguay: Monitoreo de neumáticos para agro y transporte forestal. Tecnología oficial para control de presión y temperatura.`,
-      'bo': `PressurePro Bolivia: Sistema de monitoreo de neumáticos para minería y transporte. Controle su flota en tiempo real y reduzca costos operativos.`,
-      'es': `PressurePro España: Monitorización TPMS certificada CE para flotas. Cumpla la normativa europea, ahorre combustible y mejore la seguridad vial.`,
-      'us': `PressurePro TPMS: Real-time tire monitoring for commercial fleets. Reduce fuel costs and improve safety with our advanced sensor technology.`,
-    };
-    
-    if (country && countryDescriptions[country]) {
-      return countryDescriptions[country];
+
+    if (marketContent?.seo?.homeDescription) {
+      return marketContent.seo.homeDescription;
     }
     
     if (countryConfig?.seo?.description) {
       return countryConfig.seo.description;
     }
 
-    if (language === 'pt') {
-        return `Sistema TPMS PressurePro para monitoramento de pressão de pneus. Soluções para frotas comerciais em toda a América Latina.`;
-    }
-    
-    if (language === 'en') {
-        return `PressurePro TPMS: Real-time tire pressure monitoring system for commercial fleets across Latin America. Save fuel and improve safety.`;
-    }
-    
-    // Default global abreviado
-    return `Sistema TPMS PressurePro para monitoreo de neumáticos en tiempo real. Optimice su flota comercial, reduzca costos y mejore la seguridad en LATAM.`;
+    return '';
   };
   
   // Generar keywords
@@ -105,39 +90,11 @@ const DynamicSEO = ({
       en: 'en_US',
       pt: 'pt_BR'
     };
-    return localeMap[language] || 'es_LA';
+    return localeMap[language] || DEFAULT_OG_LOCALE;
   };
   
   // Generar hreflang alternates
-  const generateAlternates = () => {
-    const alternates = [];
-    const cleanPath = pagePath.startsWith('/') ? pagePath : `/${pagePath}`;
-    const pathSuffix = cleanPath === '/' ? '' : cleanPath;
-    
-    // Versiones por idioma
-    Object.keys(LANGUAGES).forEach(langCode => {
-      alternates.push({
-        hreflang: LANGUAGES[langCode].hreflang,
-        href: `${baseUrl}/${langCode}${pathSuffix}`
-      });
-    });
-    
-    // Versiones por país
-    Object.keys(COUNTRIES).forEach(countryCode => {
-      alternates.push({
-        hreflang: COUNTRIES[countryCode].hreflang,
-        href: `${baseUrl}/${countryCode}${pathSuffix}`
-      });
-    });
-    
-    // x-default (Global fallback -> 'es' o una página específica de aterrizaje global)
-    alternates.push({
-      hreflang: 'x-default',
-      href: `${baseUrl}/es${pathSuffix}`
-    });
-    
-    return alternates;
-  };
+  const generateAlternates = () => buildAlternates(baseUrl, pagePath);
   
   // Structured Data - Organization
   const organizationSchema = {
@@ -150,7 +107,7 @@ const DynamicSEO = ({
     "areaServed": country ? [
       {
         "@type": "Country",
-        "name": countryConfig?.name || "Latinoamérica"
+        "name": countryConfig?.name || marketContent?.seo?.regionName
       }
     ] : Object.values(COUNTRIES).map(c => ({
       "@type": "Country",
@@ -159,9 +116,9 @@ const DynamicSEO = ({
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "sales",
-      "telephone": `+${WHATSAPP_NUMBER}`,
-      "areaServed": countryConfig?.name || "Latinoamérica",
-      "availableLanguage": language === 'pt' ? "Portuguese" : language === 'en' ? "English" : "Spanish"
+      "telephone": `+${getWhatsAppNumber()}`,
+      "areaServed": countryConfig?.name || marketContent?.seo?.regionName,
+      "availableLanguage": availableLanguageMap[language]
     }
   };
   
@@ -169,7 +126,7 @@ const DynamicSEO = ({
   const localBusinessSchema = country ? {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": `PressurePro ${countryConfig?.name || ''}`,
+    "name": `PressurePro ${countryConfig?.name ?? marketContent?.seo?.regionName ?? ''}`,
     "description": getDescription(),
     "url": getCanonicalUrl(),
     "logo": `${baseUrl}/pp-white.png`,
@@ -190,14 +147,14 @@ const DynamicSEO = ({
       ...(country === 'co' && { "latitude": "4.7110", "longitude": "-74.0721", "addressLocality": "Bogotá" }),
       ...(country === 'uy' && { "latitude": "-34.9011", "longitude": "-56.1645", "addressLocality": "Montevideo" }),
       ...(country === 'bo' && { "latitude": "-16.5000", "longitude": "-68.1500", "addressLocality": "La Paz" }),
-      ...(country === 'es' && { "latitude": "40.4168", "longitude": "-3.7038", "addressLocality": "Madrid" }),
+      ...(country === 'epa' && { "latitude": "40.4168", "longitude": "-3.7038", "addressLocality": "Madrid" }),
     },
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "sales",
-      "telephone": `+${WHATSAPP_NUMBER}`,
+      "telephone": `+${getWhatsAppNumber()}`,
       "areaServed": countryConfig?.name,
-      "availableLanguage": language === 'pt' ? "Portuguese" : language === 'en' ? "English" : "Spanish"
+      "availableLanguage": availableLanguageMap[language]
     },
     "sameAs": [
       // Agregar redes sociales si existen
@@ -206,11 +163,12 @@ const DynamicSEO = ({
   } : null;
   
   // Structured Data - Product
+  const productReviews = marketContent?.seo?.productReviews || [];
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "PressurePro TPMS",
-    "description": `Sistema de monitoreo de presión de ${countryConfig?.terminology?.tires || 'neumáticos'} en tiempo real`,
+    "description": (marketContent?.seo?.productDescriptionTemplate ?? '').replace('{tireTerm}', countryConfig?.terminology?.tires ?? ''),
     "brand": {
       "@type": "Brand",
       "name": "PressurePro"
@@ -219,10 +177,10 @@ const DynamicSEO = ({
     "offers": {
       "@type": "Offer",
       "availability": "https://schema.org/InStock",
-      "priceCurrency": countryConfig?.currency || "USD",
+      "priceCurrency": countryConfig?.currency || DEFAULT_CURRENCY,
       "areaServed": {
         "@type": "Country",
-        "name": countryConfig?.name || "Latinoamérica"
+        "name": countryConfig?.name || marketContent?.seo?.regionName
       }
     },
     "aggregateRating": {
@@ -232,55 +190,26 @@ const DynamicSEO = ({
       "bestRating": "5",
       "worstRating": "1"
     },
-    "review": [
-      {
-        "@type": "Review",
-        "author": {
-          "@type": "Organization",
-          "name": "Minera Los Pelambres"
-        },
-        "datePublished": "2025-11-15",
-        "reviewBody": "Implementamos PressurePro en nuestra flota minera y hemos visto una reducción del 18% en costos de neumáticos. El monitoreo en tiempo real nos permite anticipar problemas antes de que ocurran.",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
-          "bestRating": "5"
-        }
+    "review": productReviews.map((review) => ({
+      "@type": "Review",
+      "author": {
+        "@type": "Organization",
+        "name": review.author,
       },
-      {
-        "@type": "Review",
-        "author": {
-          "@type": "Organization",
-          "name": "Transportes Rápidos del Norte"
-        },
-        "datePublished": "2025-10-22",
-        "reviewBody": "Sistema excelente para nuestra flotilla de camiones. La instalación fue sencilla y el ahorro en combustible ha sido notable. Altamente recomendado para transporte de carga.",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "5",
-          "bestRating": "5"
-        }
+      "datePublished": review.datePublished,
+      "reviewBody": review.reviewBody,
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": review.ratingValue,
+        "bestRating": "5",
       },
-      {
-        "@type": "Review",
-        "author": {
-          "@type": "Organization",
-          "name": "Agrícola Santa Rosa"
-        },
-        "datePublished": "2025-09-10",
-        "reviewBody": "Los sensores TPMS han mejorado significativamente la eficiencia de nuestra maquinaria agrícola. Menos paradas por problemas de neumáticos durante la cosecha.",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "4",
-          "bestRating": "5"
-        }
-      }
-    ]
+    }))
   };
 
   const alternates = generateAlternates();
   const title = getTitle();
   const description = getDescription();
+  const shouldNoIndex = shouldNoIndexAlternateLanguage(language, country);
 
   return (
     <Head>
@@ -288,6 +217,12 @@ const DynamicSEO = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={getKeywords()} />
+      {shouldNoIndex && (
+        <>
+          <meta name="robots" content="noindex,follow" />
+          <meta name="googlebot" content="noindex,follow" />
+        </>
+      )}
       
       {/* Canonical */}
       <link rel="canonical" href={getCanonicalUrl()} />

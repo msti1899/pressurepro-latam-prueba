@@ -9,12 +9,16 @@ import {
   dismissGeoBanner,
   isGeoBannerDismissed
 } from '../lib/geolocation';
-import { COUNTRIES, LANGUAGES } from '../config/countries';
+import { COUNTRIES } from '../config/countries';
+import { resolveLocaleState, getTranslationsForMarket } from '../config/localization';
+import { DEFAULT_LOCALE } from '../config/runtime';
 
 const CountryBanner = ({ currentLanguage, currentCountry }) => {
   const [showPicker, setShowPicker] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const { language, country } = resolveLocaleState(router.locale || DEFAULT_LOCALE);
+  const translations = getTranslationsForMarket(language, country);
 
   useEffect(() => {
     const checkLocation = async () => {
@@ -33,8 +37,8 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
 
       // Si ya está en un locale que no es el default (es), significa que
       // el middleware ya lo redirigió correctamente
-      const currentLocale = router.locale || 'es';
-      if (currentLocale !== 'es') {
+      const currentLocale = router.locale || DEFAULT_LOCALE;
+      if (currentLocale !== DEFAULT_LOCALE) {
         // Guardar cookie para que no pregunte de nuevo
         document.cookie = `NEXT_LOCALE=${currentLocale}; path=/; max-age=${60 * 60 * 24 * 365}`;
         setIsLoading(false);
@@ -58,9 +62,9 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
           const targetLocale = recommended.country || recommended.language;
           
           // Si el país detectado ES España, guardar cookie y quedarse
-          if (targetLocale === 'es') {
-            document.cookie = `NEXT_LOCALE=es; path=/; max-age=${60 * 60 * 24 * 365}`;
-            saveUserPreference('es', 'es');
+          if (targetLocale === DEFAULT_LOCALE) {
+            document.cookie = `NEXT_LOCALE=${DEFAULT_LOCALE}; path=/; max-age=${60 * 60 * 24 * 365}`;
+            saveUserPreference(DEFAULT_LOCALE, DEFAULT_LOCALE);
             setIsLoading(false);
             return;
           }
@@ -91,7 +95,7 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
   const handleSelectCountry = (countryCode) => {
     document.cookie = `NEXT_LOCALE=${countryCode}; path=/; max-age=${60 * 60 * 24 * 365}`;
     const config = COUNTRIES[countryCode];
-    saveUserPreference(config?.language || 'es', countryCode);
+    saveUserPreference(config?.language || DEFAULT_LOCALE, countryCode);
     dismissGeoBanner();
     setShowPicker(false);
     router.push(router.pathname, router.asPath, { locale: countryCode });
@@ -132,7 +136,7 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
               />
             </div>
             <p className="text-white/90 text-sm mt-2 font-medium">
-              Selecciona tu país
+              {translations?.countryBanner?.title}
             </p>
           </div>
 

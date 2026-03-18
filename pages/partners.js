@@ -1,42 +1,37 @@
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn, textVariant } from '../utils/motion';
 import { TypingText, TitleText } from '../components/CustomTexts';
 import { Navbar, Footer, WhatsAppButton, Breadcrumbs } from '../components';
-import { LanguageContext } from '../context/LanguageContext';
-import { COUNTRIES, LANGUAGES } from '../config/countries';
+import { useLocale } from '../context/LocaleContext';
+import { buildAlternates, shouldNoIndexAlternateLanguage } from '../config/localization';
+import { COUNTRIES } from '../config/countries';
 import { INDUSTRIES, OEM_PARTNERS, ALL_OEM_PARTNERS } from '../constants/industries';
+import { DEFAULT_LOCALE, getBaseUrl } from '../config/runtime';
 
 export default function PartnersPage() {
   const router = useRouter();
-  const { translations } = useContext(LanguageContext);
-  const locale = router.locale || 'es';
-  const langBase = COUNTRIES[locale]?.language || locale;
+  const { translations, language } = useLocale();
+  const locale = router.locale || DEFAULT_LOCALE;
+  const langBase = language;
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+  const baseUrl = getBaseUrl();
   const pageUrl = `${baseUrl}/${locale}/partners`;
+  const countryCode = COUNTRIES[locale] ? locale : null;
 
   // Traducciones de la página
   const t = translations?.partners || {};
 
   // Generar hreflang alternates
-  const alternates = [
-    ...Object.keys(LANGUAGES).map(langCode => ({
-      hreflang: LANGUAGES[langCode].hreflang,
-      href: `${baseUrl}/${langCode}/partners`
-    })),
-    ...Object.keys(COUNTRIES).map(countryCode => ({
-      hreflang: COUNTRIES[countryCode].hreflang,
-      href: `${baseUrl}/${countryCode}/partners`
-    })),
-    { hreflang: 'x-default', href: `${baseUrl}/es/partners` }
-  ];
+  const alternates = buildAlternates(baseUrl, '/partners');
+  const shouldNoIndex = shouldNoIndexAlternateLanguage(language, countryCode);
 
-  const seoTitle = t.seoTitle || 'Partners OEM - PressurePro LATAM | Integración TPMS de Fábrica';
-  const seoDescription = t.seoDescription || 'Conozca nuestros partners OEM. PressurePro integra tecnología TPMS directamente en equipos de fábrica de los principales fabricantes mundiales como CAT, Sandvik, Kalmar, Hyster-Yale y más.';
+  const seoTitle = t.seoTitle;
+  const seoDescription = t.seoDescription;
+  const seoKeywords = t.seoKeywords;
+  const homeLabel = translations?.faqPage?.home || translations?.navbar?.about;
 
   // Mapeo de industrias con sus partners
   const industriesWithPartners = INDUSTRIES.filter(ind => ind.oems && ind.oems.length > 0).map(ind => {
@@ -53,7 +48,13 @@ export default function PartnersPage() {
       <Head>
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
-        <meta name="keywords" content="OEM, partners, TPMS, PressurePro, CAT, Sandvik, Kalmar, Hyster-Yale, integración fábrica" />
+        <meta name="keywords" content={seoKeywords} />
+        {shouldNoIndex && (
+          <>
+            <meta name="robots" content="noindex,follow" />
+            <meta name="googlebot" content="noindex,follow" />
+          </>
+        )}
         <link rel="canonical" href={pageUrl} />
 
         {alternates.map(({ hreflang, href }) => (
@@ -80,8 +81,8 @@ export default function PartnersPage() {
 
           <div className="absolute top-[77px] sm:top-[95px] left-0 w-full z-20">
             <Breadcrumbs items={[
-              { label: translations?.navbar?.about || 'Inicio', href: '/' },
-              { label: t.breadcrumb || 'Partners OEM', href: null }
+              { label: homeLabel, href: '/' },
+              { label: t.breadcrumb, href: null }
             ]} />
           </div>
 
@@ -93,19 +94,19 @@ export default function PartnersPage() {
             className="relative z-10 2xl:max-w-[1280px] mx-auto pt-12 md:pt-16"
           >
             <motion.div variants={textVariant(0.3)}>
-              <TypingText title={`| ${t.typingText || 'Partners OEM'}`} textStyles="text-center" />
+              <TypingText title={`| ${t.typingText}`} textStyles="text-center" />
             </motion.div>
             <motion.h1
               variants={textVariant(0.5)}
               className="font-bold text-[28px] sm:text-[36px] md:text-[48px] text-white leading-tight text-center max-w-[900px] mx-auto mt-4"
             >
-              {t.heroTitle || 'Nuestros Partners OEM'}
+              {t.heroTitle}
             </motion.h1>
             <motion.p
               variants={fadeIn('up', 'tween', 0.6, 1)}
               className="text-secondary-white text-base md:text-lg max-w-[700px] mx-auto text-center mt-6"
             >
-              {t.heroSubtitle || 'PressurePro integra su tecnología TPMS directamente en los equipos de fábrica de los principales fabricantes mundiales. Nuestras alianzas OEM garantizan una integración perfecta y rendimiento óptimo desde el primer día.'}
+              {t.heroSubtitle}
             </motion.p>
           </motion.div>
         </section>
@@ -121,10 +122,10 @@ export default function PartnersPage() {
           >
             <motion.div variants={fadeIn('up', 'tween', 0.2, 1)} className="text-center mb-12">
               <h2 className="font-bold text-[22px] sm:text-[28px] md:text-[36px] text-white mb-4">
-                {t.allPartnersTitle || 'Partners de Integración OEM'}
+                {t.allPartnersTitle}
               </h2>
               <p className="text-secondary-white text-base md:text-lg max-w-[600px] mx-auto">
-                {t.allPartnersSubtitle || 'Fabricantes que confían en PressurePro para equipar sus vehículos y equipos con tecnología TPMS de fábrica'}
+                {t.allPartnersSubtitle}
               </p>
             </motion.div>
 
@@ -153,7 +154,7 @@ export default function PartnersPage() {
                     {partner.name}
                   </span>
                   <span className="text-white/40 text-[11px] mt-1 group-hover:text-white/60 transition-colors">
-                    OEM Partner
+                    {t.oemPartnerLabel}
                   </span>
                 </motion.a>
               ))}
@@ -172,10 +173,10 @@ export default function PartnersPage() {
           >
             <motion.div variants={fadeIn('up', 'tween', 0.2, 1)} className="text-center mb-16">
               <h2 className="font-bold text-[22px] sm:text-[28px] md:text-[36px] text-white mb-4">
-                {t.byIndustryTitle || 'Partners por Industria'}
+                {t.byIndustryTitle}
               </h2>
               <p className="text-secondary-white text-base md:text-lg max-w-[600px] mx-auto">
-                {t.byIndustrySubtitle || 'Descubra qué fabricantes integran PressurePro en cada sector'}
+                {t.byIndustrySubtitle}
               </p>
             </motion.div>
 
@@ -240,7 +241,7 @@ export default function PartnersPage() {
                         href={`/industries/${ind.slug}`}
                         className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm transition-colors"
                       >
-                        {t.viewIndustry || 'Ver industria'}
+                        {t.viewIndustry}
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
@@ -267,16 +268,16 @@ export default function PartnersPage() {
               className="bg-gradient-to-r from-purple-900/30 to-indigo-900/30 rounded-3xl border border-white/10 p-8 md:p-12 text-center"
             >
               <h3 className="text-white font-bold text-2xl md:text-4xl mb-4">
-                {t.ctaTitle || '¿Interesado en ser Partner OEM?'}
+                {t.ctaTitle}
               </h3>
               <p className="text-white/80 text-sm md:text-base max-w-[500px] mx-auto mb-8">
-                {t.ctaSubtitle || 'Contáctenos para explorar cómo integrar la tecnología TPMS de PressurePro en sus equipos de fábrica'}
+                {t.ctaSubtitle}
               </p>
               <Link
                 href="/#feedback"
                 className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
               >
-                {translations?.footer?.contact || 'Contactar'}
+                {translations?.footer?.contact}
               </Link>
             </motion.div>
           </motion.div>

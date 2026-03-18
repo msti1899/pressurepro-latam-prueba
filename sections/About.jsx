@@ -109,25 +109,25 @@ const About = () => {
             href="/industries/mineria"
             className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/10 to-indigo-600/10 border border-purple-500/30 text-purple-300 hover:from-purple-600/20 hover:to-indigo-600/20 hover:border-purple-400/50 transition-all text-sm font-medium"
           >
-            {translations?.footer?.mining || 'Minería'}
+            {translations?.footer?.mining}
           </Link>
           <Link
             href="/industries/transporte"
             className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/10 to-indigo-600/10 border border-purple-500/30 text-purple-300 hover:from-purple-600/20 hover:to-indigo-600/20 hover:border-purple-400/50 transition-all text-sm font-medium"
           >
-            {translations?.footer?.transport || 'Transporte'}
+            {translations?.footer?.transport}
           </Link>
           <Link
             href="/industries/agricultura"
             className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/10 to-indigo-600/10 border border-purple-500/30 text-purple-300 hover:from-purple-600/20 hover:to-indigo-600/20 hover:border-purple-400/50 transition-all text-sm font-medium"
           >
-            {translations?.footer?.agriculture || 'Agricultura'}
+            {translations?.footer?.agriculture}
           </Link>
           <Link
             href="#mercados"
             className="px-4 py-2 rounded-full bg-gradient-to-r from-white/5 to-white/10 border border-white/20 text-white/80 hover:bg-white/20 hover:border-white/40 transition-all text-sm font-medium"
           >
-            {translations?.explore?.viewAllIndustries || 'Ver todas las industrias →'}
+            {translations?.explore?.viewAllIndustries}
           </Link>
         </motion.div>
       </motion.div>

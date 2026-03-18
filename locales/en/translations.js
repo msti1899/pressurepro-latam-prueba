@@ -13,10 +13,20 @@ export default {
         insights: 'Products',
         feedback: 'Contact',
         faq: 'FAQ',
+        languageSelectorPrefix: 'Change language. Current language',
+        selectLanguageAria: 'Select language',
+        openMenuAria: 'Open navigation menu',
+        closeMenuAria: 'Close navigation menu',
+        countrySelectorPrefix: 'Select country. Current country',
+        noCountrySelected: 'Not selected',
     },
     hero: {
         title: "PressurePro LATAM",
-        subtitle: "Real-time tire monitoring"
+        subtitle: "Real-time tire monitoring",
+        defaultTireTerm: "Tires",
+        tpmsIconAlt: "PressurePro TPMS system icon",
+        stampAlt: "PressurePro TPMS certification seal",
+        stampAriaLabel: "View industries",
     },
     about: {
         title: "About PressurePro LATAM",
@@ -75,6 +85,7 @@ export default {
     },
     insights: {
         typingTex: "Products",
+        imageAltPrefix: "TPMS",
         title: "Our Products",
         downloadSpecs: "Download Specifications",
         products: [
@@ -114,7 +125,18 @@ export default {
     },
     feedback: {
         text: "Since 1991 PressurePro has been revolutionizing tire maintenance through innovative solutions that enhance tire performance.",
-        title: "Ready to Optimize Your Fleet with TPMS?"
+        title: "Ready to Optimize Your Fleet with TPMS?",
+        subtitle: 'PressurePro | LATAM',
+    },
+    clients: {
+        title: 'Companies that trust us',
+    },
+    contact: {
+        whatsappButton: 'Contact us',
+        whatsappDefaultMessage: 'Hello! I am interested in learning more about PressurePro tire monitoring systems.',
+    },
+    common: {
+        close: 'Close',
     },
     footer: {
         contact: "Contact us",
@@ -148,6 +170,12 @@ export default {
         keyBenefits: "Key Benefits",
         readyToOptimize: "Ready to optimize your fleet?",
         contactForSolution: "Contact us for a customized solution",
+        h1Template: "TPMS System for {industry} in {country} | {tireTerm} Monitoring",
+        seoTitleTemplate: "{industry} - PressurePro LATAM | TPMS Monitoring",
+        seoDescriptionTemplate: "PressurePro TPMS solutions for the {industry} industry",
+        seoKeywordsTemplate: "TPMS, {industry}, tire monitoring, PressurePro, tire pressure, {slug}",
+        relatedCardAriaLabel: "See TPMS solutions for {industry}",
+        relatedCardAltTemplate: "PressurePro TPMS systems for {industry}",
     },
     partners: {
         breadcrumb: "OEM Partners",
@@ -167,6 +195,8 @@ export default {
         ctaTitle: "Interested in becoming an OEM Partner?",
         ctaSubtitle: "Contact us to explore how to integrate PressurePro TPMS technology into your factory equipment",
         navLabel: "Partners",
+        seoKeywords: "OEM, partners, TPMS, PressurePro, CAT, Sandvik, Kalmar, Hyster-Yale, factory integration",
+        oemPartnerLabel: "OEM Partner",
     },
     faqPage: {
         home: "Home",
@@ -174,5 +204,8 @@ export default {
         moreQuestions: "Have more questions?",
         moreQuestionsSubtitle: "Our team of experts is ready to help you optimize your fleet with the best TPMS technology",
         contactNow: "Contact Now",
+    },
+    countryBanner: {
+        title: 'Select your country',
     },
 }

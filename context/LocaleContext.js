@@ -1,17 +1,17 @@
 import { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import { useRouter } from 'next/router';
-import es from '../locales/es/translations';
-import en from '../locales/en/translations';
-import pt from '../locales/pt/translations';
 
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import { WHATSAPP_NUMBER } from '../config/whatsapp';
 import { getUserPreference, saveUserPreference } from '../lib/geolocation';
 import countryOverrides from '../config/countryOverrides';
+import {
+  resolveLocaleState,
+  getTranslationsForMarket,
+  getMarketContentForLocale,
+} from '../config/localization';
 
 export const LocaleContext = createContext();
-
-const baseTranslations = { es, en, pt };
 
 /**
  * Proveedor de contexto para internacionalización con soporte de país
@@ -29,18 +29,30 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
   // Sincronizar con el locale de Next.js
   useEffect(() => {
     if (router.locale) {
-      const locale = router.locale;
-      const isCountry = COUNTRIES && COUNTRIES[locale];
+      const { language: nextLanguage, country: nextCountry } = resolveLocaleState(router.locale);
+      const preference = getUserPreference();
 
-      if (isCountry) {
-        setCountry(locale);
-        setLanguage(COUNTRIES[locale].language);
-        setCountryConfig(COUNTRIES[locale]);
-      } else if (LANGUAGES && LANGUAGES[locale]) {
-        setCountry(null);
-        setLanguage(locale);
-        setCountryConfig(null);
+      let effectiveLanguage = nextLanguage;
+
+      // Si estamos en un locale de idioma global (/en, /pt, /es),
+      // restaurar país preferido para mantener el contexto de mercado.
+      let effectiveCountry = nextCountry;
+      if (!effectiveCountry && LANGUAGES[router.locale]) {
+        const preferredCountry = preference?.country;
+        if (preferredCountry && COUNTRIES[preferredCountry]) {
+          effectiveCountry = preferredCountry;
+        }
       }
+
+      // En rutas de país, mantener país en URL y usar el idioma guardado
+      // solo como preferencia UX del usuario.
+      if (effectiveCountry && preference?.country === effectiveCountry && LANGUAGES[preference?.language]) {
+        effectiveLanguage = preference.language;
+      }
+
+      setLanguage(effectiveLanguage);
+      setCountry(effectiveCountry);
+      setCountryConfig(effectiveCountry ? COUNTRIES[effectiveCountry] : null);
     }
   }, [router.locale]);
 
@@ -53,16 +65,35 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     }
   }, [country]);
 
+  const currentTranslations = getTranslationsForMarket(language, country);
+  const marketContent = getMarketContentForLocale(language, country);
+
+  // Aplicar overrides por país (textos específicos por región)
+  const withOverrides = applyCountryOverrides(currentTranslations, country, language);
+
+  // Aplicar terminología local a las traducciones
+  const localizedTranslations = applyLocalTerminology(withOverrides, countryConfig);
+
   /**
    * Cambia el idioma y opcionalmente el país usando el sistema i18n de Next.js
    */
-  const changeLanguage = useCallback((newLanguage, newCountry = null) => {
-    const newLocale = newCountry || newLanguage;
-    saveUserPreference(newLanguage, newCountry);
+  const changeLanguage = useCallback((newLanguage, newCountry = country) => {
+    // Mantener la URL del país cuando existe contexto de mercado.
+    // El idioma alternativo se guarda como preferencia UX.
+    const effectiveCountry = newCountry || country;
+    saveUserPreference(newLanguage, effectiveCountry);
 
-    // Usar el sistema de routing de Next.js con locale
-    router.push(router.pathname, router.asPath, { locale: newLocale });
-  }, [router]);
+    setLanguage(newLanguage);
+
+    if (effectiveCountry && COUNTRIES[effectiveCountry]) {
+      setCountry(effectiveCountry);
+      setCountryConfig(COUNTRIES[effectiveCountry]);
+      return;
+    }
+
+    // En ausencia de país, conservar comportamiento por locale de idioma.
+    router.push(router.pathname, router.asPath, { locale: newLanguage });
+  }, [country, router]);
 
   /**
    * Cambia solo el país (mantiene o actualiza el idioma según el país)
@@ -98,8 +129,8 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
    * Obtiene el número de WhatsApp (centralizado)
    */
   const getWhatsAppNumber = useCallback(() => {
-    return WHATSAPP_NUMBER;
-  }, []);
+    return (countryConfig?.whatsapp || `+${WHATSAPP_NUMBER}`).replace('+', '');
+  }, [countryConfig]);
 
   /**
    * Obtiene las industrias prioritarias para el país actual
@@ -119,8 +150,11 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     if (countryConfig?.seoKeywords) {
       return countryConfig.seoKeywords;
     }
+    if (localizedTranslations?.seo?.keywords && Array.isArray(localizedTranslations.seo.keywords)) {
+      return localizedTranslations.seo.keywords;
+    }
     return ['monitoreo de neumáticos', 'TPMS', 'presión de neumáticos'];
-  }, [countryConfig]);
+  }, [countryConfig, localizedTranslations]);
 
   /**
    * Obtiene los clientes regionales para mostrar como prueba social
@@ -132,18 +166,6 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
     return [];
   }, [countryConfig]);
 
-  // Usar traducciones base del idioma actual
-  // features ahora están incluidas en getStarted.features de cada archivo de traducción
-  const currentTranslations = {
-    ...baseTranslations[language],
-  };
-
-  // Aplicar overrides por país (textos específicos por región)
-  const withOverrides = applyCountryOverrides(currentTranslations, country);
-
-  // Aplicar terminología local a las traducciones
-  const localizedTranslations = applyLocalTerminology(withOverrides, countryConfig);
-
   return (
     <LocaleContext.Provider value={{
       // Estado actual
@@ -151,6 +173,7 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
       country,
       countryConfig,
       translations: localizedTranslations,
+      marketContent,
 
       // Métodos de navegación
       changeLanguage,
@@ -177,8 +200,13 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
  * Mezcla recursivamente los overrides sobre las traducciones base
  * Solo sobreescribe las claves que existen en el override
  */
-function applyCountryOverrides(translations, countryCode) {
+function applyCountryOverrides(translations, countryCode, languageCode) {
   if (!countryCode || !countryOverrides[countryCode]) {
+    return translations;
+  }
+
+  const countryLanguage = COUNTRIES[countryCode]?.language;
+  if (!countryLanguage || languageCode !== countryLanguage) {
     return translations;
   }
 
@@ -244,7 +272,8 @@ export const useLocale = () => {
       language: 'es',
       country: null,
       countryConfig: null,
-      translations: { es, en, pt }['es'], // fallback to es
+      translations: getTranslationsForMarket('es', null),
+      marketContent: getMarketContentForLocale('es', null),
       changeLanguage: () => { },
       changeCountry: () => { },
       getLocalTerm: (t) => t,

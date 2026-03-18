@@ -6,8 +6,9 @@
  */
 
 import { COUNTRIES, LANGUAGES } from '../config/countries';
+import { getBaseUrl } from '../config/runtime';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+const BASE_URL = getBaseUrl();
 
 function generateRobotsTxt() {
   // Generar Allow dinámicamente desde los locales configurados

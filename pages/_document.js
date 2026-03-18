@@ -1,11 +1,12 @@
 import { Html, Head, Main, NextScript } from 'next/document';
+import { DEFAULT_LOCALE } from '../config/runtime';
 
 /**
  * Documento base de Next.js con lang attribute dinámico para SEO internacional
  */
 export default function Document(props) {
   // Determinar el idioma correcto según el locale de manera segura
-  const locale = props.locale || (props.__NEXT_DATA__ && props.__NEXT_DATA__.locale) || 'es';
+  const locale = props.locale || (props.__NEXT_DATA__ && props.__NEXT_DATA__.locale) || DEFAULT_LOCALE;
   
   // Mapeo de locales a códigos de idioma HTML correctos
   const langMap = {
@@ -17,12 +18,13 @@ export default function Document(props) {
     'co': 'es-CO',
     'bo': 'es-BO',
     'uy': 'es-UY',
+    'epa': 'es-ES',
     'br': 'pt-BR',
     'pt': 'pt',
     'en': 'en',
   };
   
-  const htmlLang = langMap[locale] || 'es';
+  const htmlLang = langMap[locale] || DEFAULT_LOCALE;
   
   return (
     <Html lang={htmlLang}>

@@ -9,7 +9,9 @@
  * 🔮 Futuros: sitemap-blog.xml, sitemap-images.xml, sitemap-videos.xml
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+import { getBaseUrl } from '../config/runtime';
+
+const BASE_URL = getBaseUrl();
 
 function generateSitemapIndex() {
   const currentDate = new Date().toISOString();

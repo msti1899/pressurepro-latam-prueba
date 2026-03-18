@@ -9,7 +9,7 @@ import { COUNTRIES } from '../config/countries';
  * Se abre debajo del badge de país en la Navbar
  */
 const CountrySlider = ({ isOpen, onClose }) => {
-  const { language, country, changeCountry } = useLocale();
+  const { language, country, changeCountry, translations } = useLocale();
 
   const items = Object.values(COUNTRIES)
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -52,7 +52,7 @@ const CountrySlider = ({ isOpen, onClose }) => {
               {/* Título */}
               <div className="px-4 pt-3 pb-1">
                 <p className="text-[11px] text-white/40 uppercase tracking-widest font-medium text-center">
-                  {language === 'en' ? 'Select your country' : language === 'pt' ? 'Selecione seu país' : 'Selecciona tu país'}
+                  {translations?.countryBanner?.title}
                 </p>
               </div>
 

@@ -12,8 +12,14 @@
 
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import { INDUSTRIES } from '../constants/industries';
+import {
+  resolveLocaleState,
+  getTranslationsForMarket,
+  getMarketContentForLocale,
+} from '../config/localization';
+import { getBaseUrl } from '../config/runtime';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+const BASE_URL = getBaseUrl();
 
 function generateImageSitemap() {
   const currentDate = new Date().toISOString();
@@ -25,9 +31,14 @@ function generateImageSitemap() {
   const imageUrls = [];
   
   for (const locale of allLocales) {
+    const { language, country } = resolveLocaleState(locale);
+    const translations = getTranslationsForMarket(language, country);
+    const marketContent = getMarketContentForLocale(language, country);
+    const regionName = marketContent?.seo?.regionName;
+    const defaultImageCaption = marketContent?.seo?.homeTitle;
+
     for (const industry of INDUSTRIES) {
-      const langCode = COUNTRIES[locale]?.language || locale;
-      const content = industry[langCode] || industry.es;
+      const content = industry[language] || industry.es;
       
       imageUrls.push({
         pageLoc: `${BASE_URL}/${locale}/industries/${industry.slug}`,
@@ -35,36 +46,38 @@ function generateImageSitemap() {
           {
             loc: `${BASE_URL}${industry.imgUrl}`,
             caption: content.name,
-            title: `${content.name} - Sistema TPMS PressurePro`,
-            geoLocation: COUNTRIES[locale]?.name || 'América Latina',
+            title: `${content.name} - PressurePro TPMS`,
+            geoLocation: COUNTRIES[locale]?.name || regionName,
           }
         ]
       });
     }
     
+    const products = translations?.insights?.products || [];
+
     // Imágenes de la home (productos)
     imageUrls.push({
       pageLoc: `${BASE_URL}/${locale}`,
       images: [
         {
           loc: `${BASE_URL}/planet-06.png`,
-          caption: 'Sensores TPMS PressurePro',
-          title: 'Sensores de presión y temperatura de neumáticos',
+          caption: products[0]?.title || defaultImageCaption,
+          title: products[0]?.description || products[0]?.title || defaultImageCaption,
         },
         {
           loc: `${BASE_URL}/planet-07.png`,
-          caption: 'Monitor Pulse TPMS con Display',
-          title: 'Monitor TPMS en tiempo real para cabina',
+          caption: products[1]?.title || defaultImageCaption,
+          title: products[1]?.description || products[1]?.title || defaultImageCaption,
         },
         {
           loc: `${BASE_URL}/planet-08.png`,
-          caption: 'Link TPMS para flotas',
-          title: 'Sistema TPMS para configuraciones de acople',
+          caption: products[2]?.title || defaultImageCaption,
+          title: products[2]?.description || products[2]?.title || defaultImageCaption,
         },
         {
           loc: `${BASE_URL}/planet-088.png`,
-          caption: 'FX TPMS Fleet Management',
-          title: 'Gestión de neumáticos para flotas comerciales',
+          caption: products[3]?.title || defaultImageCaption,
+          title: products[3]?.description || products[3]?.title || defaultImageCaption,
         },
       ]
     });

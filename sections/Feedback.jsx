@@ -28,10 +28,10 @@ const Feedback = () => {
           <div className='feedback-gradient'/>
           <div>
             <h2 className='font-bold sm:text-[28px] text-[24px] sm:leading-[36px] leading-[32px] text-white'>
-              {translations?.feedback?.title || 'PressurePro LATAM'}
+              {translations?.feedback?.title}
             </h2>
             <p className='mt-[8px] font-normal sm:text-[16px] text-[12px] sm:leading-[20px] leading-[16px] text-white/80'>
-              PressurePro | Latam
+              {translations?.feedback?.subtitle}
             </p>
           </div>
           <p className='mt-[24px] font-normal sm:text-[19px] text-[16px] sm:leading-[32px] leading-[28px] text-white/90'>

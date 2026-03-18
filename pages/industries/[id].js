@@ -1,13 +1,15 @@
 import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn, textVariant } from '../../utils/motion';
 import { TypingText, TitleText } from '../../components/CustomTexts';
 import { Navbar, Footer, WhatsAppButton, Breadcrumbs } from '../../components';
-import { LanguageContext } from '../../context/LanguageContext';
-import { COUNTRIES, LANGUAGES } from '../../config/countries';
+import { useLocale } from '../../context/LocaleContext';
+import { COUNTRIES } from '../../config/countries';
+import { buildAlternates, shouldNoIndexAlternateLanguage } from '../../config/localization';
+import { DEFAULT_LOCALE, DEFAULT_OG_LOCALE, getBaseUrl } from '../../config/runtime';
 import {
   INDUSTRIES,
   INDUSTRY_BY_SLUG,
@@ -22,11 +24,11 @@ import {
 export default function IndustryPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { translations } = useContext(LanguageContext);
-  const locale = router.locale || 'es';
+  const { translations, language, countryConfig } = useLocale();
+  const locale = router.locale || DEFAULT_LOCALE;
 
   // Resolver industria desde el archivo centralizado
-  const result = getIndustryContent(id, COUNTRIES[locale]?.language || locale);
+  const result = getIndustryContent(id, language);
   const industry = result?.industry;
   const content = result?.content;
 
@@ -41,9 +43,9 @@ export default function IndustryPage() {
         <Navbar />
         <div className="flex flex-col items-center justify-center min-h-[60vh] text-white pt-[95px]">
           <h1 className="text-4xl font-bold mb-4">404</h1>
-          <p className="text-secondary-white mb-8">{translations?.industryPage?.notFound || 'Industria no encontrada'}</p>
+          <p className="text-secondary-white mb-8">{translations?.industryPage?.notFound}</p>
           <Link href="/" className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity">
-            {translations?.industryPage?.backToHome || 'Volver al inicio'}
+            {translations?.industryPage?.backToHome}
           </Link>
         </div>
         <Footer />
@@ -56,55 +58,50 @@ export default function IndustryPage() {
   const pageTitle = content.pageTitle;
   const description = content.description;
   const additional = content.additional;
+  const industryPageText = translations?.industryPage || {};
+  const partnersText = translations?.partners || {};
+  const homeLabel = translations?.faqPage?.home || translations?.navbar?.about;
+  const marketsLabel = translations?.explore?.title;
+
+  const formatTemplate = (template, values) => {
+    if (!template) return '';
+    return template.replace(/\{(\w+)\}/g, (_, key) => values[key] ?? '');
+  };
 
   // Generar H1 dinámico con geo-targeting por país
-  const generateH1 = () => {
-    const countryConfig = COUNTRIES[locale];
-    const terminology = countryConfig?.terminology?.tires || 'Neumáticos';
-    const countryName = countryConfig?.name || '';
-
-    // H1 optimizado según país e industria
-    const h1Map = {
-      'cl': `Sistema TPMS para ${industryName} en Chile | Monitoreo de ${terminology}`,
-      'pe': `Sistema TPMS para ${industryName} en Perú | Monitoreo de ${terminology}`,
-      'mx': `Sistema TPMS para ${industryName} en México | Monitoreo de ${terminology}`,
-      'br': `Sistema TPMS para ${industryName} no Brasil | Monitoramento de ${terminology}`,
-      'ar': `Sistema TPMS para ${industryName} en Argentina | Monitoreo de ${terminology}`,
-      'co': `Sistema TPMS para ${industryName} en Colombia | Monitoreo de ${terminology}`,
-      'uy': `Sistema TPMS para ${industryName} en Uruguay | Monitoreo de ${terminology}`,
-      'bo': `Sistema TPMS para ${industryName} en Bolivia | Monitoreo de ${terminology}`,
-    };
-
-    return h1Map[locale] || `${industryName} - Sistema TPMS PressurePro`;
-  };
+  const generateH1 = () => formatTemplate(industryPageText.h1Template, {
+    industry: industryName,
+    country: countryConfig?.name,
+    tireTerm: countryConfig?.terminology?.tires,
+  });
 
   const dynamicH1 = generateH1();
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+  const baseUrl = getBaseUrl();
   const slug = industry.slug;
   const pageUrl = `${baseUrl}/${locale}/industries/${slug}`;
   const pagePath = `/industries/${slug}`;
+  const countryCode = COUNTRIES[locale] ? locale : null;
 
   // Generar hreflang alternates para todas las versiones de esta página
-  const alternates = [
-    ...Object.keys(LANGUAGES).map(langCode => ({
-      hreflang: LANGUAGES[langCode].hreflang,
-      href: `${baseUrl}/${langCode}${pagePath}`
-    })),
-    ...Object.keys(COUNTRIES).map(countryCode => ({
-      hreflang: COUNTRIES[countryCode].hreflang,
-      href: `${baseUrl}/${countryCode}${pagePath}`
-    })),
-    { hreflang: 'x-default', href: `${baseUrl}/es${pagePath}` }
-  ];
+  const alternates = buildAlternates(baseUrl, pagePath);
+  const shouldNoIndex = shouldNoIndexAlternateLanguage(language, countryCode);
 
   // Determinar idioma para og:locale
-  const langBase = COUNTRIES[locale]?.language || locale;
+  const langBase = language;
   const ogLocaleMap = { es: 'es_LA', en: 'en_US', pt: 'pt_BR' };
-  const ogLocale = ogLocaleMap[langBase] || 'es_LA';
+  const ogLocale = COUNTRIES[locale]?.hreflang?.replace('-', '_') || ogLocaleMap[langBase] || DEFAULT_OG_LOCALE;
 
-  const seoTitle = `${industryName} - PressurePro LATAM | Monitoreo TPMS`;
-  const seoDescription = marketInfo || `Soluciones PressurePro TPMS para el sector ${industryName}`;
+  const seoTitle = formatTemplate(industryPageText.seoTitleTemplate, {
+    industry: industryName,
+  });
+  const seoDescription = marketInfo || formatTemplate(industryPageText.seoDescriptionTemplate, {
+    industry: industryName,
+  });
+  const seoKeywords = formatTemplate(industryPageText.seoKeywordsTemplate, {
+    industry: industryName,
+    slug,
+  });
   const seoImage = `${baseUrl}${industry.imgUrl}`;
 
   // Structured Data - BreadcrumbList
@@ -121,7 +118,7 @@ export default function IndustryPage() {
       {
         "@type": "ListItem",
         "position": 2,
-        "name": translations?.explore?.title || 'Mercados',
+        "name": marketsLabel,
         "item": `${baseUrl}/${locale}#mercados`
       },
       {
@@ -160,7 +157,13 @@ export default function IndustryPage() {
       <Head>
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
-        <meta name="keywords" content={`TPMS, ${industryName}, monitoreo neumáticos, PressurePro, presión neumáticos, ${slug}`} />
+        <meta name="keywords" content={seoKeywords} />
+        {shouldNoIndex && (
+          <>
+            <meta name="robots" content="noindex,follow" />
+            <meta name="googlebot" content="noindex,follow" />
+          </>
+        )}
         <link rel="canonical" href={pageUrl} />
 
         {/* Hreflang alternates */}
@@ -220,8 +223,8 @@ export default function IndustryPage() {
           {/* Breadcrumbs para navegación y SEO - Posicionamiento absoluto bajo el navbar */}
           <div className="absolute top-[77px] sm:top-[95px] left-0 w-full z-20">
             <Breadcrumbs items={[
-              { label: translations?.navbar?.about || 'Inicio', href: '/' },
-              { label: translations?.explore?.title || 'Industrias', href: '/#mercados' },
+              { label: homeLabel, href: '/' },
+              { label: marketsLabel, href: '/#mercados' },
               { label: industryName, href: null }
             ]} />
           </div>
@@ -234,7 +237,7 @@ export default function IndustryPage() {
             className="relative z-10 h-full flex flex-col justify-end pb-12 md:pb-16 px-6 sm:px-16 2xl:max-w-[1280px] mx-auto"
           >
             <motion.div variants={textVariant(0.3)}>
-              <TypingText title={`| ${translations?.explore?.title || 'Mercados'}`} textStyles="" />
+              <TypingText title={`| ${marketsLabel}`} textStyles="" />
             </motion.div>
             <motion.h1
               variants={textVariant(0.5)}
@@ -349,7 +352,7 @@ export default function IndustryPage() {
               <div className="mt-8 md:mt-12 grid md:grid-cols-2 gap-8 md:gap-12">
                 <motion.div variants={fadeIn('right', 'tween', 0.3, 1)}>
                   <h3 className="text-white font-semibold text-[18px] md:text-[22px] mb-4">
-                    {translations?.industryPage?.specializedSolutions || 'Soluciones Especializadas'}
+                    {translations?.industryPage?.specializedSolutions}
                   </h3>
                   <p className="text-secondary-white text-[15px] md:text-[17px] leading-relaxed">
                     {description}
@@ -357,7 +360,7 @@ export default function IndustryPage() {
                 </motion.div>
                 <motion.div variants={fadeIn('left', 'tween', 0.4, 1)}>
                   <h3 className="text-white font-semibold text-[20px] md:text-[24px] mb-4">
-                    {translations?.industryPage?.keyBenefits || 'Beneficios Clave'}
+                    {translations?.industryPage?.keyBenefits}
                   </h3>
                   <p className="text-secondary-white text-base md:text-lg leading-relaxed">
                     {additional}
@@ -380,12 +383,12 @@ export default function IndustryPage() {
             >
               <motion.div variants={fadeIn('up', 'tween', 0.2, 1)} className="text-center mb-12">
                 <h2 className="font-bold text-[24px] sm:text-[28px] md:text-[38px] text-white mb-4">
-                  {translations?.partners?.oemPartnersTitle || 'Partners OEM'}
+                  {translations?.partners?.oemPartnersTitle}
                 </h2>
                 <p className="text-secondary-white text-base md:text-lg max-w-[700px] mx-auto">
-                  {translations?.partners?.oemIndustrySubtitle
-                    ? translations.partners.oemIndustrySubtitle.replace('{industry}', industryName)
-                    : `Integramos nuestra tecnología TPMS directamente en equipos de fábrica de los principales fabricantes del sector ${industryName}`}
+                  {formatTemplate(partnersText.oemIndustrySubtitle, {
+                    industry: industryName,
+                  })}
                 </p>
               </motion.div>
 
@@ -414,7 +417,7 @@ export default function IndustryPage() {
                       {partner.name}
                     </span>
                     <span className="text-white/40 text-xs mt-1 group-hover:text-white/60 transition-colors">
-                      OEM Partner
+                      {partnersText.oemPartnerLabel}
                     </span>
                   </motion.a>
                 ))}
@@ -425,7 +428,7 @@ export default function IndustryPage() {
                   href="/partners"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white/80 text-sm hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-white transition-all"
                 >
-                  {translations?.partners?.viewAllPartners || 'Ver todos los Partners OEM'}
+                  {translations?.partners?.viewAllPartners}
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -455,16 +458,16 @@ export default function IndustryPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-indigo-900/70 to-black/60 flex flex-col items-center justify-center text-center px-6">
                 <h3 className="text-white font-bold text-2xl md:text-4xl mb-4">
-                  {translations?.industryPage?.readyToOptimize || '¿Listo para optimizar su flota?'}
+                  {translations?.industryPage?.readyToOptimize}
                 </h3>
                 <p className="text-white/80 text-sm md:text-base max-w-[500px] mb-8">
-                  {translations?.industryPage?.contactForSolution || 'Contacte con nosotros para una solución personalizada'}
+                  {translations?.industryPage?.contactForSolution}
                 </p>
                 <Link
                   href="/#feedback"
                   className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] flex items-center active:scale-95"
                 >
-                  {translations?.footer?.contact || 'Contactar'}
+                  {translations?.footer?.contact}
                 </Link>
               </div>
             </motion.div>
@@ -484,13 +487,13 @@ export default function IndustryPage() {
                 variants={textVariant(0.2)}
                 className="font-bold text-[24px] sm:text-[32px] md:text-[42px] text-white text-center mb-3"
               >
-                {translations?.industryPage?.relatedIndustries || 'Industrias Relacionadas'}
+                {translations?.industryPage?.relatedIndustries}
               </motion.h2>
               <motion.p
                 variants={textVariant(0.3)}
                 className="text-secondary-white text-center text-base md:text-lg mt-4 max-w-[800px] mx-auto mb-12"
               >
-                {translations?.industryPage?.relatedSubtitle || 'Descubra cómo PressurePro optimiza operaciones en diferentes sectores industriales'}
+                {translations?.industryPage?.relatedSubtitle}
               </motion.p>
 
               <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
@@ -506,11 +509,11 @@ export default function IndustryPage() {
                         href={`/industries/${ind.slug}`}
                         scroll={true}
                         className="group block relative h-[180px] sm:h-[200px] md:h-[240px] rounded-2xl overflow-hidden active:scale-[0.97] transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20"
-                        aria-label={`Ver soluciones TPMS para ${otherContent.name}`}
+                        aria-label={formatTemplate(industryPageText.relatedCardAriaLabel, { industry: otherContent.name })}
                       >
                         <img
                           src={ind.imgUrl}
-                          alt={`Sistemas TPMS PressurePro para ${otherContent.name}`}
+                          alt={formatTemplate(industryPageText.relatedCardAltTemplate, { industry: otherContent.name })}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
@@ -540,7 +543,7 @@ export default function IndustryPage() {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                   </svg>
-                  {translations?.industryPage?.backToHome || 'Volver al inicio'}
+                  {translations?.industryPage?.backToHome}
                 </Link>
               </motion.div>
             </motion.div>

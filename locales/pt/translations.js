@@ -13,10 +13,20 @@ export default {
         insights: "Produtos",
         feedback: "Contato",
         faq: 'FAQ',
+        languageSelectorPrefix: 'Mudar idioma. Idioma atual',
+        selectLanguageAria: 'Selecionar idioma',
+        openMenuAria: 'Abrir menu de navegação',
+        closeMenuAria: 'Fechar menu de navegação',
+        countrySelectorPrefix: 'Selecionar país. País atual',
+        noCountrySelected: 'Não selecionado',
     },
     hero: {
         title: "Monitoramento TPMS de Pneus em Tempo Real Brasil",
-        subtitle: "Sistema de Pressão e Temperatura para Frotas | PressurePro"
+        subtitle: "Sistema de Pressão e Temperatura para Frotas | PressurePro",
+        defaultTireTerm: "Pneus",
+        tpmsIconAlt: "Ícone do sistema TPMS PressurePro",
+        stampAlt: "Selo de certificação TPMS PressurePro",
+        stampAriaLabel: "Ver indústrias",
     },
     about: {
         title: "Sobre a PressurePro LATAM",
@@ -75,6 +85,7 @@ export default {
     },
     insights: {
         typingTex: "Produtos",
+        imageAltPrefix: "TPMS",
         title: "Nossos Produtos",
         downloadSpecs: "Baixar Especificações",
         products: [
@@ -114,7 +125,18 @@ export default {
     },
     feedback: {
         text: "Desde 1991, a PressurePro revoluciona a manutenção de pneus por meio de soluções inovadoras que potencializam o desempenho dos pneus.",
-        title: "Pronto para Otimizar sua Frota com TPMS?"
+        title: "Pronto para Otimizar sua Frota com TPMS?",
+        subtitle: 'PressurePro | LATAM',
+    },
+    clients: {
+        title: 'Empresas que confiam em nós',
+    },
+    contact: {
+        whatsappButton: 'Fale conosco',
+        whatsappDefaultMessage: 'Olá! Tenho interesse em saber mais sobre os sistemas de monitoramento de pneus PressurePro.',
+    },
+    common: {
+        close: 'Fechar',
     },
     footer: {
         contact: "Contato",
@@ -148,6 +170,12 @@ export default {
         keyBenefits: "Benefícios Principais",
         readyToOptimize: "Pronto para otimizar sua frota?",
         contactForSolution: "Entre em contato para uma solução personalizada",
+        h1Template: "Sistema TPMS para {industry} em {country} | Monitoramento de {tireTerm}",
+        seoTitleTemplate: "{industry} - PressurePro LATAM | Monitoramento TPMS",
+        seoDescriptionTemplate: "Soluções PressurePro TPMS para o setor {industry}",
+        seoKeywordsTemplate: "TPMS, {industry}, monitoramento de pneus, PressurePro, pressao dos pneus, {slug}",
+        relatedCardAriaLabel: "Ver solucoes TPMS para {industry}",
+        relatedCardAltTemplate: "Sistemas TPMS PressurePro para {industry}",
     },
     partners: {
         breadcrumb: "Partners OEM",
@@ -167,6 +195,8 @@ export default {
         ctaTitle: "Interessado em ser Partner OEM?",
         ctaSubtitle: "Entre em contato para explorar como integrar a tecnologia TPMS da PressurePro em seus equipamentos de fábrica",
         navLabel: "Partners",
+        seoKeywords: "OEM, partners, TPMS, PressurePro, CAT, Sandvik, Kalmar, Hyster-Yale, integracao de fabrica",
+        oemPartnerLabel: "Partner OEM",
     },
     faqPage: {
         home: "Início",
@@ -174,5 +204,8 @@ export default {
         moreQuestions: "Tem mais perguntas?",
         moreQuestionsSubtitle: "Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS",
         contactNow: "Contatar Agora",
+    },
+    countryBanner: {
+        title: 'Selecione seu país',
     },
 };

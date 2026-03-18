@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,15 +7,16 @@ import { staggerContainer, fadeIn } from '../utils/motion';
 import { TitleText, TypingText } from '../components/CustomTexts';
 import { Navbar, Footer, WhatsAppButton, Breadcrumbs } from '../components';
 import { getFAQsByLanguage } from '../constants/faq';
+import { useLocale } from '../context/LocaleContext';
 import { COUNTRIES } from '../config/countries';
-import { LanguageContext } from '../context/LanguageContext';
+import { buildAlternates, shouldNoIndexAlternateLanguage } from '../config/localization';
+import { DEFAULT_LOCALE, getBaseUrl } from '../config/runtime';
 
 export default function FAQPage() {
   const router = useRouter();
-  const locale = router.locale || 'es';
-  const language = COUNTRIES[locale]?.language || locale;
-  const countryConfig = COUNTRIES[locale];
-  const { translations } = useContext(LanguageContext);
+  const locale = router.locale || DEFAULT_LOCALE;
+  const { translations, marketContent, language } = useLocale();
+  const countryCode = COUNTRIES[locale] ? locale : null;
 
   const faqs = getFAQsByLanguage(language);
   const [openIndex, setOpenIndex] = useState(null);
@@ -24,32 +25,12 @@ export default function FAQPage() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://pressurepro-latam.com';
+  const baseUrl = getBaseUrl();
   const pageUrl = `${baseUrl}/${locale}/faq`;
-
-  // Títulos por idioma
-  const titles = {
-    es: {
-      main: 'Preguntas Frecuentes sobre Sistemas TPMS',
-      subtitle: 'Todo lo que necesita saber sobre monitoreo de neumáticos',
-      metaTitle: 'Preguntas Frecuentes TPMS - PressurePro LATAM',
-      metaDescription: '¿Cómo funciona un sistema TPMS? ¿Cuánto ahorro de combustible ofrece? Respuestas a todas sus preguntas sobre monitoreo de presión de neumáticos en tiempo real.'
-    },
-    en: {
-      main: 'Frequently Asked Questions about TPMS Systems',
-      subtitle: 'Everything you need to know about tire monitoring',
-      metaTitle: 'TPMS FAQs - PressurePro LATAM',
-      metaDescription: 'How does a TPMS system work? How much fuel savings? Answers to all your questions about real-time tire pressure monitoring.'
-    },
-    pt: {
-      main: 'Perguntas Frequentes sobre Sistemas TPMS',
-      subtitle: 'Tudo o que você precisa saber sobre monitoramento de pneus',
-      metaTitle: 'Perguntas Frequentes TPMS - PressurePro LATAM',
-      metaDescription: 'Como funciona um sistema TPMS? Quanto de economia de combustível? Respostas para todas as suas perguntas sobre monitoramento de pressão de pneus em tempo real.'
-    }
-  };
-
-  const content = titles[language] || titles.es;
+  const content = marketContent?.pages?.faq || {};
+  const faqTranslations = translations?.faqPage || {};
+  const alternates = buildAlternates(baseUrl, '/faq');
+  const shouldNoIndex = shouldNoIndexAlternateLanguage(language, countryCode);
 
   // Structured Data - FAQPage Schema
   const faqSchema = {
@@ -90,8 +71,18 @@ export default function FAQPage() {
       <Head>
         <title>{content.metaTitle}</title>
         <meta name="description" content={content.metaDescription} />
-        <meta name="keywords" content="TPMS, preguntas frecuentes, sistema monitoreo neumáticos, FAQ TPMS, funcionamiento TPMS, ahorro combustible" />
+        <meta name="keywords" content={content.metaKeywords} />
+        {shouldNoIndex && (
+          <>
+            <meta name="robots" content="noindex,follow" />
+            <meta name="googlebot" content="noindex,follow" />
+          </>
+        )}
         <link rel="canonical" href={pageUrl} />
+
+        {alternates.map(({ hreflang, href }) => (
+          <link key={hreflang} rel="alternate" hrefLang={hreflang} href={href} />
+        ))}
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
@@ -121,8 +112,8 @@ export default function FAQPage() {
 
         <div className="pt-[77px] sm:pt-[95px]">
           <Breadcrumbs items={[
-            { label: translations?.faqPage?.home || 'Inicio', href: '/' },
-            { label: translations?.faqPage?.breadcrumb || 'Preguntas Frecuentes', href: null }
+            { label: translations?.faqPage?.home || translations?.navbar?.about, href: '/' },
+            { label: translations?.faqPage?.breadcrumb, href: null }
           ]} />
         </div>
 
@@ -136,7 +127,7 @@ export default function FAQPage() {
             className="2xl:max-w-[1280px] mx-auto text-center"
           >
             <motion.div variants={fadeIn('down', 'tween', 0.2, 0.5)}>
-              <TypingText title="| FAQ" textStyles="text-center" />
+              <TypingText title={`| ${content.typingText || faqTranslations.breadcrumb}`} textStyles="text-center" />
             </motion.div>
             <motion.h1
               variants={fadeIn('up', 'tween', 0.3, 0.5)}
@@ -241,20 +232,16 @@ export default function FAQPage() {
               className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-purple-900/50 to-indigo-900/50 p-8 md:p-12 text-center backdrop-blur-sm border border-white/10"
             >
               <h2 className="text-white font-bold text-2xl md:text-4xl mb-4">
-                {translations?.faqPage?.moreQuestions || (language === 'es' ? '¿Tiene más preguntas?' : language === 'en' ? 'Have more questions?' : 'Tem mais perguntas?')}
+                {translations?.faqPage?.moreQuestions}
               </h2>
               <p className="text-white/80 text-sm md:text-base max-w-[600px] mx-auto mb-8">
-                {translations?.faqPage?.moreQuestionsSubtitle || (language === 'es'
-                  ? 'Nuestro equipo de expertos está listo para ayudarlo a optimizar su flota con la mejor tecnología TPMS'
-                  : language === 'en'
-                    ? 'Our team of experts is ready to help you optimize your fleet with the best TPMS technology'
-                    : 'Nossa equipe de especialistas está pronta para ajudá-lo a otimizar sua frota com a melhor tecnologia TPMS')}
+                {translations?.faqPage?.moreQuestionsSubtitle}
               </p>
               <Link
                 href="/#feedback"
                 className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
               >
-                {translations?.faqPage?.contactNow || (language === 'es' ? 'Contactar Ahora' : language === 'en' ? 'Contact Now' : 'Contatar Agora')}
+                {translations?.faqPage?.contactNow}
               </Link>
             </motion.div>
           </motion.div>

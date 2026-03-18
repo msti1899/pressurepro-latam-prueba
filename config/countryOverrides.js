@@ -136,7 +136,7 @@ const countryOverrides = {
   // ─────────────────────────────────────────────
   // ESPAÑA
   // ─────────────────────────────────────────────
-  es: {
+  epa: {
     hero: {
       subtitle: 'Monitorización de neumáticos certificada CE para flotas en España',
     },

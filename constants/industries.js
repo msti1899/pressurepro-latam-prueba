@@ -657,10 +657,10 @@ export function getIndustryTranslations(lang = 'es') {
     modalTitle[ind.id] = c.pageTitle;
     modalDescription[ind.id] = c.description;
     modalAdditional[ind.id] = c.additional;
-    benefit1[ind.id] = c.benefits[0] || '';
-    benefit2[ind.id] = c.benefits[1] || '';
-    benefit3[ind.id] = c.benefits[2] || '';
-    benefit4[ind.id] = c.benefits[3] || '';
+    benefit1[ind.id] = c.benefits[0] ?? '';
+    benefit2[ind.id] = c.benefits[1] ?? '';
+    benefit3[ind.id] = c.benefits[2] ?? '';
+    benefit4[ind.id] = c.benefits[3] ?? '';
   });
 
   return {

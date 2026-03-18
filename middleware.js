@@ -9,7 +9,7 @@ const ISO_TO_LOCALE = {
   'CL': 'cl',
   'CO': 'co',
   'BO': 'bo',
-  'ES': 'es',
+  'ES': 'epa',
   'US': 'en',
   'GB': 'en',
   'CA': 'en',
@@ -21,7 +21,7 @@ const ISO_TO_LOCALE = {
 };
 
 // Lista de locales válidos
-const VALID_LOCALES = ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo', 'uy'];
+const VALID_LOCALES = ['es', 'en', 'pt', 'mx', 'ar', 'br', 'pe', 'cl', 'co', 'bo', 'uy', 'epa'];
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;

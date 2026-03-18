@@ -41,7 +41,7 @@ const RegionalClients = () => {
   return (
     <div className="py-8 border-t border-white/10">
       <p className="text-center text-gray-400 text-sm mb-6">
-        {translations?.clients?.title || 'Empresas que confían en nosotros'}
+        {translations?.clients?.title}
       </p>
       
       <div className="flex flex-wrap justify-center items-center gap-8">

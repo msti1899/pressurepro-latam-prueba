@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { navVariants } from '../utils/motion';
 import { scrollToSection } from '../utils/motion';
 import { useLocale } from '../context/LocaleContext';
-import { COUNTRIES } from '../config/countries';
+import { COUNTRIES, LANGUAGES } from '../config/countries';
 import CountrySlider from './CountrySlider';
 
 /**
@@ -52,15 +52,15 @@ const Navbar = () => {
   
   // Secciones del sitio para navegación
   const sections = [
-    { id: 'about', name: translations?.navbar?.about || 'Acerca de' },
-    { id: 'mercados', name: translations?.navbar?.explore || 'Mercados' },
-    { id: 'getstarted', name: translations?.navbar?.getStarted || 'Comenzar' },
-    { id: 'whatsnew', name: translations?.navbar?.whatsNew || 'Novedades' },
-    { id: 'world', name: translations?.navbar?.world || 'Ubicaciones' },
-    { id: 'insights', name: translations?.navbar?.insights || 'Insights' },
-    { id: 'partners', name: translations?.partners?.navLabel || 'Partners', isExternal: true, href: '/partners' },
-    { id: 'faq', name: 'FAQ', isExternal: true, href: '/faq' },
-    { id: 'feedback', name: translations?.navbar?.feedback || 'Contacto' },
+    { id: 'about', name: translations?.navbar?.about },
+    { id: 'mercados', name: translations?.navbar?.explore },
+    { id: 'getstarted', name: translations?.navbar?.getStarted },
+    { id: 'whatsnew', name: translations?.navbar?.whatsNew },
+    { id: 'world', name: translations?.navbar?.world },
+    { id: 'insights', name: translations?.navbar?.insights },
+    { id: 'partners', name: translations?.partners?.navLabel, isExternal: true, href: '/partners' },
+    { id: 'faq', name: translations?.navbar?.faq, isExternal: true, href: '/faq' },
+    { id: 'feedback', name: translations?.navbar?.feedback },
   ];
 
   // ----- EFECTOS Y EVENTOS -----
@@ -203,12 +203,12 @@ const Navbar = () => {
       <button
         onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
         className="relative z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all cursor-pointer group backdrop-blur-sm"
-        aria-label={`Cambiar idioma. Idioma actual: ${language === 'es' ? 'Español' : language === 'en' ? 'English' : 'Português'}`}
+        aria-label={`${translations?.navbar?.languageSelectorPrefix}: ${LANGUAGES[language]?.name}`}
         aria-expanded={isLanguageMenuOpen}
         aria-haspopup="listbox"
       >
         <span className="text-[11px] sm:text-[12px] text-white/90 font-medium tracking-wider uppercase group-hover:text-white transition-colors">
-          {language === 'es' ? 'ES' : language === 'en' ? 'EN' : 'PT'}
+          {language?.toUpperCase()}
         </span>
         
         <motion.div 
@@ -244,7 +244,7 @@ const Navbar = () => {
             animate="visible"
             exit="hidden"
             role="listbox"
-            aria-label="Seleccionar idioma"
+            aria-label={translations?.navbar?.selectLanguageAria}
           >
             {Object.entries(FLAG_IMAGES).map(([langCode, flagPath]) => (
               <motion.button
@@ -255,11 +255,11 @@ const Navbar = () => {
                 whileHover={{ scale: 1.02 }}
                 role="option"
                 aria-selected={language === langCode}
-                aria-label={langCode === 'es' ? 'Español' : langCode === 'en' ? 'English' : 'Português'}
+                aria-label={LANGUAGES[langCode]?.name}
               >
                 {/* Bandera eliminada del dropdown de idiomas */}
                 <span className="text-[14px] font-medium text-white uppercase tracking-wider">
-                  {langCode === 'es' ? 'ES' : langCode === 'en' ? 'EN' : 'PT'}
+                  {langCode.toUpperCase()}
                 </span>
               </motion.button>
             ))}
@@ -379,13 +379,13 @@ const Navbar = () => {
               <button
                 onClick={() => setIsCountrySliderOpen(!isCountrySliderOpen)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 hover:border-white/40 hover:scale-105 active:scale-95 transition-all cursor-pointer group backdrop-blur-sm shadow-sm hover:shadow-md"
-                aria-label={`Seleccionar país. País actual: ${currentCountry ? (COUNTRIES[currentCountry]?.name || '') : 'No seleccionado'}`}
+                aria-label={`${translations?.navbar?.countrySelectorPrefix}: ${currentCountry ? (COUNTRIES[currentCountry]?.name ?? '') : translations?.navbar?.noCountrySelected}`}
                 aria-expanded={isCountrySliderOpen}
               >
                 {countryFlag ? (
                   <img
                     src={countryFlag}
-                    alt={COUNTRIES[currentCountry]?.name || ''}
+                    alt={COUNTRIES[currentCountry]?.name ?? ''}
                     className="w-[16px] h-[12px] sm:w-[20px] sm:h-[15px] rounded-[1px] object-cover shadow-sm"
                   />
                 ) : (
@@ -394,7 +394,7 @@ const Navbar = () => {
                   </svg>
                 )}
                 <span className="hidden sm:block text-[11px] sm:text-[12px] text-white/90 font-medium tracking-wider uppercase group-hover:text-white transition-colors">
-                  {currentCountry ? (COUNTRIES[currentCountry]?.name || '') : (language === 'en' ? 'English' : language === 'pt' ? 'Português' : 'España')}
+                  {currentCountry ? (COUNTRIES[currentCountry]?.name ?? '') : LANGUAGES[language]?.name}
                 </span>
                 <motion.div
                   animate={{ rotate: isCountrySliderOpen ? 180 : 0 }}
@@ -424,7 +424,7 @@ const Navbar = () => {
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="flex items-center justify-center min-w-[44px] min-h-[44px] bg-white/5 hover:bg-white/10 rounded-full transition-colors backdrop-blur-sm p-2.5"
-                aria-label={isMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
+                aria-label={isMenuOpen ? translations?.navbar?.closeMenuAria : translations?.navbar?.openMenuAria}
                 aria-expanded={isMenuOpen}
                 aria-controls="navigation-menu"
               >

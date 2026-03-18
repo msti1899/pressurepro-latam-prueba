@@ -4,14 +4,15 @@ import '../styles/globals.css';
 import { LocaleProvider } from '../context/LocaleContext';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import Script from 'next/script';
+import { DEFAULT_LOCALE } from '../config/runtime';
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
-  const locale = router.locale || 'es';
+  const locale = router.locale || DEFAULT_LOCALE;
   
   // Determinar si es un país o un idioma
   const isCountry = COUNTRIES && COUNTRIES[locale];
-  const language = isCountry ? COUNTRIES[locale].language : (LANGUAGES && LANGUAGES[locale] ? locale : 'es');
+  const language = isCountry ? COUNTRIES[locale].language : (LANGUAGES && LANGUAGES[locale] ? locale : DEFAULT_LOCALE);
   const country = isCountry ? locale : null;
 
   return (

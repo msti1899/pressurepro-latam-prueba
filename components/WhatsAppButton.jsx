@@ -2,26 +2,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useLocale } from '../context/LocaleContext';
-import { WHATSAPP_NUMBER } from '../config/whatsapp';
 
 /**
  * Botón flotante de WhatsApp - número único centralizado
  */
 const WhatsAppButton = ({ message = '' }) => {
-  const { translations, language } = useLocale();
+  const { translations, getWhatsAppNumber } = useLocale();
 
   // Mensaje predefinido según idioma
-  const getDefaultMessage = () => {
-    const messages = {
-      es: '¡Hola! Me interesa conocer más sobre los sistemas de monitoreo de neumáticos PressurePro.',
-      en: 'Hello! I\'m interested in learning more about PressurePro tire monitoring systems.',
-      pt: 'Olá! Tenho interesse em saber mais sobre os sistemas de monitoramento de pneus PressurePro.'
-    };
-    return messages[language] || messages.es;
-  };
+  const getDefaultMessage = () => translations?.contact?.whatsappDefaultMessage;
 
   const whatsappMessage = message || getDefaultMessage();
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappUrl = `https://wa.me/${getWhatsAppNumber()}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <motion.a
@@ -47,7 +39,7 @@ const WhatsAppButton = ({ message = '' }) => {
       
       {/* Texto opcional */}
       <span className="hidden sm:inline font-medium">
-        {translations?.contact?.whatsappButton || 'Contáctanos'}
+        {translations?.contact?.whatsappButton}
       </span>
     </motion.a>
   );
