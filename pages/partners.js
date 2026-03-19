@@ -129,7 +129,7 @@ export default function PartnersPage() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 md:gap-8">
               {ALL_OEM_PARTNERS.map((partner, idx) => (
                 <motion.a
                   key={partner.name}
@@ -137,25 +137,17 @@ export default function PartnersPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   variants={fadeIn('up', 'spring', idx * 0.05, 0.6)}
-                  className="group flex flex-col items-center justify-center p-5 md:p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 hover:-translate-y-1"
+                  className="group flex items-center justify-center p-0 bg-white/5 rounded-2xl border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 hover:-translate-y-1 h-[140px] md:h-[180px]"
                 >
-                  <div className="w-[70px] h-[70px] md:w-[90px] md:h-[90px] flex items-center justify-center mb-3 bg-white/10 rounded-xl p-3 group-hover:bg-white/20 transition-colors">
-                    {partner.logo ? (
-                      <img
-                        src={partner.logo}
-                        alt={`${partner.name} - OEM Partner PressurePro`}
-                        className="w-full h-full object-contain filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
-                      />
-                    ) : (
-                      <span className="text-white font-bold text-base md:text-lg text-center">{partner.name}</span>
-                    )}
-                  </div>
-                  <span className="text-white font-semibold text-sm group-hover:text-purple-300 transition-colors text-center">
-                    {partner.name}
-                  </span>
-                  <span className="text-white/40 text-[11px] mt-1 group-hover:text-white/60 transition-colors">
-                    {t.oemPartnerLabel}
-                  </span>
+                  {partner.logo ? (
+                    <img
+                      src={partner.logo}
+                        alt={partner.name}
+                        className="w-full h-full object-contain filter brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity m-0"
+                    />
+                  ) : (
+                    <span className="text-white font-bold text-lg md:text-xl text-center w-full">{partner.name}</span>
+                  )}
                 </motion.a>
               ))}
             </div>
@@ -216,22 +208,17 @@ export default function PartnersPage() {
                           href={partner.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group flex flex-col items-center justify-center p-4 bg-white/5 rounded-xl border border-white/10 hover:border-purple-500/40 hover:bg-white/10 transition-all duration-300"
+                          className="group flex items-center justify-center p-0 bg-white/5 rounded-xl border border-white/10 hover:border-purple-500/40 hover:bg-white/10 transition-all duration-300 h-[70px] md:h-[90px]"
                         >
-                          <div className="w-[60px] h-[60px] md:w-[70px] md:h-[70px] flex items-center justify-center mb-2 bg-white/10 rounded-lg p-2 group-hover:bg-white/20 transition-colors">
-                            {partner.logo ? (
-                              <img
-                                src={partner.logo}
-                                alt={`${partner.name} - OEM Partner`}
-                                className="w-full h-full object-contain filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
-                              />
-                            ) : (
-                              <span className="text-white font-bold text-sm text-center">{partner.name}</span>
-                            )}
-                          </div>
-                          <span className="text-white font-medium text-sm group-hover:text-purple-300 transition-colors text-center">
-                            {partner.name}
-                          </span>
+                          {partner.logo ? (
+                            <img
+                              src={partner.logo}
+                              alt={partner.name}
+                              className="w-full h-full object-contain filter brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity m-0"
+                            />
+                          ) : (
+                            <span className="text-white font-bold text-sm text-center w-full">{partner.name}</span>
+                          )}
                         </a>
                       ))}
                     </div>

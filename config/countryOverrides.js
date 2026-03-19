@@ -126,7 +126,7 @@ const countryOverrides = {
       subtitle: 'Monitoreo de neumáticos en tiempo real para Uruguay',
     },
     about: {
-      text: 'PressurePro LATAM, con sede en Uruguay, es el distribuidor exclusivo para América Latina. Nuestras soluciones están pensadas para el agro uruguayo, el transporte de cargas por rutas nacionales y la industria forestal, pilares de la economía del país.',
+      text: 'PressurePro LATAM, con sede en Uruguay, es el partner exclusivo para América Latina. Nuestras soluciones están pensadas para el agro uruguayo, el transporte de cargas por rutas nacionales y la industria forestal, pilares de la economía del país.',
     },
     world: {
       description: 'Sede central de PressurePro LATAM. Soluciones para el agro, transporte y sector forestal uruguayo.',
@@ -143,7 +143,7 @@ const countryOverrides = {
     about: {
       title: "Acerca de PressurePro España",
       companyName: "PressurePro España",
-      text: 'PressurePro España es el distribuidor oficial de sistemas TPMS en la Península Ibérica, ofreciendo tecnología de monitorización de neumáticos que cumple con normativas europeas CE. Desde 1991, PressurePro lidera el mercado global en sistemas de control de presión y temperatura para flotas de transporte comercial, vehículos industriales y operaciones logísticas. Nuestras soluciones TPMS reducen costes operativos hasta un 15%, mejoran la seguridad vial y contribuyen a la sostenibilidad ambiental en el sector del transporte europeo.',
+      text: 'PressurePro España es el partner oficial de sistemas TPMS en la Península Ibérica, ofreciendo tecnología de monitorización de neumáticos que cumple con normativas europeas CE. Desde 1991, PressurePro lidera el mercado global en sistemas de control de presión y temperatura para flotas de transporte comercial, vehículos industriales y operaciones logísticas. Nuestras soluciones TPMS reducen costes operativos hasta un 15%, mejoran la seguridad vial y contribuyen a la sostenibilidad ambiental en el sector del transporte europeo.',
     },
     world: {
       typingTex: "Tecnología TPMS certificada para el mercado europeo",

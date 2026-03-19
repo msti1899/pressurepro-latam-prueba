@@ -92,13 +92,17 @@ const About = () => {
       >
         <TypingText title={`| ${translations.about.title}`} textStyles='text-center' />
         <TitleText title={translations.about.companyName} textStyles='text-center' as='h2' />
-        <motion.p
+        <motion.div
           variants={fadeIn('up', 'tween', 0.2, 1)}
-          className='mt-[8px] font-normal sm:text-[24px] text-[18px] sm:leading-[38px] leading-[30px] text-center text-gray-200 max-w-[850px] mx-auto'
+          className='mt-[8px] max-w-[850px] mx-auto text-center'
         >
-          <span className='font-extrabold text-white'>{translations.about.companyName} </span>
-          {renderTextWithLinks(translations.about.text)}
-        </motion.p>
+          {/* <p className='font-extrabold text-white sm:text-[28px] text-[22px] sm:leading-[40px] leading-[32px]'>
+            {translations.about.companyName}
+          </p> */}
+          <p className='mt-2 font-normal sm:text-[24px] text-[18px] sm:leading-[38px] leading-[30px] text-gray-200'>
+            {renderTextWithLinks(translations.about.text)}
+          </p>
+        </motion.div>
 
         {/* Sección de enlaces rápidos a industrias clave */}
         <motion.div

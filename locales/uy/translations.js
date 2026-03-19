@@ -17,7 +17,7 @@ uyTranslations.terminology = {
 // SEO específico para Uruguay
 uyTranslations.seo = {
   title: "PressurePro Uruguay - TPMS para Agro y Transporte",
-  description: "Sistema de monitoreo de presión de neumáticos para maquinaria agrícola y flotas de transporte en Uruguay. Distribuidor oficial para LATAM.",
+  description: "Sistema de monitoreo de presión de neumáticos para maquinaria agrícola y flotas de transporte en Uruguay. Partner oficial para LATAM.",
   keywords: ["TPMS Uruguay", "monitoreo neumáticos", "sensores maquinaria agrícola", "presión neumáticos"]
 };
 

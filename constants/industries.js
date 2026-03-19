@@ -49,32 +49,32 @@ export const BENEFIT_ICONS = {
 // Partners OEM de PressurePro organizados por industria
 export const OEM_PARTNERS = {
   mineria: [
-    { name: 'CAT', url: 'https://www.caterpillar.com/', logo: '/partners/cat.svg' },
-    { name: 'Sandvik', url: 'https://www.home.sandvik/', logo: '/partners/sandvik.svg' },
-    { name: 'BELAZ', url: 'https://belaz.by/en/', logo: '/partners/belaz.svg' },
+    { name: 'CAT', url: 'https://www.caterpillar.com/', logo: '/partners/logo-cat.png' },
+    { name: 'Sandvik', url: 'https://www.home.sandvik/', logo: '/partners/logo-sandvik.png' },
+    { name: 'BELAZ', url: 'https://belaz.by/en/', logo: '/partners/logo-belaz.png' },
   ],
   agricultura: [
-    { name: 'CNH Industrial', url: 'https://www.cnhindustrial.com/', logo: '/partners/cnh.svg' },
+    { name: 'CNH Industrial', url: 'https://www.cnhindustrial.com/', logo: '/partners/logo-cnh-industrial.png' },
   ],
   forestal: [
-    { name: 'Tigercat', url: 'https://www.tigercat.com/', logo: '/partners/tigercat.svg' },
+    { name: 'Tigercat', url: 'https://www.tigercat.com/', logo: '/partners/logo-tigercat.png' },
   ],
   portuario: [
-    { name: 'Kalmar', url: 'https://www.kalmarglobal.com/', logo: '/partners/kalmar.svg' },
-    { name: 'Konecranes', url: 'https://www.konecranes.com/', logo: '/partners/konecranes.svg' },
-    { name: 'OrangeEV', url: 'https://orangeev.com/', logo: '/partners/orangeev.svg' },
-    { name: 'Taylor', url: 'https://www.taylorbigred.com/', logo: '/partners/taylor.svg' },
+    { name: 'Kalmar', url: 'https://www.kalmarglobal.com/', logo: '/partners/logo-kalmar.png' },
+    { name: 'Konecranes', url: 'https://www.konecranes.com/', logo: '/partners/logo-konecranes.png' },
+    { name: 'OrangeEV', url: 'https://orangeev.com/', logo: '/partners/logo-orange-ev.png' },
+    { name: 'Taylor', url: 'https://www.taylorbigred.com/', logo: '/partners/logo-taylor.png' },
   ],
   industrial: [
-    { name: 'Hyster-Yale', url: 'https://www.hyster-yale.com/', logo: '/partners/hyster-yale.svg' },
-    { name: 'JCB', url: 'https://www.jcb.com/es-ES/', logo: '/partners/jcb.svg' },
-    { name: 'Hitachi', url: 'https://www.hitachi.com/en/', logo: '/partners/hitachi.svg' },
+    { name: 'Hyster-Yale', url: 'https://www.hyster-yale.com/', logo: '/partners/logo-hyster-yale.png' },
+    { name: 'JCB', url: 'https://www.jcb.com/es-ES/', logo: '/partners/logo-jcb.png' },
+    { name: 'Hitachi', url: 'https://www.hitachi.com/en/', logo: '/partners/logo-hitachi.png' },
   ],
   transporte: [
-    { name: 'Bombardier', url: 'https://bombardier.com/en', logo: '/partners/bombardier.svg' },
-    { name: 'REV Group', url: 'https://revgroup.com/', logo: '/partners/revgroup.svg' },
-    { name: 'Tiffin', url: 'https://tiffinmotorhomes.com/', logo: '/partners/tiffin.svg' },
-    { name: 'Newell', url: 'https://www.newellcoach.com/', logo: '/partners/newell.svg' },
+    { name: 'Bombardier', url: 'https://bombardier.com/en', logo: '/partners/logo-bombardier.png' },
+    { name: 'REV Group', url: 'https://revgroup.com/', logo: '/partners/logo-rev-group.png' },
+    { name: 'Tiffin', url: 'https://tiffinmotorhomes.com/', logo: '/partners/logo-tiffin.png' },
+    { name: 'Newell', url: 'https://www.newellcoach.com/', logo: '/partners/logo-newell.png' },
   ],
 };
 

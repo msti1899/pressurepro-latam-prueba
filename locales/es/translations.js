@@ -31,7 +31,7 @@ export default {
     about: {
         title: "Acerca de PressurePro LATAM",
         companyName: "PressurePro LATAM",
-        text: "PressurePro LATAM revoluciona el sistema de monitoreo TPMS para flotas comerciales, brindando a conductores y gerentes de flota datos en tiempo real sobre presión y temperatura de neumáticos. Nuestro sistema de sensores TPMS permite prevenir reventones, reducir costos operativos y mejorar la seguridad vehicular en industrias como minería, transporte de carga y logística portuaria. Desde 1991, PressurePro es líder global en tecnología de monitoreo de neumáticos, y PressurePro LATAM es el distribuidor exclusivo en América Latina, ofreciendo soluciones TPMS innovadoras para la optimización de flotas."
+        text: "PressurePro LATAM revoluciona el sistema de monitoreo TPMS para flotas comerciales, brindando a conductores y gerentes de flota datos en tiempo real sobre presión y temperatura de neumáticos. Nuestro sistema de sensores TPMS permite prevenir reventones, reducir costos operativos y mejorar la seguridad vehicular en industrias como minería, transporte de carga y logística portuaria. Desde 1991, PressurePro es líder global en tecnología de monitoreo de neumáticos, y PressurePro LATAM es el partner exclusivo en América Latina, ofreciendo soluciones TPMS innovadoras para la optimización de flotas."
     },
     explore: {
         title: "Industrias",

@@ -206,6 +206,12 @@ export const MARKET_CONTENT_TREE = {
                                 es: 'Maquinaria forestal en Uruguay con monitoreo TPMS en tiempo real',
                             },
                         },
+                        {
+                            src: '/agro.jpg',
+                            alt: {
+                                es: 'Maquinaria agricola en Uruguay con sistema TPMS PressurePro para monitoreo de neumaticos',
+                            },
+                        },
                     ],
                     stampHref: '#mercados',
                 },
