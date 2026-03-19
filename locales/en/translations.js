@@ -134,6 +134,17 @@ export default {
     contact: {
         whatsappButton: 'Contact us',
         whatsappDefaultMessage: 'Hello! I am interested in learning more about PressurePro tire monitoring systems.',
+        whatsappForm: {
+            title: 'What car are you interested in sensors for? With or without a trailer?',
+            options: [
+                '6 wheels, semi-trailer',
+                '12 wheels, tractor unit + semi-trailer',
+                '14 wheels, tractor unit + semi-trailer'
+            ],
+            close: 'Close',
+            placeholder: 'Write an additional message...',
+            send: 'Send'
+        }
     },
     common: {
         close: 'Close',

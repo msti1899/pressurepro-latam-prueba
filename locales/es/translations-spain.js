@@ -10,7 +10,7 @@ const esSpainTranslations = JSON.parse(JSON.stringify(esBase));
 esSpainTranslations.about = {
   title: "Acerca de PressurePro España",
   companyName: "PressurePro España",
-  text: "PressurePro España es el partner oficial de sistemas TPMS en la Península Ibérica, ofreciendo tecnología de monitorización de neumáticos que cumple con normativas europeas CE. Desde 1991, PressurePro lidera el mercado global en sistemas de control de presión y temperatura para flotas de transporte comercial, vehículos industriales y operaciones logísticas. Nuestras soluciones TPMS reducen costes operativos hasta un 15%, mejoran la seguridad vial y contribuyen a la sostenibilidad ambiental en el sector del transporte europeo."
+  text: "PressurePro España es el partner oficial de sistemas TPMS en la Península Ibérica, ofreciendo tecnología de monitorización de neumáticos que cumple con normativas europeas CE. Desde 1991, PressurePro lidera el mercado global en sistemas de control de presión y temperatura para flotas de transporte comercial, vehículos industriales y operaciones logísticas. Nuestras soluciones TPMS reducen costes operativos hasta un 30%, mejoran la seguridad vial y contribuyen a la sostenibilidad ambiental en el sector del transporte europeo."
 };
 
 esSpainTranslations.world = {
@@ -21,7 +21,7 @@ esSpainTranslations.world = {
 
 esSpainTranslations.seo = {
   title: "PressurePro España - Sistemas TPMS Certificados CE para Flotas",
-  description: "Partner oficial de sistemas TPMS en España. Monitorización profesional de neumáticos certificada CE para transporte comercial, flotas industriales y logística. Ahorro hasta 15% en costes operativos con tecnología americana.",
+  description: "Partner oficial de sistemas TPMS en España. Monitorización profesional de neumáticos certificada CE para transporte comercial, flotas industriales y logística. Ahorro hasta 30% en costes operativos con tecnología americana.",
   keywords: ["TPMS España", "monitorización neumáticos", "sistemas presión certificados CE", "flotas transporte España", "control neumáticos Europa", "TPMS homologado", "seguridad vial Europa"]
 };
 

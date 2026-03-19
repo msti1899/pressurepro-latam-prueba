@@ -63,7 +63,7 @@ export default {
             },
             {
                 imgUrl: '/pp-white.png',
-                title: "Economia Operacional até 15%",
+                title: "Economia Operacional até 30%",
                 subtitle: "Otimiza o consumo de combustível, reduz o desgaste dos pneus e minimiza os custos de manutenção e substituição."
             },
             {
@@ -134,6 +134,17 @@ export default {
     contact: {
         whatsappButton: 'Fale conosco',
         whatsappDefaultMessage: 'Olá! Tenho interesse em saber mais sobre os sistemas de monitoramento de pneus PressurePro.',
+        whatsappForm: {
+            title: 'Para qual veículo você tem interesse em sensores? Com ou sem reboque?',
+            options: [
+                '6 rodas, semirreboque',
+                '12 rodas, cavalo mecânico + semirreboque',
+                '14 rodas, cavalo mecânico + semirreboque'
+            ],
+            close: 'Fechar',
+            placeholder: 'Escreva uma mensagem adicional...',
+            send: 'Enviar'
+        }
     },
     common: {
         close: 'Fechar',

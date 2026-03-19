@@ -63,7 +63,7 @@ export default {
             },
             {
                 imgUrl: '/pp-white.png',
-                title: "Ahorro Operativo hasta 15%",
+                title: "Ahorro Operativo hasta 30%",
                 subtitle: "Optimiza el consumo de combustible, reduce el desgaste de los neumáticos y minimiza los costos de mantenimiento y reemplazo."
             },
             {
@@ -134,6 +134,17 @@ export default {
     contact: {
         whatsappButton: 'Contáctanos',
         whatsappDefaultMessage: '¡Hola! Me interesa conocer más sobre los sistemas de monitoreo de neumáticos PressurePro.',
+        whatsappForm: {
+            title: '¿Para qué vehículo te interesan sensores? ¿Con o sin remolque?',
+            options: [
+                '6 ruedas, semirremolque',
+                '12 ruedas, tractor + semirremolque',
+                '14 ruedas, tractor + semirremolque'
+            ],
+            close: 'Cerrar',
+            placeholder: 'Escribe un mensaje adicional...',
+            send: 'Enviar'
+        }
     },
     common: {
         close: 'Cerrar',
