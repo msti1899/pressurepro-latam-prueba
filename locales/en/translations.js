@@ -135,7 +135,7 @@ export default {
         whatsappButton: 'Contact us',
         whatsappDefaultMessage: 'Hello! I am interested in learning more about PressurePro tire monitoring systems.',
         whatsappForm: {
-            title: 'What car are you interested in sensors for? With or without a trailer?',
+            title: 'Hello! What type of vehicle are you interested in implementing our technology in?',
             options: [
                 '6 wheels, semi-trailer',
                 '12 wheels, tractor unit + semi-trailer',

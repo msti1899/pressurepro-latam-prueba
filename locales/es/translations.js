@@ -135,7 +135,7 @@ export default {
         whatsappButton: 'Contáctanos',
         whatsappDefaultMessage: '¡Hola! Me interesa conocer más sobre los sistemas de monitoreo de neumáticos PressurePro.',
         whatsappForm: {
-            title: '¿Para qué vehículo te interesan sensores? ¿Con o sin remolque?',
+            title: '¡Hola! ¿En qué tipo de vehículo estás interesado en implementar nuestra tecnología?',
             options: [
                 '6 ruedas, semirremolque',
                 '12 ruedas, tractor + semirremolque',
