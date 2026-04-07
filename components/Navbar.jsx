@@ -58,6 +58,7 @@ const Navbar = () => {
     { id: 'whatsnew', name: translations?.navbar?.whatsNew },
     { id: 'world', name: translations?.navbar?.world },
     { id: 'insights', name: translations?.navbar?.insights },
+    { id: 'blog', name: translations?.navbar?.blog, isExternal: true, href: '/blog' },
     { id: 'partners', name: translations?.partners?.navLabel, isExternal: true, href: '/partners' },
     { id: 'faq', name: translations?.navbar?.faq, isExternal: true, href: '/faq' },
     { id: 'feedback', name: translations?.navbar?.feedback },

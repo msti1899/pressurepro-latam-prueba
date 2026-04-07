@@ -19,6 +19,7 @@ export default {
         closeMenuAria: 'Cerrar menú de navegación',
         countrySelectorPrefix: 'Seleccionar país. País actual',
         noCountrySelected: 'No seleccionado',
+        blog: 'Blog',
     },
     hero: {
         title: "Monitoreo TPMS de Neumáticos en Tiempo Real",
@@ -219,4 +220,5 @@ export default {
     countryBanner: {
         title: 'Selecciona tu país',
     },
+    blog: 'Blog',
 };

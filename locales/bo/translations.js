@@ -31,4 +31,12 @@ boTranslations.contact = {
   distributor: "PressurePro LATAM - Bolivia"
 };
 
+// Navegación específica para Bolivia
+boTranslations.navbar = {
+  home: 'Inicio',
+  about: 'Acerca de',
+  products: 'Productos',
+  blog: 'Blog'
+};
+
 export default boTranslations;

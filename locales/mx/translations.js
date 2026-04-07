@@ -59,4 +59,10 @@ mxTranslations.contact = {
   distributor: "Distribuidor México"
 };
 
+// Agregar clave blog al objeto navbar en la traducción de México
+mxTranslations.navbar = {
+  ...mxTranslations.navbar,
+  blog: 'Blog'
+};
+
 export default mxTranslations;

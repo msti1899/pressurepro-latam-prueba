@@ -31,4 +31,6 @@ uyTranslations.contact = {
   distributor: "PressurePro LATAM - Sede Central"
 };
 
+uyTranslations.navbar = { ...uyTranslations.navbar, blog: 'Blog' };
+
 export default uyTranslations;

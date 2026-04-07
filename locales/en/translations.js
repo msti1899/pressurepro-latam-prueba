@@ -19,6 +19,7 @@ export default {
         closeMenuAria: 'Close navigation menu',
         countrySelectorPrefix: 'Select country. Current country',
         noCountrySelected: 'Not selected',
+        blog: 'Blog',
     },
     hero: {
         title: "PressurePro LATAM",
@@ -219,4 +220,5 @@ export default {
     countryBanner: {
         title: 'Select your country',
     },
+    blog: 'Blog',
 }

@@ -55,4 +55,10 @@ clTranslations.contact = {
   distributor: "Distribuidor Chile"
 };
 
+// Blog específico para Chile
+clTranslations.blog = {
+  title: "Blog de PressurePro Chile",
+  subtitle: "Artículos y noticias sobre TPMS y minería"
+};
+
 export default clTranslations;

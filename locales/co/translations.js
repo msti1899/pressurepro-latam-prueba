@@ -44,4 +44,9 @@ coTranslations.contact = {
   distributor: "Distribuidor Colombia"
 };
 
+// Agregar clave blog al objeto navbar
+coTranslations.navbar = {
+  blog: 'Blog'
+};
+
 export default coTranslations;

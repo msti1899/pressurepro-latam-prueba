@@ -55,4 +55,10 @@ peTranslations.contact = {
   distributor: "Distribuidor Perú"
 };
 
+// Blog específico para Perú
+peTranslations.blog = {
+  title: "Blog de PressurePro Perú",
+  subtitle: "Artículos y noticias sobre TPMS y minería en Perú"
+};
+
 export default peTranslations;

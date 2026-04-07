@@ -19,6 +19,7 @@ export default {
         closeMenuAria: 'Fechar menu de navegação',
         countrySelectorPrefix: 'Selecionar país. País atual',
         noCountrySelected: 'Não selecionado',
+        blog: 'Blog',
     },
     hero: {
         title: "Monitoramento TPMS de Pneus em Tempo Real Brasil",

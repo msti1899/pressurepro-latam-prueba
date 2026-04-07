@@ -31,4 +31,12 @@ arTranslations.contact = {
   distributor: "Distribuidor Argentina"
 };
 
+// Navegación específica para Argentina
+arTranslations.navbar = {
+  home: 'Inicio',
+  about: 'Sobre nosotros',
+  products: 'Productos',
+  blog: 'Blog'
+};
+
 export default arTranslations;

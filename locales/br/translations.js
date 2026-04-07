@@ -30,4 +30,10 @@ brTranslations.contact = {
   distributor: "Distribuidor Brasil"
 };
 
+// Blog específico para o Brasil
+brTranslations.blog = {
+  title: "Blog do PressurePro",
+  description: "Artigos e notícias sobre monitoramento de pneus e tecnologia TPMS."
+};
+
 export default brTranslations;
