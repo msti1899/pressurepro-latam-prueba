@@ -440,6 +440,55 @@ export default function IndustryPage() {
           </section>
         )}
 
+        {/* Integraciones tecnológicas (solo para industrias que las tengan) */}
+        {industry.techIntegrations && (
+          <section className="py-12 md:py-20 px-6 sm:px-16">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.1 }}
+              className="2xl:max-w-[1280px] mx-auto"
+            >
+              <motion.div variants={fadeIn('up', 'tween', 0.2, 1)} className="text-center mb-10">
+                <h2 className="font-bold text-[24px] sm:text-[28px] md:text-[38px] text-white mb-4">
+                  {industry.techIntegrations[language]?.title || industry.techIntegrations.es.title}
+                </h2>
+                <p className="text-secondary-white text-base md:text-lg max-w-[750px] mx-auto">
+                  {industry.techIntegrations[language]?.description || industry.techIntegrations.es.description}
+                </p>
+              </motion.div>
+
+              <div className={`grid gap-4 ${
+                industry.techIntegrations.partners.length === 1
+                  ? 'grid-cols-1 justify-items-center'
+                  : 'grid-cols-2 justify-items-center'
+              } max-w-[500px] mx-auto`}>
+                {industry.techIntegrations.partners.map((partner, idx) => (
+                  <motion.a
+                    key={partner.name}
+                    href={partner.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variants={fadeIn('up', 'spring', idx * 0.15, 0.8)}
+                    className="group flex items-center justify-center p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 w-full h-[120px] md:h-[150px]"
+                  >
+                    {partner.logo ? (
+                      <img
+                        src={partner.logo}
+                        alt={partner.name}
+                        className="max-h-[70px] max-w-[160px] object-contain filter brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
+                      />
+                    ) : (
+                      <span className="text-white font-bold text-lg text-center">{partner.name}</span>
+                    )}
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+          </section>
+        )}
+
         {/* CTA */}
         <section className="py-12 md:py-20 px-6 sm:px-16">
           <motion.div

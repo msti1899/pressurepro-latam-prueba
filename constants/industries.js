@@ -564,6 +564,24 @@ export const INDUSTRIES = [
     imgUrl: '/transport.jpeg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
     oems: OEM_PARTNERS.transporte,
+    techIntegrations: {
+      partners: [
+        { name: 'Easymail', url: 'https://easymail.net.uy/', logo: '/partners/logo-easymail.png' },
+        { name: 'MobilTrack', url: 'https://www.mobiltrack.com/', logo: '/partners/logo-mobil.track.png' },
+      ],
+      es: {
+        title: 'Integración con Plataformas de Gestión',
+        description: 'Estamos integrados con Easymail y MobilTrack, dos de las principales plataformas de gestión de flotas de la región. Esto significa que los clientes que utilizan sus plataformas pueden visualizar directamente la información de presión, temperatura y alertas de los neumáticos proveniente de PressurePro, sin necesidad de sistemas adicionales.',
+      },
+      en: {
+        title: 'Integration with Fleet Management Platforms',
+        description: 'We are integrated with Easymail and MobilTrack, two of the leading fleet management platforms in the region. This means that customers using their platforms can directly view tire pressure, temperature and alert information from PressurePro, without the need for additional systems.',
+      },
+      pt: {
+        title: 'Integração com Plataformas de Gestão',
+        description: 'Estamos integrados com Easymail e MobilTrack, duas das principais plataformas de gestão de frotas da região. Isso significa que os clientes que utilizam suas plataformas podem visualizar diretamente as informações de pressão, temperatura e alertas dos pneus provenientes do PressurePro, sem necessidade de sistemas adicionais.',
+      },
+    },
     es: {
       name: 'Transporte y Aeronáutico',
       benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
