@@ -371,6 +371,68 @@ export default function IndustryPage() {
           </motion.div>
         </section>
 
+        {/* Casos de éxito: se muestran solo si existe un bloque para el locale actual */}
+        {industry.successCases?.[locale] && (
+          <section className="py-12 md:py-20 px-6 sm:px-16 bg-gradient-to-b from-transparent to-black/10">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.1 }}
+              className="2xl:max-w-[1280px] mx-auto"
+            >
+              <motion.div variants={fadeIn('up', 'tween', 0.2, 1)} className="text-center mb-10">
+                <h2 className="font-bold text-[24px] sm:text-[28px] md:text-[38px] text-white mb-4">
+                  {industry.successCases[locale].title}
+                </h2>
+                <p className="text-secondary-white text-base md:text-lg max-w-[700px] mx-auto">
+                  {industry.successCases[locale].subtitle}
+                </p>
+              </motion.div>
+
+              <div className="grid md:grid-cols-2 gap-8 items-start">
+                {/* Métrica destacada */}
+                <motion.div
+                  variants={fadeIn('right', 'tween', 0.3, 1)}
+                  className="bg-gradient-to-br from-purple-900/30 via-indigo-900/20 to-black/20 p-8 rounded-3xl border border-purple-500/20 text-center"
+                >
+                  <p className="text-purple-300 text-sm uppercase tracking-widest font-medium mb-3">
+                    {industry.successCases[locale].metric.label}
+                  </p>
+                  <p className="text-white font-bold text-[40px] md:text-[52px] leading-none mb-2">
+                    {industry.successCases[locale].metric.value}
+                  </p>
+                  <p className="text-green-400 font-semibold text-xl mb-4">
+                    {industry.successCases[locale].metric.detail}
+                  </p>
+                  <p className="text-white/40 text-sm">
+                    {industry.successCases[locale].metric.footnote}
+                  </p>
+                </motion.div>
+
+                {/* Lista de empresas */}
+                <div className="flex flex-col gap-4">
+                  {industry.successCases[locale].companies.map((company, idx) => (
+                    <motion.div
+                      key={company.name}
+                      variants={fadeIn('left', 'spring', idx * 0.12, 0.7)}
+                      className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:border-green-500/30 hover:bg-white/[0.08] transition-all"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center flex-shrink-0">
+                        <span className="text-green-400 font-bold text-lg">✓</span>
+                      </div>
+                      <div>
+                        <p className="text-white font-semibold">{company.name}</p>
+                        <p className="text-secondary-white text-sm">{company.location}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </section>
+        )}
+
         {/* OEM Partners de esta industria */}
         {industry.oems && industry.oems.length > 0 && (
           <section className="py-12 md:py-20 px-6 sm:px-16 bg-gradient-to-b from-transparent to-black/10">

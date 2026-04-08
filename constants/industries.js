@@ -311,6 +311,28 @@ export const INDUSTRIES = [
     imgUrl: '/forestal.jpeg',
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
     oems: OEM_PARTNERS.forestal,
+    // successCases: keyed by locale (uy, ar, cl, etc.)
+    // Cada país tiene su propio bloque con texto en el idioma local.
+    // Para habilitar un nuevo país, agregá una entrada con su locale.
+    successCases: {
+      uy: {
+        title: 'Clientes que ya lo comprueban',
+        subtitle: 'Empresas forestales de Uruguay llevan años optimizando sus operaciones con PressurePro y ven resultados concretos.',
+        metric: {
+          value: '~1 neumático/mes',
+          label: 'ahorro promedio por cliente',
+          detail: '≈ USD 35.000 por año',
+          footnote: 'Sin contar tiempos de parada, combustible ni costos de mantenimiento.',
+        },
+        companies: [
+          { name: 'Dalfey', location: 'Rivera, Uruguay' },
+          { name: 'Regnans Servicios Forestales', location: 'Tacuarembó, Uruguay' },
+          { name: 'Timberfor', location: 'Tacuarembó, Uruguay' },
+        ],
+      },
+      // ar: { title: '...', subtitle: '...', metric: { ... }, companies: [...] },
+      // cl: { title: '...', subtitle: '...', metric: { ... }, companies: [...] },
+    },
     es: {
       name: 'Forestal',
       benefits: ['Eficiencia', 'Ahorro', 'Seguridad', 'Innovación'],
