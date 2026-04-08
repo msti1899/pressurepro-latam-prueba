@@ -92,7 +92,7 @@ export default {
         products: [
             {
                 imgUrl: '/planet-06.png',
-                title: '{ Sensors }',
+                title: 'Sensors',
                 description:
                     'Se instalan ajustándolos al vástago de la válvula del neumático. El monitoreo avanzado incluye una lógica de detección dinámica única en el mercado con altas tasas de muestreo y una protección inigualable.',
                 specs: 'Descargar Especificaciones',
@@ -100,7 +100,7 @@ export default {
             },
             {
                 imgUrl: '/planet-07.png',
-                title: '{ Pulse TMPMS + Display }',
+                title: 'Pulse TMPMS + Display',
                 description:
                     'El primer dispositivo de la línea TPMS+ de PressurePro, PULSE, ofrece a los usuarios una opción de visualización dentro de la cabina, integrando nuestra lista completa de funciones avanzadas en un diseño atractivo y fácil de usar.',
                 specs: 'Descargar Especificaciones',
@@ -108,7 +108,7 @@ export default {
             },
             {
                 imgUrl: '/planet-08.png',
-                title: '{ Link - HD, LT y UR }',
+                title: 'Link - HD, LT y UR',
                 description:
                     'Un componente clave para aplicaciones en flotas y fabricantes de equipos originales (OE), así como para configuraciones de acople y desacople, ya sean independientes o integradas. Los productos LINK cuentan con un resistente y avanzado gabinete certificado.',
                 specs: 'Descargar Especificaciones',
@@ -116,11 +116,19 @@ export default {
             },
             {
                 imgUrl: '/planet-088.png',
-                title: '{ Fx }',
+                title: 'Fx',
                 description:
                     'FX brinda a los usuarios una gestión de neumáticos líder en el mercado, con un valor inigualable. Aprovecha dispositivos inteligentes existentes y las aplicaciones personalizadas de TPMS de PressurePro para ofrecer un monitoreo de neumáticos potente.',
                 specs: 'Descargar Especificaciones',
                 specsUrl: '/FX-Fleet.pdf',
+            },
+            {
+                imgUrl: '/connect-2.0.png',
+                title: 'Connect 2.0',
+                description:
+                    'Plataforma cloud de gestión inteligente de neumáticos que brinda visibilidad en tiempo real y análisis predictivo. Convierte datos de presión y rendimiento en acciones concretas para reducir downtime, extender la vida útil de los neumáticos y mejorar la seguridad operativa en minería, puertos e industria.',
+                specs: 'Descargar presentación',
+                specsUrl: '/Introducing Connect 2.0 - Tire Intelligence for Ports Fleets.pptx',
             },
         ],
     },

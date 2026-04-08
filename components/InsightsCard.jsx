@@ -63,7 +63,7 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
       >
         {/* Imagen con hover effect */}
         <div
-          className="relative cursor-pointer w-full h-[250px] sm:h-[300px] rounded-[24px] overflow-hidden"
+          className="relative cursor-pointer w-full h-[250px] sm:h-[300px] rounded-[24px] overflow-hidden bg-black"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onClick={() => setIsImageOpen(true)}

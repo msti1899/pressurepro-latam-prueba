@@ -92,7 +92,7 @@ export default {
         products: [
             {
                 imgUrl: '/planet-06.png',
-                title: '{ Sensores }',
+                title: 'Sensores',
                 description:
                     'Eles são instalados ajustando-os à haste da válvula do pneu. O monitoramento avançado inclui uma lógica de detecção dinâmica única no mercado com altas taxas de amostragem e proteção incomparável.',
                 specs: 'Baixar Especificações',
@@ -100,7 +100,7 @@ export default {
             },
             {
                 imgUrl: '/planet-07.png',
-                title: '{ Pulse TMPMS + Display }',
+                title: 'Pulse TMPMS + Display',
                 description:
                     'O Pulse TMPMS é um sistema de monitoramento de pressão de pneus e temperatura que oferece uma solução de monitoramento de pressão de pneus em tempo real para veículos de passeio, caminhões e ônibus.',
                 specs: 'Baixar Especificações',
@@ -108,7 +108,7 @@ export default {
             },
             {
                 imgUrl: '/planet-08.png',
-                title: '{ Link - HD, LT y UR }',
+                title: 'Link - HD, LT e UR',
                 description:
                     'O Link é um dispositivo de comunicação que permite a integração de sensores de pressão de pneus com sistemas de telemática de veículos.',
                 specs: 'Baixar Especificações',
@@ -116,11 +116,19 @@ export default {
             },
             {
                 imgUrl: '/planet-088.png',
-                title: '{ Fx }',
+                title: 'Fx',
                 description:
                     'O Fx é um sistema de monitoramento de pressão de pneus e temperatura que oferece uma solução de monitoramento de pressão de pneus em tempo real para veículos de passeio, caminhões e ônibus.',
                 specs: 'Baixar Especificações',
                 specsUrl: '/FX-Fleet.pdf',
+            },
+            {
+                imgUrl: '/connect-2.0.png',
+                title: 'Connect 2.0',
+                description:
+                    'Plataforma cloud de gestão inteligente de pneus que oferece visibilidade em tempo real e análise preditiva para toda a frota. Converte dados de pressão e desempenho em ações concretas para reduzir o downtime, estender a vida útil dos pneus e melhorar a segurança operacional em mineração, portos e indústria.',
+                specs: 'Baixar apresentação',
+                specsUrl: '/Introducing Connect 2.0 - Tire Intelligence for Ports Fleets.pptx',
             },
         ],
     },

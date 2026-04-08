@@ -92,7 +92,7 @@ export default {
         products: [
             {
                 imgUrl: '/planet-06.png',
-                title: '{ Sensors }',
+                title: 'Sensors',
                 description:
                     'They are installed by adjusting them to the tire valve stem. Advanced monitoring includes a unique dynamic detection logic in the market with high sampling rates and unparalleled protection.',
                 specs: 'Download Specifications',
@@ -100,7 +100,7 @@ export default {
             },
             {
                 imgUrl: '/planet-07.png',
-                title: '{ Pulse TMPMS + Display }',
+                title: 'Pulse TMPMS + Display',
                 description:
                     'The Pulse TMPMS is a tire pressure and temperature monitoring system that offers a real-time tire pressure monitoring solution for passenger vehicles, trucks, and buses.',
                 specs: 'Download Specifications',
@@ -108,7 +108,7 @@ export default {
             },
             {
                 imgUrl: '/planet-08.png',
-                title: '{ Link - HD, LT y UR }',
+                title: 'Link - HD, LT y UR',
                 description:
                     'The Gateway is a device that allows the Pulse system to communicate with the vehicle’s telematics system, providing real-time tire data to the fleet manager.',
                 specs: 'Download Specifications',
@@ -116,11 +116,19 @@ export default {
             },
             {
                 imgUrl: '/planet-088.png',
-                title: '{ Fx }',
+                title: 'Fx',
                 description:
                     'The Fx is a tire pressure and temperature monitoring system that offers a real-time tire pressure monitoring solution for passenger vehicles, trucks, and buses.',
                 specs: 'Download Specifications',
                 specsUrl: '/FX-Fleet.pdf',
+            },
+            {
+                imgUrl: '/connect-2.0.png',
+                title: 'Connect 2.0',
+                description:
+                    'Cloud platform for intelligent tire management that delivers real-time fleet visibility and predictive analytics. Converts pressure and performance data into actionable insights to reduce downtime, extend tire lifespan, and improve operational safety across mining, port, and industrial fleets.',
+                specs: 'Download presentation',
+                specsUrl: '/Introducing Connect 2.0 - Tire Intelligence for Ports Fleets.pptx',
             },
         ],
     },
