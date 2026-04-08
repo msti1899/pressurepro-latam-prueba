@@ -8,7 +8,7 @@ import { useLocale } from '../context/LocaleContext';
  */
 
 const WhatsAppButton = ({ message = '' }) => {
-  const { translations, getWhatsAppNumber } = useLocale();
+  const { translations, getWhatsAppNumber, country, countryConfig } = useLocale();
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userMessage, setUserMessage] = useState('');
@@ -33,6 +33,9 @@ const WhatsAppButton = ({ message = '' }) => {
     if (!selectedOption && (!userMessage || userMessage.trim().length === 0)) return;
     setLoading(true);
     let fullMessage = '';
+    // Agrega País detectado al inicio del mensaje
+    const countryName = countryConfig?.name || country;
+    if (countryName) fullMessage += `País: ${countryName}\n`;
     if (selectedOption) fullMessage += selectedOption + '\n';
     if (userMessage && userMessage.trim().length > 0) {
       fullMessage += userMessage.trim();

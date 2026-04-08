@@ -25,7 +25,7 @@ brTranslations.priorityIndustries = ['agriculture', 'transport', 'mining'];
 
 // Contato específico para o Brasil
 brTranslations.contact = {
-  whatsapp: "+59899000000",
+  whatsapp: "+59898005005",
   email: "brasil@pressurepro-latam.com",
   distributor: "Distribuidor Brasil"
 };

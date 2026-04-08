@@ -51,7 +51,7 @@ esSpainTranslations.europeanFeatures = {
 esSpainTranslations.priorityIndustries = ['transport', 'industrial', 'port'];
 
 esSpainTranslations.contact = {
-  whatsapp: "+59899000000",
+  whatsapp: "+59898005005",
   email: "espana@pressurepro-latam.com",
   distributor: "PressurePro España - Distribuidor Oficial"
 };

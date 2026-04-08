@@ -129,8 +129,8 @@ export const LocaleProvider = ({ children, initialLanguage = 'es', initialCountr
    * Obtiene el número de WhatsApp (centralizado)
    */
   const getWhatsAppNumber = useCallback(() => {
-    return (countryConfig?.whatsapp || `+${WHATSAPP_NUMBER}`).replace('+', '');
-  }, [countryConfig]);
+    return WHATSAPP_NUMBER;
+  }, []);
 
   /**
    * Obtiene las industrias prioritarias para el país actual

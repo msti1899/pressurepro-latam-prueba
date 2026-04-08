@@ -26,7 +26,7 @@ boTranslations.priorityIndustries = ['mining', 'transport', 'agriculture'];
 
 // Contacto específico para Bolivia
 boTranslations.contact = {
-  whatsapp: "+59899000000",
+  whatsapp: "+59898005005",
   email: "info@pressurepro-latam.com",
   distributor: "PressurePro LATAM - Bolivia"
 };
