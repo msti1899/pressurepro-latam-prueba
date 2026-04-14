@@ -129,6 +129,16 @@ const Footer = () => {
                   {translations?.footer?.aboutUs}
                 </Link>
               </li>
+              <li>
+                <Link href='/#roi-calculator' title={translations?.footer?.roiCalculator} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.roiCalculator}
+                </Link>
+              </li>
+              <li>
+                <Link href='/#featured-projects' title={translations?.footer?.featuredProjects} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.footer?.featuredProjects}
+                </Link>
+              </li>
             </ul>
           </div>
 

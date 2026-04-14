@@ -61,6 +61,8 @@ const Navbar = () => {
     { id: 'blog', name: translations?.navbar?.blog, isExternal: true, href: '/blog' },
     { id: 'partners', name: translations?.partners?.navLabel, isExternal: true, href: '/partners' },
     { id: 'faq', name: translations?.navbar?.faq, isExternal: true, href: '/faq' },
+    { id: 'roi-calculator', name: translations?.navbar?.roiCalculator },
+    { id: 'featured-projects', name: translations?.navbar?.featuredProjects },
     { id: 'feedback', name: translations?.navbar?.feedback },
   ];
 

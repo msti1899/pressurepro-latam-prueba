@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Hero, About, Explore, GetStarted, WhatsNew, World, Insights, Feedback } from '../sections';
+import { Hero, About, Explore, GetStarted, WhatsNew, World, Insights, Feedback, FeaturedProjects, ROICalculator } from '../sections';
 import { Navbar, Footer, CountryBanner, WhatsAppButton } from '../components';
 import DynamicSEO from '../components/DynamicSEO';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
@@ -60,6 +60,8 @@ const Page = () => {
           <div className="gradient-04 z-0" />
           <Feedback />
         </div>
+        <ROICalculator />
+        <FeaturedProjects />
         <Footer />
       </div>
       
