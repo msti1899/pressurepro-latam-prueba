@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function BlogCard({ post, language, readMoreLabel }) {
   const content = post[language] || post['es'];
   return (
-    <div className="group flex flex-col rounded-[24px] overflow-hidden border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(147,51,234,0.15)] transition-all duration-500 font-eudoxus shadow-xl">
+    <div className="group relative flex flex-col rounded-[24px] overflow-hidden border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(147,51,234,0.15)] transition-all duration-500 font-eudoxus shadow-xl">
       {/* Imagen separada del texto */}
       <div className="relative overflow-hidden h-[200px] flex-shrink-0">
         <img
@@ -33,12 +33,13 @@ export default function BlogCard({ post, language, readMoreLabel }) {
         <p className="text-white/60 text-[14px] leading-relaxed line-clamp-3 flex-1">
           {content.excerpt}
         </p>
-        <Link href={`/blog/${post.slug}`} className="mt-2 inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-semibold text-[14px] transition-colors group/link">
+        <div className="mt-2 inline-flex items-center gap-2 text-purple-400 group-hover:text-purple-300 font-semibold text-[14px] transition-colors pointer-events-none">
           <span>{readMoreLabel || 'Leer más'}</span>
-          <svg className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
-        </Link>
+        </div>
+        <Link href={`/blog/${post.slug}`} className="absolute inset-0 z-10" aria-label={content.title} />
       </div>
     </div>
   );

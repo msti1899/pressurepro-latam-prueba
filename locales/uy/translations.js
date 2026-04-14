@@ -26,7 +26,7 @@ uyTranslations.priorityIndustries = ['agriculture', 'transport', 'forestry'];
 
 // Contacto específico para Uruguay (sede principal)
 uyTranslations.contact = {
-  whatsapp: "+59898005005",
+  whatsapp: "+59898596735",
   email: "info@pressurepro-latam.com",
   distributor: "PressurePro LATAM - Sede Central"
 };

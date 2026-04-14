@@ -39,7 +39,7 @@ coTranslations.priorityIndustries = ['transport', 'mining', 'port'];
 
 // Contacto específico para Colombia
 coTranslations.contact = {
-  whatsapp: "+59898005005",
+  whatsapp: "+59898596735",
   email: "colombia@pressurepro-latam.com",
   distributor: "Distribuidor Colombia"
 };

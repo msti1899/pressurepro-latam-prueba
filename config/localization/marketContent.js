@@ -1,5 +1,13 @@
 const defaultHeroImages = [
     {
+        src: '/malbitruck.jpg',
+        alt: {
+            es: 'Camión comercial en carretera con sistema TPMS PressurePro para monitoreo de neumaticos en tiempo real',
+            en: 'Commercial truck on the road with PressurePro TPMS system for real-time tire monitoring',
+            pt: 'Caminhão comercial na estrada com sistema TPMS PressurePro para monitoramento em tempo real dos pneus',
+        },
+    },
+    {
         src: '/port-manager.jpg',
         alt: {
             es: 'Sistema TPMS PressurePro en operaciones portuarias con monitoreo en tiempo real',
@@ -210,6 +218,22 @@ export const MARKET_CONTENT_TREE = {
                             src: '/agro.jpg',
                             alt: {
                                 es: 'Maquinaria agricola en Uruguay con sistema TPMS PressurePro para monitoreo de neumaticos',
+                            },
+                        },
+                        {
+                            src: '/port-manager.jpg',
+                            alt: {
+                                es: 'Sistema TPMS PressurePro en operaciones portuarias con monitoreo en tiempo real',
+                                en: 'PressurePro TPMS system for port operations with real-time monitoring',
+                                pt: 'Sistema TPMS PressurePro para operacoes portuarias com monitoramento em tempo real',
+                            },
+                        },
+                        {
+                            src: '/malbitruck.jpg',
+                            alt: {
+                                es: 'Camión comercial en carretera con sistema TPMS PressurePro para monitoreo de neumaticos en tiempo real',
+                                en: 'Commercial truck on the road with PressurePro TPMS system for real-time tire monitoring',
+                                pt: 'Caminhão comercial na estrada com sistema TPMS PressurePro para monitoramento em tempo real dos pneus',
                             },
                         },
                     ],

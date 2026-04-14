@@ -26,7 +26,7 @@ epaTranslations.priorityIndustries = ['transport', 'industrial', 'port'];
 
 // Contacto específico para España
 epaTranslations.contact = {
-  whatsapp: "+59898005005",
+  whatsapp: "+59898596735",
   email: "info@pressurepro-latam.com",
   distributor: "PressurePro - España"
 };

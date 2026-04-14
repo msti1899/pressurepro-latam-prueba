@@ -50,7 +50,7 @@ clTranslations.priorityIndustries = ['mining', 'forestry', 'transport'];
 
 // Contacto específico para Chile
 clTranslations.contact = {
-  whatsapp: "+59898005005",
+  whatsapp: "+59898596735",
   email: "chile@pressurepro-latam.com",
   distributor: "Distribuidor Chile"
 };

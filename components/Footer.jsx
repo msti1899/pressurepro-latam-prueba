@@ -9,6 +9,11 @@ import { useLocale } from '../context/LocaleContext';
 const Footer = () => {
   const { translations, getWhatsAppNumber } = useLocale();
 
+  const handleEmailClick = React.useCallback(() => {
+    const u = ['info', 'pressurepro-latam.com'].join('@');
+    window.location.href = 'mailto:' + u;
+  }, []);
+
   return (
     <motion.footer
       variants={footerVariants}
@@ -92,6 +97,11 @@ const Footer = () => {
                   {translations?.footer?.fxFleet}
                 </Link>
               </li>
+              <li>
+                <Link href='/#insights' title='Connect 2.0' className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  Connect 2.0
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -137,9 +147,14 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href='mailto:info@pressurepro-latam.com' title="Email" className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                <button
+                  type='button'
+                  onClick={handleEmailClick}
+                  title='Email'
+                  className='text-white/60 hover:text-purple-400 transition-colors text-[14px] cursor-pointer'
+                >
                   Email
-                </a>
+                </button>
               </li>
               <li>
                 <Link href='/#world' title={translations?.footer?.coverage} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>

@@ -54,7 +54,7 @@ mxTranslations.seo = {
 
 // Contacto específico para México
 mxTranslations.contact = {
-  whatsapp: "+59898005005",
+  whatsapp: "+59898596735",
   email: "mexico@pressurepro-latam.com",
   distributor: "Distribuidor México"
 };

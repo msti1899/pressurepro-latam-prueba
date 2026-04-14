@@ -26,7 +26,7 @@ arTranslations.priorityIndustries = ['agriculture', 'transport', 'mining'];
 
 // Contacto específico para Argentina
 arTranslations.contact = {
-  whatsapp: "+59898005005",
+  whatsapp: "+59898596735",
   email: "argentina@pressurepro-latam.com",
   distributor: "Distribuidor Argentina"
 };

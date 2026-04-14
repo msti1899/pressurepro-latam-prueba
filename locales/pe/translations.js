@@ -50,7 +50,7 @@ peTranslations.priorityIndustries = ['mining', 'transport', 'agriculture'];
 
 // Contacto específico para Perú
 peTranslations.contact = {
-  whatsapp: "+59898005005",
+  whatsapp: "+59898596735",
   email: "peru@pressurepro-latam.com",
   distributor: "Distribuidor Perú"
 };
