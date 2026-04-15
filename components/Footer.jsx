@@ -147,6 +147,11 @@ const Footer = () => {
             <h3 className='font-bold text-[18px] text-white mb-4'>{translations?.footer?.contactTitle}</h3>
             <ul className='flex flex-col gap-2'>
               <li>
+                <Link href='/#feedback' title={translations?.navbar?.feedback} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
+                  {translations?.navbar?.feedback || 'Contacto'}
+                </Link>
+              </li>
+              <li>
                 <Link href='/#feedback' title={translations?.footer?.requestQuote} className='text-white/60 hover:text-purple-400 transition-colors text-[14px]'>
                   {translations?.footer?.requestQuote}
                 </Link>

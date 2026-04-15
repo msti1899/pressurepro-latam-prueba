@@ -24,6 +24,15 @@ uyTranslations.seo = {
 // Industrias prioritarias para Uruguay
 uyTranslations.priorityIndustries = ['agriculture', 'transport', 'forestry'];
 
+// Renombrar "Minería" como "Construcción / Canteras" para Uruguay
+uyTranslations.explore = {
+  ...uyTranslations.explore,
+  industries: {
+    ...uyTranslations.explore?.industries,
+    'world-1': 'Construcción / Canteras',
+  },
+};
+
 // Contacto específico para Uruguay (sede principal)
 uyTranslations.contact = {
   whatsapp: "+59898596735",

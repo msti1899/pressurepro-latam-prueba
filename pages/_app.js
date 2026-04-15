@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
+import 'react-phone-input-2/lib/style.css';
 import { LocaleProvider } from '../context/LocaleContext';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import Script from 'next/script';

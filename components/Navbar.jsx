@@ -418,8 +418,17 @@ const Navbar = () => {
 
             {/* 2. Selector de Idioma */}
             <LanguageSelector />
+
+            {/* 3. Botón Contacto (siempre visible) */}
+            <a
+              href='#feedback'
+              onClick={(e) => handleNavigation(e, 'feedback')}
+              className='hidden sm:flex items-center px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-[12px] font-semibold hover:from-purple-500 hover:to-indigo-500 hover:shadow-[0_0_16px_rgba(147,51,234,0.5)] transition-all duration-300'
+            >
+              {translations?.navbar?.feedback || 'Contacto'}
+            </a>
             
-            {/* 3. Botón de menú */}
+            {/* 4. Botón de menú */}
             <motion.div
               className="relative"
               whileTap={{ scale: 0.95 }}

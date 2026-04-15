@@ -30,13 +30,11 @@ const WhatsAppButton = ({ message = '' }) => {
   };
 
   const handleSend = () => {
-    if (!selectedOption && (!userMessage || userMessage.trim().length === 0)) return;
+    if (!userMessage || userMessage.trim().length === 0) return;
     setLoading(true);
     let fullMessage = '';
-    // Agrega País detectado al inicio del mensaje
     const countryName = countryConfig?.name || country;
-    if (countryName) fullMessage += `País: ${countryName}\n`;
-    if (selectedOption) fullMessage += selectedOption + '\n';
+    if (countryName) fullMessage += `Hola! Soy de ${countryName}\n`;
     if (userMessage && userMessage.trim().length > 0) {
       fullMessage += userMessage.trim();
     }
@@ -92,33 +90,42 @@ const WhatsAppButton = ({ message = '' }) => {
             <span className="text-white text-base font-bold text-center mb-4 tracking-tight">
               {whatsappForm?.title}
             </span>
-            <div className="flex flex-col gap-3 w-full">
-              {whatsappForm?.options?.map((opt, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  className={`w-full bg-transparent border border-purple-500 rounded-xl py-2 px-4 font-semibold text-sm transition-colors duration-150 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-60 ${selectedOption === opt ? 'bg-purple-600/80 text-white border-purple-400' : 'text-purple-200 hover:bg-purple-600/80 hover:text-white'}`}
-                  onClick={() => handleOptionClick(opt)}
-                  disabled={loading}
-                >
-                  {opt}
-                </button>
-              ))}
+            {false && (
+              <div className="flex flex-col gap-3 w-full">
+                {whatsappForm?.options?.map((opt, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`w-full bg-transparent border border-purple-500 rounded-xl py-2 px-4 font-semibold text-sm transition-colors duration-150 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-60 ${selectedOption === opt ? 'bg-purple-600/80 text-white border-purple-400' : 'text-purple-200 hover:bg-purple-600/80 hover:text-white'}`}
+                    onClick={() => handleOptionClick(opt)}
+                    disabled={loading}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="w-full flex flex-col gap-1 mt-1">
+              <label className="text-xs text-gray-400 font-medium pl-1">
+                {whatsappForm?.placeholder || '¿En qué podemos ayudarte?'}
+              </label>
+              <textarea
+                className="w-full rounded-xl bg-black/40 border border-white/15 text-white placeholder-gray-500 p-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500/50 transition-all"
+                rows={5}
+                placeholder="Escribe tu mensaje aquí..."
+                value={userMessage}
+                onChange={e => setUserMessage(e.target.value)}
+                disabled={loading}
+                maxLength={300}
+                autoFocus
+              />
+              <span className="text-right text-[10px] text-gray-500 pr-1">{userMessage.length}/300</span>
             </div>
-            <textarea
-              className="mt-4 w-full rounded-lg bg-black/30 border border-white/10 text-white placeholder-gray-400 p-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-purple-400"
-              rows={3}
-              placeholder={translations?.contact?.whatsappForm?.placeholder || 'Escribe un mensaje adicional...'}
-              value={userMessage}
-              onChange={e => setUserMessage(e.target.value)}
-              disabled={loading}
-              maxLength={300}
-            />
             <button
               type="button"
               className="mt-4 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-2 rounded-xl shadow-md hover:from-purple-500 hover:to-indigo-500 transition-all disabled:opacity-60"
               onClick={handleSend}
-              disabled={loading || (!selectedOption && (!userMessage || userMessage.trim().length === 0))}
+              disabled={loading || !userMessage || userMessage.trim().length === 0}
             >
               {translations?.contact?.whatsappForm?.send || 'Enviar'}
             </button>

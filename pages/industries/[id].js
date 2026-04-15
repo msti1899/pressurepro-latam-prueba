@@ -53,7 +53,11 @@ export default function IndustryPage() {
     );
   }
 
-  const industryName = content.name;
+  // Overrides de nombre de industria por país (sin tocar constants/industries.js)
+  const industryNameByCountry = {
+    uy: { mineria: 'Construcción / Canteras' },
+  };
+  const industryName = industryNameByCountry[locale]?.[industry?.slug] ?? content.name;
   const marketInfo = content.marketInfo;
   const pageTitle = content.pageTitle;
   const description = content.description;
