@@ -22,7 +22,8 @@ const Breadcrumbs = ({ items = [] }) => {
       initial="hidden"
       animate="show"
       aria-label="Breadcrumb" 
-      className="py-4 px-6 sm:px-16 bg-primary-black/50 backdrop-blur-sm"
+      className="py-4 px-6 sm:px-16 bg-primary-black/10"
+      // style={{ backdropFilter: 'blur(0.1px)' }}
     >
       <ol className="flex items-center flex-wrap gap-2 text-sm max-w-[1280px] mx-auto">
         {items.map((item, index) => {

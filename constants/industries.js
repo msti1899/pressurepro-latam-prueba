@@ -89,7 +89,7 @@ export const INDUSTRIES = [
   {
     id: 'world-1',
     slug: 'mineria',
-    imgUrl: '/mining-hero.jpg',
+    imgUrl: '/miner-trucks.png',
     secondaryImgUrl: '/mining-maintenance.jpg',
     // Iconos de beneficios (referencia a BENEFIT_ICONS)
     benefitIcons: ['efficiency', 'savings', 'safety', 'innovation'],
