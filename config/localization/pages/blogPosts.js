@@ -6,12 +6,12 @@ export const BLOG_POSTS = [
     categories: ['Ahorro de combustible', 'TPMS'],
     es: {
       title: '¿Cómo la presión de los neumáticos impacta el consumo de combustible?',
-      excerpt: 'Un experimento real con camiones MAN demostró que reducir solo 2 bar en 4 neumáticos eleva el consumo un 8,5%. Para una flota de 100 vehículos, eso equivale a más de 297.500 litros de combustible extra al año.',
+      excerpt: 'Un experimento real con camiones MAN demostró que reducir solo 29 PSI en 4 neumáticos eleva el consumo un 8,5%. Para una flota de 100 vehículos, eso equivale a más de 297.500 litros de combustible extra al año.',
       content: `
 <p class="lead">La relación entre la presión de los neumáticos y el consumo de combustible se conoce desde hace décadas. Sin embargo, muchos gestores de flota subestiman su impacto real. En PressurePro pusimos a prueba esta hipótesis con un experimento controlado que arroja números concretos — y sorprendentes.</p>
 
 <h2>El problema invisible</h2>
-<p>Visualmente, un neumático de camión inflado a 8 bar es prácticamente indistinguible de uno inflado a 6 bar. Esa diferencia de 2 bar — que ningún conductor detectaría a simple vista — fue exactamente la que pusimos a prueba.</p>
+<p>Visualmente, un neumático de camión inflado a 116 PSI es prácticamente indistinguible de uno inflado a 87 PSI. Esa diferencia de 29 PSI — que ningún conductor detectaría a simple vista — fue exactamente la que pusimos a prueba.</p>
 <p>Los conductores con frecuencia no saben qué presión tienen sus neumáticos. Las inspecciones manuales son intermitentes y poco confiables. El resultado: se estima que hasta el <strong>50% de los equipos en operación circulan con neumáticos desinflados</strong> sin que nadie lo sepa.</p>
 
 <h2>El experimento: condiciones reales, resultados reales</h2>
@@ -21,13 +21,13 @@ export const BLOG_POSTS = [
 <ul>
   <li>Dos camiones MAN TGS 4x2 con semirremolques de tres ejes idénticos</li>
   <li>Neumáticos con 10% de desgaste en el eje de dirección y ~50% en los demás</li>
-  <li>Presión inicial igualada a <strong>8 bar en frío</strong> en todos los neumáticos</li>
+  <li>Presión inicial igualada a <strong>116 PSI en frío</strong> en todos los neumáticos</li>
   <li>Ambos vehículos equipados con rastreadores GPS GalileoSKY y sensores TPMS de PressurePro</li>
   <li>Combustible medido con balanzas electrónicas de precisión de 5 gramos</li>
 </ul>
 
 <h2>Primera vuelta: línea de base</h2>
-<p>Ambos camiones completaron 142 km a una velocidad media de 77 km/h con los 12 neumáticos a 8 bar.</p>
+<p>Ambos camiones completaron 142 km a una velocidad media de 77 km/h con los 12 neumáticos a 116 PSI.</p>
 
 <div class="data-box">
   <div class="data-item">
@@ -42,8 +42,8 @@ export const BLOG_POSTS = [
 
 <p>La diferencia inicial entre ambos vehículos era esperable: no existen dos camiones con exactamente el mismo consumo, especialmente con 4 años de uso. Lo importante era medir el <em>cambio</em> relativo en cada uno después de modificar la presión.</p>
 
-<h2>Segunda vuelta: bajamos 2 bar en solo 4 ruedas</h2>
-<p>Para simular una situación real de operación, se decidió intervenir de forma mínima: <strong>solo 4 de los 12 neumáticos</strong> del eje motriz del Camión A fueron bajados a 6 bar. Los 8 restantes se mantuvieron a 8 bar. El Camión B no se modificó.</p>
+<h2>Segunda vuelta: bajamos 29 PSI en solo 4 ruedas</h2>
+<p>Para simular una situación real de operación, se decidió intervenir de forma mínima: <strong>solo 4 de los 12 neumáticos</strong> del eje motriz del Camión A fueron bajados a 87 PSI. Los 8 restantes se mantuvieron a 116 PSI. El Camión B no se modificó.</p>
 <p>Esos 4 neumáticos desinflados eran visualmente indistinguibles de los demás. Ningún conductor los detectaría sin instrumentos.</p>
 
 <h2>Los resultados</h2>
@@ -51,7 +51,7 @@ export const BLOG_POSTS = [
 
 <div class="data-box">
   <div class="data-item highlight">
-    <span class="data-label">Camión A (4 ruedas a 6 bar)</span>
+    <span class="data-label">Camión A (4 ruedas a 87 PSI)</span>
     <span class="data-value">30,18 l/100 km</span>
     <span class="data-delta">+8,5%</span>
   </div>
@@ -101,22 +101,22 @@ export const BLOG_POSTS = [
 </ul>
 
 <h2>Conclusión</h2>
-<p>Los datos del experimento son claros: <strong>2 bar de diferencia en solo 4 neumáticos equivalen a un 8,5% más de combustible</strong>. En una flota comercial, eso se traduce en cientos de miles de litros — y de dólares — desperdiciados cada año.</p>
+<p>Los datos del experimento son claros: <strong>29 PSI de diferencia en solo 4 neumáticos equivalen a un 8,5% más de combustible</strong>. En una flota comercial, eso se traduce en cientos de miles de litros — y de dólares — desperdiciados cada año.</p>
 <p>Controlar la presión dejó de ser un tema de mantenimiento preventivo básico. Es una decisión estratégica con impacto directo en la rentabilidad de la operación.</p>
 <p><strong>¿Sabés con certeza qué presión tienen los neumáticos de tu flota ahora mismo?</strong></p>
       `,
       seoTitle: 'Presión de neumáticos y consumo de combustible: experimento real | PressurePro Blog',
-      seoDescription: 'Un experimento con camiones MAN demostró que 2 bar menos en 4 neumáticos aumenta el consumo un 8,5%. Para 100 camiones, son casi 300.000 litros extra al año.',
+      seoDescription: 'Un experimento con camiones MAN demostró que 29 PSI menos en 4 neumáticos aumenta el consumo un 8,5%. Para 100 camiones, son casi 300.000 litros extra al año.',
       seoKeywords: 'presion neumaticos consumo combustible, ahorro combustible flota, TPMS flotas, monitoreo neumaticos, PressurePro',
     },
     en: {
       title: 'How Tire Pressure Impacts Fuel Consumption',
-      excerpt: 'A real-world experiment with MAN trucks showed that reducing pressure by just 2 bar in 4 tires increased fuel consumption by 8.5%. For a fleet of 100 vehicles, that means over 297,000 extra liters per year.',
+      excerpt: 'A real-world experiment with MAN trucks showed that reducing pressure by just 29 PSI in 4 tires increased fuel consumption by 8.5%. For a fleet of 100 vehicles, that means over 297,000 extra liters per year.',
       content: `
 <p class="lead">The relationship between tire pressure and fuel consumption has been known for decades. Yet many fleet managers underestimate its real-world impact. We put this to the test with a controlled experiment that delivers concrete — and surprising — numbers.</p>
 
 <h2>The Invisible Problem</h2>
-<p>Visually, a truck tire at 8 bar looks almost identical to one at 6 bar. That 2 bar difference — which no driver would detect by sight — is exactly what we tested.</p>
+<p>Visually, a truck tire at 116 PSI looks almost identical to one at 87 PSI. That 29 PSI difference — which no driver would detect by sight — is exactly what we tested.</p>
 <p>Drivers often don't know the pressure in their tires. Manual inspections are intermittent and unreliable. The result: it is estimated that up to <strong>50% of vehicles in operation run on underinflated tires</strong> without anyone knowing.</p>
 
 <h2>The Experiment: Real Conditions, Real Results</h2>
@@ -126,13 +126,13 @@ export const BLOG_POSTS = [
 <ul>
   <li>Two MAN TGS 4x2 trucks with identical three-axle semi-trailers</li>
   <li>Tires with 10% tread wear on the steering axle and ~50% on other wheels</li>
-  <li>Initial pressure equalized to <strong>8 bar cold</strong> on all tires</li>
+  <li>Initial pressure equalized to <strong>116 PSI cold</strong> on all tires</li>
   <li>Both vehicles equipped with GalileoSKY GPS trackers and PressurePro TPMS sensors</li>
   <li>Fuel measured using precision electronic scales accurate to 5 grams</li>
 </ul>
 
 <h2>First Lap: Establishing a Baseline</h2>
-<p>Both trucks completed 142 km at an average speed of 77 km/h with all 12 tires at 8 bar.</p>
+<p>Both trucks completed 142 km at an average speed of 77 km/h with all 12 tires at 116 PSI.</p>
 
 <div class="data-box">
   <div class="data-item">
@@ -147,8 +147,8 @@ export const BLOG_POSTS = [
 
 <p>The initial difference between both vehicles was expected — no two trucks have exactly the same fuel consumption, especially after 4 years of use. What mattered was measuring the <em>relative change</em> after adjusting pressure.</p>
 
-<h2>Second Lap: Dropping 2 Bar in Just 4 Tires</h2>
-<p>To simulate a real operating scenario, only <strong>4 of the 12 tires</strong> on Truck A's drive axle were deflated to 6 bar. The remaining 8 stayed at 8 bar. Truck B was left unchanged.</p>
+<h2>Second Lap: Dropping 29 PSI in Just 4 Tires</h2>
+<p>To simulate a real operating scenario, only <strong>4 of the 12 tires</strong> on Truck A's drive axle were deflated to 87 PSI. The remaining 8 stayed at 116 PSI. Truck B was left unchanged.</p>
 <p>Those 4 tires were visually indistinguishable from the rest. No driver would notice without instruments.</p>
 
 <h2>The Results</h2>
@@ -156,7 +156,7 @@ export const BLOG_POSTS = [
 
 <div class="data-box">
   <div class="data-item highlight">
-    <span class="data-label">Truck A (4 tires at 6 bar)</span>
+    <span class="data-label">Truck A (4 tires at 87 PSI)</span>
     <span class="data-value">30.18 l/100 km</span>
     <span class="data-delta">+8.5%</span>
   </div>
@@ -206,22 +206,22 @@ export const BLOG_POSTS = [
 </ul>
 
 <h2>Conclusion</h2>
-<p>The experimental data is clear: <strong>2 bar less in just 4 tires equals 8.5% more fuel</strong>. For a commercial fleet, that translates into hundreds of thousands of liters — and dollars — wasted every year.</p>
+<p>The experimental data is clear: <strong>29 PSI less in just 4 tires equals 8.5% more fuel</strong>. For a commercial fleet, that translates into hundreds of thousands of liters — and dollars — wasted every year.</p>
 <p>Managing tire pressure is no longer just basic preventive maintenance. It's a strategic decision with direct impact on operational profitability.</p>
 <p><strong>Do you know for certain what pressure your fleet's tires are at right now?</strong></p>
       `,
       seoTitle: 'Tire Pressure & Fuel Consumption: Real Experiment | PressurePro Blog',
-      seoDescription: 'An experiment with MAN trucks proved that 2 bar less in 4 tires raises fuel use by 8.5%. For 100 trucks, that is nearly 300,000 extra liters per year.',
+      seoDescription: 'An experiment with MAN trucks proved that 29 PSI less in 4 tires raises fuel use by 8.5%. For 100 trucks, that is nearly 300,000 extra liters per year.',
       seoKeywords: 'tire pressure fuel consumption, fleet fuel savings, TPMS fleets, tire monitoring, PressurePro',
     },
     pt: {
       title: 'Como a pressão dos pneus impacta o consumo de combustível',
-      excerpt: 'Um experimento real com caminhões MAN mostrou que reduzir apenas 2 bar em 4 pneus aumenta o consumo em 8,5%. Para uma frota de 100 veículos, isso equivale a mais de 297.000 litros extras por ano.',
+      excerpt: 'Um experimento real com caminhões MAN mostrou que reduzir apenas 29 PSI em 4 pneus aumenta o consumo em 8,5%. Para uma frota de 100 veículos, isso equivale a mais de 297.000 litros extras por ano.',
       content: `
 <p class="lead">A relação entre a pressão dos pneus e o consumo de combustível é conhecida há décadas. No entanto, muitos gestores de frota subestimam seu impacto real. Testamos essa hipótese com um experimento controlado que fornece números concretos — e surpreendentes.</p>
 
 <h2>O Problema Invisível</h2>
-<p>Visualmente, um pneu de caminhão a 8 bar é praticamente indistinguível de um a 6 bar. Essa diferença de 2 bar — que nenhum motorista detectaria a olho nu — foi exatamente o que testamos.</p>
+<p>Visualmente, um pneu de caminhão a 116 PSI é praticamente indistinguível de um a 87 PSI. Essa diferença de 29 PSI — que nenhum motorista detectaria a olho nu — foi exatamente o que testamos.</p>
 <p>Os motoristas frequentemente não sabem qual é a pressão dos seus pneus. As inspeções manuais são intermitentes e pouco confiáveis. O resultado: estima-se que até <strong>50% dos veículos em operação circulam com pneus murchos</strong> sem que ninguém saiba.</p>
 
 <h2>O Experimento: Condições Reais, Resultados Reais</h2>
@@ -231,13 +231,13 @@ export const BLOG_POSTS = [
 <ul>
   <li>Dois caminhões MAN TGS 4x2 com semirreboques de três eixos idênticos</li>
   <li>Pneus com 10% de desgaste da banda de rodagem no eixo de direção e ~50% nos demais</li>
-  <li>Pressão inicial igualada a <strong>8 bar a frio</strong> em todos os pneus</li>
+  <li>Pressão inicial igualada a <strong>116 PSI a frio</strong> em todos os pneus</li>
   <li>Ambos os veículos equipados com rastreadores GPS GalileoSKY e sensores TPMS da PressurePro</li>
   <li>Combustível medido com balanças eletrônicas de precisão de 5 gramas</li>
 </ul>
 
 <h2>Primeira Volta: Estabelecendo a Linha de Base</h2>
-<p>Ambos os caminhões completaram 142 km a uma velocidade média de 77 km/h com todos os 12 pneus a 8 bar.</p>
+<p>Ambos os caminhões completaram 142 km a uma velocidade média de 77 km/h com todos os 12 pneus a 116 PSI.</p>
 
 <div class="data-box">
   <div class="data-item">
@@ -252,8 +252,8 @@ export const BLOG_POSTS = [
 
 <p>A diferença inicial entre os dois veículos era esperada — dois caminhões nunca têm exatamente o mesmo consumo, especialmente após 4 anos de uso. O importante era medir a <em>variação relativa</em> em cada um após ajustar a pressão.</p>
 
-<h2>Segunda Volta: Reduzindo 2 Bar em Apenas 4 Pneus</h2>
-<p>Para simular um cenário real de operação, apenas <strong>4 dos 12 pneus</strong> do eixo motriz do Caminhão A foram desinflados para 6 bar. Os outros 8 foram mantidos a 8 bar. O Caminhão B não foi alterado.</p>
+<h2>Segunda Volta: Reduzindo 29 PSI em Apenas 4 Pneus</h2>
+<p>Para simular um cenário real de operação, apenas <strong>4 dos 12 pneus</strong> do eixo motriz do Caminhão A foram desinflados para 87 PSI. Os outros 8 foram mantidos a 116 PSI. O Caminhão B não foi alterado.</p>
 <p>Esses 4 pneus eram visualmente indistinguíveis dos demais. Nenhum motorista os notaria sem instrumentos.</p>
 
 <h2>Os Resultados</h2>
@@ -261,7 +261,7 @@ export const BLOG_POSTS = [
 
 <div class="data-box">
   <div class="data-item highlight">
-    <span class="data-label">Caminhão A (4 pneus a 6 bar)</span>
+    <span class="data-label">Caminhão A (4 pneus a 87 PSI)</span>
     <span class="data-value">30,18 l/100 km</span>
     <span class="data-delta">+8,5%</span>
   </div>
@@ -311,12 +311,12 @@ export const BLOG_POSTS = [
 </ul>
 
 <h2>Conclusão</h2>
-<p>Os dados do experimento são claros: <strong>2 bar a menos em apenas 4 pneus equivalem a 8,5% a mais de combustível</strong>. Para uma frota comercial, isso se traduz em centenas de milhares de litros — e de dólares — desperdiçados a cada ano.</p>
+<p>Os dados do experimento são claros: <strong>29 PSI a menos em apenas 4 pneus equivalem a 8,5% a mais de combustível</strong>. Para uma frota comercial, isso se traduz em centenas de milhares de litros — e de dólares — desperdiçados a cada ano.</p>
 <p>Controlar a pressão dos pneus deixou de ser uma questão de manutenção preventiva básica. É uma decisão estratégica com impacto direto na rentabilidade da operação.</p>
 <p><strong>Você sabe com certeza qual é a pressão dos pneus da sua frota agora mesmo?</strong></p>
       `,
       seoTitle: 'Pressão dos pneus e consumo de combustível: experimento real | Blog PressurePro',
-      seoDescription: 'Um experimento com caminhões MAN provou que 2 bar a menos em 4 pneus aumenta o consumo em 8,5%. Para 100 caminhões, são quase 300.000 litros extras por ano.',
+      seoDescription: 'Um experimento com caminhões MAN provou que 29 PSI a menos em 4 pneus aumenta o consumo em 8,5%. Para 100 caminhões, são quase 300.000 litros extras por ano.',
       seoKeywords: 'pressao pneus consumo combustivel, economia combustivel frota, TPMS frotas, monitoramento pneus, PressurePro',
     },
   },

@@ -1,67 +1,60 @@
 'use client';
-import React, { useContext, useState, useMemo, useCallback } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { TitleText, TypingText } from '../components/CustomTexts';
 import { LanguageContext } from '../context/LanguageContext';
-import { COUNTRIES } from '../config/countries';
+import ContactModal from '../components/ContactModal';
 
-// Tipos de cambio aproximados respecto al USD (referencia estática)
-const EXCHANGE_RATES = {
-  USD: 1,
-  MXN: 17.2,
-  ARS: 1050,
-  BRL: 5.1,
-  PEN: 3.75,
-  CLP: 950,
-  COP: 4100,
-  BOB: 6.9,
-  UYU: 40,
-  EUR: 0.93,
-};
+// ═══════════════════════════════════════════════════════════════════════════════
+// FÓRMULAS UTILIZADAS — Calculadora Flota de Transporte
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// NEUMÁTICOS:
+//   Total simples   = nCamionesSimples × ruedasPorCamionSimple
+//   Total trailers  = nCamionesTrailer × ruedasPorCamionTrailer
+//   Total flota     = simples + trailers
+//
+// INVERSIÓN INICIAL (costo único):
+//   Equipamiento = (simples + trailers) × costoEquipo/camión
+//   Sensores     = totalNeum × costoSensor/rueda
+//   TOTAL        = equipamiento + sensores
+//
+// AHORRO EN COMBUSTIBLE (anual):
+//   L/km = 3.785 / (MPG × 1.60934)          [conversión MPG → litros/km]
+//   Factor pérdida = déficit% × 0.003        [NHTSA: 0.3% consumo extra por 1% presión baja]
+//   CombustibleTotal/año (L) = totalVehículos × km/año × L/km
+//   AhorroCombustible (L)    = CombustibleTotal × factorPérdida
+//   AhorroCombustible ($)    = litrosAhorrados × precioLitro
+//
+// AHORRO EN NEUMÁTICOS (anual):
+//   GastoNeum/año = neum/año × costoNeum
+//   AhorroNeum    = GastoNeum × (degradación% / 100)
+//
+// AHORRO TOTAL ANUAL:
+//   AhorroCombustible + AhorroNeum
+//
+// ═══════════════════════════════════════════════════════════════════════════════
 
-const CURRENCY_SYMBOLS = {
-  USD: 'US$',
-  MXN: 'MX$',
-  ARS: 'AR$',
-  BRL: 'R$',
-  PEN: 'S/',
-  CLP: 'CLP$',
-  COP: 'COP$',
-  BOB: 'Bs.',
-  UYU: '$U',
-  EUR: '€',
-};
+const AVG_MPG = 7.2; // Valor fijo — promedio flotas pesadas de larga distancia
 
-// Valores por defecto de los inputs (en USD)
-const DEFAULTS_USD = {
-  fleetSize: 20,
-  tiresPerVehicle: 18,
-  tireCostUSD: 450,
-  fuelPerKmUSD: 0.35,
+const DEFAULTS = {
+  equipmentCostPerTruck: 500,
+  sensorCostPerWheel: 60,
+  simpleTrucks: 10,
+  simpleWheelsPerTruck: 6,
+  trailerTrucks: 5,
+  trailerWheelsPerTruck: 10,
   kmPerYear: 120000,
-  avgFlatTireCostUSD: 1200,
-  flatTiresPerYearPer100: 4,
+  fuelPricePerLiter: 1.2,
+  pressureDifferencePct: 10,
+  tiresPerYear: 30,
+  tireCost: 400,
+  tireDegradationPct: 10,
 };
 
-// ─── Supuestos del modelo (fuente: NHTSA, ATRI, datos PressurePro) ──────────
-// Modificar estos valores para ajustar el modelo de cálculo.
-const TPMS_ASSUMPTIONS = {
-  // Reducción de desgaste de neumáticos por uso de TPMS (% del costo de reemplazo anual)
-  tireWearReductionPct: 0.15,       // 15% — fuente: NHTSA TPMS final rule
-
-  // Mejora en eficiencia de combustible por TPMS (% del costo de combustible anual)
-  fuelEfficiencyGainPct: 0.03,      // 3%  — fuente: NHTSA & U.S. Dept. of Energy
-
-  // Reducción de eventos de pinchadura / pérdida de presión grave gracias a TPMS
-  flatTireReductionPct: 0.80,       // 80% — fuente: estudios de campo PressurePro
-
-  // Costo unitario del sensor TPMS (hardware por neumático, USD)
-  sensorCostPerTireUSD: 35,
-
-  // Costo de instalación / receptor por vehículo (display + mano de obra, USD)
-  installCostPerVehicleUSD: 150,
-};
+// ─── Componentes UI reutilizables ──────────────────────────────────────────────
 
 function SliderInput({ label, value, onChange, min, max, step, format, hint }) {
   const pct = Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100));
@@ -79,21 +72,12 @@ function SliderInput({ label, value, onChange, min, max, step, format, hint }) {
             </span>
           )}
         </div>
-        <span className="text-purple-300 font-bold text-sm tabular-nums flex-shrink-0">
-          {format(value)}
-        </span>
+        <span className="text-purple-300 font-bold text-sm tabular-nums flex-shrink-0">{format(value)}</span>
       </div>
       <div className="relative h-2 rounded-full bg-white/10">
-        <div
-          className="absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-100"
-          style={{ width: `${pct}%` }}
-        />
+        <div className="absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-100" style={{ width: `${pct}%` }} />
         <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
+          type="range" min={min} max={max} step={step} value={value}
           onChange={e => onChange(Number(e.target.value))}
           className="absolute inset-0 w-full opacity-0 cursor-pointer h-7 -top-2.5"
           style={{ touchAction: 'none' }}
@@ -107,150 +91,124 @@ function SliderInput({ label, value, onChange, min, max, step, format, hint }) {
   );
 }
 
-function ResultCard({ label, value, positive, strong, negative, delay }) {
-  let cardClass = 'border-white/10 bg-white/5';
-  let textClass = 'text-white';
-
-  if (negative) {
-    cardClass = 'border-red-500/40 bg-gradient-to-br from-red-900/25 to-red-950/10 shadow-[0_0_18px_rgba(239,68,68,0.15)]';
-    textClass = 'text-red-400';
-  } else if (strong) {
-    cardClass = 'border-emerald-400/70 bg-gradient-to-br from-emerald-900/50 to-emerald-950/30 shadow-[0_0_28px_rgba(52,211,153,0.25)]';
-    textClass = 'text-emerald-300';
-  } else if (positive) {
-    cardClass = 'border-emerald-500/40 bg-gradient-to-br from-emerald-900/30 to-emerald-950/10 shadow-[0_0_14px_rgba(52,211,153,0.12)]';
-    textClass = 'text-emerald-400';
-  }
-
+function ToggleGroup({ label, value, onChange, options }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay }}
-      className={`flex flex-col gap-1 p-4 rounded-2xl border ${cardClass}`}
-    >
-      <p className="text-white/60 text-xs leading-tight">{label}</p>
-      <p className={`font-bold text-xl tabular-nums ${textClass}`}>{value}</p>
-    </motion.div>
+    <div className="flex items-center justify-between gap-2">
+      <span className="text-white/80 text-sm font-medium leading-tight">{label}</span>
+      <div className="flex rounded-lg overflow-hidden border border-white/10">
+        {options.map(opt => (
+          <button
+            key={opt}
+            onClick={() => onChange(opt)}
+            className={`px-4 py-1.5 text-sm font-bold transition-all min-w-[44px] ${
+              value === opt
+                ? 'bg-purple-600 text-white'
+                : 'bg-white/5 text-white/50 hover:text-white/80 hover:bg-white/10'
+            }`}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
+function SectionLabel({ children }) {
+  return (
+    <p className="text-purple-400 text-[10px] font-bold uppercase tracking-widest mt-2 pb-1 border-b border-white/8">
+      {children}
+    </p>
+  );
+}
+
+function ResultRow({ label, value, highlight }) {
+  return (
+    <div className={`flex items-center justify-between py-2.5 px-4 rounded-xl gap-3 ${
+      highlight ? 'bg-emerald-900/30 border border-emerald-500/30' : 'bg-white/[0.04]'
+    }`}>
+      <span className="text-sm leading-tight text-white/75">{label}</span>
+      <span className={`font-bold tabular-nums text-sm whitespace-nowrap ${highlight ? 'text-emerald-300' : 'text-white'}`}>{value}</span>
+    </div>
+  );
+}
+
+
 const ROICalculator = () => {
-  const { translations, country } = useContext(LanguageContext);
+  const { translations } = useContext(LanguageContext);
   const t = translations?.roiCalculator;
+  const router = useRouter();
+  const [modalType, setModalType] = useState(null);
+  const [fleetType, setFleetType] = useState('transport');
 
-  // Detectar moneda del país actual
-  const countryConfig = country ? COUNTRIES[country] : null;
-  const localCurrency = countryConfig?.currency || 'USD';
-  const [useLocalCurrency, setUseLocalCurrency] = useState(false);
+  // Moneda: EUR para España (locale epa), USD para el resto
+  const isSpain = router.locale === 'epa';
+  const symbol = isSpain ? '€' : 'US$';
 
-  const activeCurrency = useLocalCurrency && localCurrency !== 'USD' ? localCurrency : 'USD';
-  const rate = EXCHANGE_RATES[activeCurrency] ?? 1;
-  const symbol = CURRENCY_SYMBOLS[activeCurrency] ?? 'US$';
+  // ─── Estado de inputs ───────────────────────────────────────────────────────
+  const [equipmentCostPerTruck, setEquipmentCostPerTruck] = useState(DEFAULTS.equipmentCostPerTruck);
+  const [sensorCostPerWheel, setSensorCostPerWheel] = useState(DEFAULTS.sensorCostPerWheel);
+  const [simpleTrucks, setSimpleTrucks] = useState(DEFAULTS.simpleTrucks);
+  const [simpleWheels, setSimpleWheels] = useState(DEFAULTS.simpleWheelsPerTruck);
+  const [trailerTrucks, setTrailerTrucks] = useState(DEFAULTS.trailerTrucks);
+  const [trailerWheels, setTrailerWheels] = useState(DEFAULTS.trailerWheelsPerTruck);
+  const [kmPerYear, setKmPerYear] = useState(DEFAULTS.kmPerYear);
+  const [fuelPricePerLiter, setFuelPricePerLiter] = useState(DEFAULTS.fuelPricePerLiter);
+  const [pressureDiffPct, setPressureDiffPct] = useState(DEFAULTS.pressureDifferencePct);
+  const [tiresPerYear, setTiresPerYear] = useState(DEFAULTS.tiresPerYear);
+  const [tireCost, setTireCost] = useState(DEFAULTS.tireCost);
+  const [tireDegradationPct, setTireDegradationPct] = useState(DEFAULTS.tireDegradationPct);
 
-  // Convertir defaults a moneda activa con precisión adaptativa
-  const toActive = useCallback((usd) => {
-    const val = usd * rate;
-    if (val === 0) return 0;
-    const magnitude = Math.floor(Math.log10(Math.abs(val)));
-    if (magnitude >= 1) return Math.round(val);           // ≥ 10 → entero
-    if (magnitude >= 0) return Math.round(val * 10) / 10; // 1–9 → 1 decimal
-    return Math.round(val * 100) / 100;                   // < 1 → 2 decimales
-  }, [rate]);
-  const toUSD = useCallback((val) => val / rate, [rate]);
-
-  // Estado de sliders (almacenados en moneda activa para que el usuario lo vea)
-  const [fleet, setFleet] = useState(DEFAULTS_USD.fleetSize);
-  const [tiresPerVehicle, setTiresPerVehicle] = useState(DEFAULTS_USD.tiresPerVehicle);
-  const [tireCost, setTireCost] = useState(() => toActive(DEFAULTS_USD.tireCostUSD));
-  const [fuelPerKm, setFuelPerKm] = useState(() => toActive(DEFAULTS_USD.fuelPerKmUSD));
-  const [kmPerYear, setKmPerYear] = useState(DEFAULTS_USD.kmPerYear);
-  const [flatTireCost, setFlatTireCost] = useState(() => toActive(DEFAULTS_USD.avgFlatTireCostUSD));
-  const [flatTiresRate, setFlatTiresRate] = useState(DEFAULTS_USD.flatTiresPerYearPer100);
-
-  // Recalcular defaults al cambiar moneda
-  const prevCurrency = React.useRef(activeCurrency);
-  React.useEffect(() => {
-    if (prevCurrency.current !== activeCurrency) {
-      const prevRate = EXCHANGE_RATES[prevCurrency.current] ?? 1;
-      const newRate = EXCHANGE_RATES[activeCurrency] ?? 1;
-      const conv = (val) => Math.round((val / prevRate) * newRate);
-      setTireCost(v => conv(v));
-      setFuelPerKm(v => conv(v));
-      setFlatTireCost(v => conv(v));
-      prevCurrency.current = activeCurrency;
-    }
-  }, [activeCurrency]);
-
-  // Cálculos de ROI
-  // ─── Todos los ahorros son ANUALES ───────────────────────────────────────
-  // ─── La inversión TPMS es un costo ÚNICO (one-time) ─────────────────────
-  // ─── El ROI% y beneficio neto son del PRIMER AÑO ─────────────────────────
+  // ─── Cálculos ────────────────────────────────────────────────────────────────
   const results = useMemo(() => {
-    const totalTires = fleet * tiresPerVehicle;
-    const tireCostUSD = toUSD(tireCost);
-    const fuelPerKmUSD = toUSD(fuelPerKm);
-    const flatTireCostUSD = toUSD(flatTireCost);
+    const simpleTireTotal = simpleTrucks * simpleWheels;
+    const trailerTireTotal = trailerTrucks * trailerWheels;
+    const totalTires = simpleTireTotal + trailerTireTotal;
+    const totalVehicles = simpleTrucks + trailerTrucks;
 
-    // Ahorro anual en neumáticos: (flota × neumáticos/veh) × costo/neumático × 15%
-    // Supuesto: neumáticos se reemplazan una vez por año (flota de larga distancia)
-    const tireWearSavingUSD = totalTires * tireCostUSD * TPMS_ASSUMPTIONS.tireWearReductionPct;
+    // Inversión inicial (costo único)
+    const equipmentCost = totalVehicles * equipmentCostPerTruck;
+    const sensorCost = totalTires * sensorCostPerWheel;
+    const initialInvestment = equipmentCost + sensorCost;
 
-    // Ahorro anual en combustible: flota × km/año × costo combustible/km × 3%
-    const fuelSavingUSD = fleet * kmPerYear * fuelPerKmUSD * TPMS_ASSUMPTIONS.fuelEfficiencyGainPct;
+    // Ahorro combustible anual
+    // L/km = 3.785 / (MPG × 1.60934)
+    const litersPerKm = 3.785 / (AVG_MPG * 1.60934);
+    // NHTSA: 0.3% consumo extra por cada 1% de presión baja
+    const fuelLossFactor = pressureDiffPct * 0.003;
+    const totalFuelPerYear = totalVehicles * kmPerYear * litersPerKm;
+    const fuelSavingLiters = totalFuelPerYear * fuelLossFactor;
+    const fuelSaving = fuelSavingLiters * fuelPricePerLiter;
 
-    // Ahorro anual en averías: (flota × tasa/100) × costo por evento × 80%
-    const flatTiresPerYear = (fleet * flatTiresRate) / 100;
-    const flatTiresSavingUSD = flatTiresPerYear * flatTireCostUSD * TPMS_ASSUMPTIONS.flatTireReductionPct;
+    // Ahorro neumáticos anual
+    const annualTireSpend = tiresPerYear * tireCost;
+    const tireSaving = annualTireSpend * (tireDegradationPct / 100);
 
-    // Inversión única en TPMS (toda la flota):
-    //   sensor por neumático: totalTires × $35/sensor
-    //   instalación + receptor por vehículo: flota × $150/vehículo
-    const tpmsCostUSD =
-      totalTires * TPMS_ASSUMPTIONS.sensorCostPerTireUSD +
-      fleet * TPMS_ASSUMPTIONS.installCostPerVehicleUSD;
+    // Ahorro total anual
+    const totalAnnualSaving = fuelSaving + tireSaving;
 
-    const totalSavingUSD = tireWearSavingUSD + fuelSavingUSD + flatTiresSavingUSD;
-    // Beneficio neto primer año = ahorro anual − inversión inicial
-    const netBenefitUSD = totalSavingUSD - tpmsCostUSD;
-    // ROI primer año = beneficio neto / inversión × 100
-    const roiPct = tpmsCostUSD > 0 ? (netBenefitUSD / tpmsCostUSD) * 100 : 0;
-    // Recupero de inversión (meses) = inversión / (ahorro anual / 12)
-    const paybackMonths = totalSavingUSD > 0 ? Math.ceil((tpmsCostUSD / totalSavingUSD) * 12) : null;
-
-    const fmt = (usd) => {
-      const val = Math.round(usd * rate);
-      return `${symbol} ${val.toLocaleString('en-US')}`;
-    };
+    const fmt = (val) => `${symbol} ${val.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
     return {
-      tireWearSaving: fmt(tireWearSavingUSD),
-      fuelSaving: fmt(fuelSavingUSD),
-      flatTiresSaving: fmt(flatTiresSavingUSD),
-      tpmsCost: fmt(tpmsCostUSD),
-      totalSaving: fmt(totalSavingUSD),
-      netBenefit: fmt(netBenefitUSD),
-      roi: `${roiPct.toFixed(0)}%`,
-      payback: paybackMonths,
-      positive: netBenefitUSD > 0,
+      simpleTireTotal,
+      trailerTireTotal,
+      totalTires,
+      initialInvestment: fmt(initialInvestment),
+      fuelSaving: fmt(fuelSaving),
+      fuelSavingLiters: `${Math.round(fuelSavingLiters).toLocaleString('de-DE')} L`,
+      tireSaving: fmt(tireSaving),
+      totalAnnualSaving: fmt(totalAnnualSaving),
     };
-  }, [fleet, tiresPerVehicle, tireCost, fuelPerKm, kmPerYear, flatTireCost, flatTiresRate, toUSD, rate, symbol]);
+  }, [simpleTrucks, simpleWheels, trailerTrucks, trailerWheels, equipmentCostPerTruck,
+      sensorCostPerWheel, kmPerYear, fuelPricePerLiter, pressureDiffPct,
+      tiresPerYear, tireCost, tireDegradationPct, symbol]);
 
   if (!t) return null;
 
-  const fmtCurrency = (val) => {
-    const formatted = val < 10 ? val.toFixed(2) : Math.round(val).toLocaleString('en-US');
-    return `${symbol} ${formatted}`;
-  };
-  const fmtNum = (val) => val.toLocaleString('en-US');
-  const fmtKm = (val) => `${val.toLocaleString('en-US')} km`;
-
-  // Rango de sliders en moneda activa
-  const r = {
-    tireCost:    { min: toActive(100),  max: toActive(2000),  step: toActive(10) },
-    fuelPerKm:   { min: toActive(0.05), max: toActive(1.5),   step: toActive(0.01) },
-    flatTireCost:{ min: toActive(200),  max: toActive(5000),  step: toActive(50) },
-  };
+  const fmtC = (v) => `${symbol} ${Number(v).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const fmtN = (v) => v.toLocaleString('de-DE');
+  const fmtKm = (v) => `${v.toLocaleString('de-DE')} km`;
+  const fmtPct = (v) => `${v}%`;
 
   return (
     <section id="roi-calculator" className="sm:px-16 xs:px-8 px-6 py-16 md:py-24 relative z-10">
@@ -270,115 +228,254 @@ const ROICalculator = () => {
           {t.subtitle}
         </motion.p>
 
-        <motion.div
-          variants={fadeIn('up', 'tween', 0.3, 0.8)}
-          className="mt-12 grid grid-cols-1 xl:grid-cols-2 gap-8"
-        >
-          {/* Panel izquierdo: inputs */}
-          <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 h-full">
-
-            {/* Toggle de moneda */}
-            {localCurrency !== 'USD' && (
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 self-start mb-6">
-                <span className="text-white/60 text-sm">{t.currencyLabel}</span>
-                <button
-                  onClick={() => setUseLocalCurrency(false)}
-                  className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
-                    !useLocalCurrency
-                      ? 'bg-purple-600 text-white'
-                      : 'text-white/50 hover:text-white/80'
-                  }`}
-                >
-                  USD
-                </button>
-                <button
-                  onClick={() => setUseLocalCurrency(true)}
-                  className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
-                    useLocalCurrency
-                      ? 'bg-purple-600 text-white'
-                      : 'text-white/50 hover:text-white/80'
-                  }`}
-                >
-                  {localCurrency}
-                </button>
-              </div>
-            )}
-
-            <div className="flex flex-col flex-1 justify-between gap-4">
-              <SliderInput label={t.inputs.fleetSize} value={fleet} onChange={setFleet} min={1} max={500} step={1} format={fmtNum} />
-              <SliderInput label={t.inputs.tiresPerVehicle} value={tiresPerVehicle} onChange={setTiresPerVehicle} min={4} max={80} step={2} format={fmtNum} />
-              <SliderInput label={t.inputs.tireCost} value={tireCost} onChange={setTireCost} min={r.tireCost.min} max={r.tireCost.max} step={r.tireCost.step} format={fmtCurrency} hint={t.inputs.tireCostHint} />
-              <SliderInput label={t.inputs.fuelCostPerKm} value={fuelPerKm} onChange={setFuelPerKm} min={r.fuelPerKm.min} max={r.fuelPerKm.max} step={r.fuelPerKm.step} format={fmtCurrency} />
-              <SliderInput label={t.inputs.kmPerYear} value={kmPerYear} onChange={setKmPerYear} min={10000} max={500000} step={5000} format={fmtKm} />
-              <SliderInput label={t.inputs.flatTireCost} value={flatTireCost} onChange={setFlatTireCost} min={r.flatTireCost.min} max={r.flatTireCost.max} step={r.flatTireCost.step} format={fmtCurrency} hint={t.inputs.flatTireCostHint} />
-              <SliderInput label={t.inputs.flatTiresRate} value={flatTiresRate} onChange={setFlatTiresRate} min={0} max={30} step={1} format={(v) => `${v} ${t.inputs.flatTiresRateUnit}`} hint={t.inputs.flatTiresRateHint} />
-            </div>
-          </div>
-
-          {/* Panel derecho: resultados */}
-          <div className="flex flex-col gap-4">
-
-            {/* Tarjeta principal ROI */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`roi-${results.roi}-${results.positive}`}
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                className={`rounded-[28px] border p-6 md:p-7 flex flex-col gap-3 ${
-                  results.positive
-                    ? 'border-emerald-400/60 bg-gradient-to-br from-emerald-900/40 to-[#1a1830] shadow-[0_0_50px_rgba(52,211,153,0.2)]'
-                    : 'border-red-500/40 bg-gradient-to-br from-red-900/20 to-[#1a1830] shadow-[0_0_40px_rgba(239,68,68,0.12)]'
-                }`}
-              >
-                <p className="text-white/50 text-xs font-semibold uppercase tracking-wider">{t.results.roiLabel}</p>
-                <div className="flex items-end gap-4 flex-wrap">
-                  <span className={`font-extrabold text-5xl md:text-6xl tabular-nums leading-none ${results.positive ? 'text-emerald-300' : 'text-red-400'}`}>
-                    {results.roi}
-                  </span>
-                  {results.payback && (
-                    <span className={`text-sm mb-1 font-medium ${results.positive ? 'text-emerald-400/80' : 'text-white/40'}`}>
-                      {t.results.paybackLabel.replace('{n}', results.payback)}
-                    </span>
-                  )}
-                </div>
-                <p className="text-white/35 text-[11px] leading-relaxed">{t.results.roiNote}</p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Grupo: Ahorros anuales */}
-            <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">{t.results.annualSavingsLabel}</p>
-                <p className="text-white/30 text-[11px]">{t.results.annualSavingsNote}</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <ResultCard label={t.results.tireWearSaving} value={results.tireWearSaving} positive delay={0.05} />
-                <ResultCard label={t.results.fuelSaving} value={results.fuelSaving} positive delay={0.1} />
-                <ResultCard label={t.results.flatTiresSaving} value={results.flatTiresSaving} positive delay={0.15} />
-              </div>
-            </div>
-
-            {/* Grupo: Inversión y resultado */}
-            <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">{t.results.investmentLabel}</p>
-                <p className="text-white/30 text-[11px]">{t.results.investmentNote}</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <ResultCard label={t.results.tpmsCost} value={results.tpmsCost} delay={0.2} />
-                <ResultCard label={t.results.totalSaving} value={results.totalSaving} strong delay={0.25} />
-                <ResultCard label={t.results.netBenefit} value={results.netBenefit} strong={results.positive} negative={!results.positive} delay={0.3} />
-              </div>
-            </div>
-
-            {/* Disclaimer */}
-            <p className="text-white/30 text-[11px] leading-relaxed px-1">
-              {t.disclaimer}
-            </p>
+        {/* Selector de tipo de flota */}
+        <motion.div variants={fadeIn('up', 'tween', 0.25, 0.8)} className="mt-8 flex justify-center">
+          <div className="flex rounded-2xl border border-white/10 bg-white/5 p-1 gap-1">
+            <button
+              onClick={() => setFleetType('transport')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                fleetType === 'transport' ? 'bg-purple-600 text-white shadow-md' : 'text-white/50 hover:text-white/80'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 17h8m-8 0a2 2 0 01-2-2V9a2 2 0 012-2h8a2 2 0 012 2v6a2 2 0 01-2 2M8 17H6a2 2 0 01-2-2V9m14 8h2a2 2 0 002-2V9M3 9h18" />
+              </svg>
+              {t.tabs?.transport || 'Flota de Transporte'}
+            </button>
+            <button
+              onClick={() => setFleetType('mining')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                fleetType === 'mining' ? 'bg-purple-600 text-white shadow-md' : 'text-white/50 hover:text-white/80'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+              {t.tabs?.mining || 'Flota Minera / Portuaria'}
+              <span className="text-[10px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded-full font-bold leading-none">
+                {t.tabs?.comingSoon || 'Próximamente'}
+              </span>
+            </button>
           </div>
         </motion.div>
+
+        <AnimatePresence mode="wait">
+          {fleetType === 'transport' ? (
+            <motion.div
+              key="transport"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.3 }}
+              className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8"
+            >
+              {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
+              <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
+
+                <SectionLabel>{t.inputs?.sectionPricing || 'PressurePro Pricing'}</SectionLabel>
+                <div className="flex flex-col gap-2.5 bg-white/[0.03] rounded-xl border border-white/8 px-4 py-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/60 text-sm">{t.inputs?.equipmentCostPerTruck || 'Costo de equipamiento por camión'}</span>
+                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.equipmentCostPerTruck)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/60 text-sm">{t.inputs?.sensorCostPerWheel || 'Costo de sensor por rueda'}</span>
+                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.sensorCostPerWheel)}</span>
+                  </div>
+                </div>
+
+                <SectionLabel>{t.inputs?.sectionFleet || 'Datos de la flota'}</SectionLabel>
+                <SliderInput
+                  label={t.inputs?.simpleTrucks || 'Camiones simples'}
+                  value={simpleTrucks} onChange={setSimpleTrucks}
+                  min={0} max={500} step={1} format={fmtN}
+                />
+                <ToggleGroup
+                  label={t.inputs?.simpleWheels || 'Ruedas por camión simple'}
+                  value={simpleWheels} onChange={setSimpleWheels} options={[4, 6]}
+                />
+                <SliderInput
+                  label={t.inputs?.trailerTrucks || 'Camiones con trailer'}
+                  value={trailerTrucks} onChange={setTrailerTrucks}
+                  min={0} max={500} step={1} format={fmtN}
+                />
+                <ToggleGroup
+                  label={t.inputs?.trailerWheels || 'Ruedas por camión con trailer'}
+                  value={trailerWheels} onChange={setTrailerWheels} options={[8, 10]}
+                />
+                <SliderInput
+                  label={t.inputs?.kmPerYear || 'Km por vehículo al año'}
+                  value={kmPerYear} onChange={setKmPerYear}
+                  min={10000} max={500000} step={5000} format={fmtKm}
+                />
+
+                <SectionLabel>{t.inputs?.sectionCosts || 'Costos operativos'}</SectionLabel>
+                <SliderInput
+                  label={t.inputs?.fuelPricePerLiter || 'Precio del litro de combustible'}
+                  value={fuelPricePerLiter} onChange={setFuelPricePerLiter}
+                  min={0.3} max={4} step={0.05} format={fmtC}
+                />
+                <SliderInput
+                  label={t.inputs?.pressureDifferencePct || 'Diferencia de presión (recomendada vs. actual)'}
+                  value={pressureDiffPct} onChange={setPressureDiffPct}
+                  min={1} max={40} step={1} format={fmtPct}
+                  hint={t.inputs?.pressureDiffHint || 'Porcentaje promedio por debajo de la presión recomendada. Ej: 10% = presión 10% baja'}
+                />
+                <SliderInput
+                  label={t.inputs?.tiresPerYear || 'Neumáticos comprados por año (flota completa)'}
+                  value={tiresPerYear} onChange={setTiresPerYear}
+                  min={0} max={2000} step={5} format={fmtN}
+                />
+                <SliderInput
+                  label={t.inputs?.tireCost || 'Costo promedio de neumático nuevo'}
+                  value={tireCost} onChange={setTireCost}
+                  min={100} max={3000} step={25} format={fmtC}
+                />
+                <SliderInput
+                  label={t.inputs?.tireDegradationPct || '% de degradación por presión incorrecta'}
+                  value={tireDegradationPct} onChange={setTireDegradationPct}
+                  min={1} max={50} step={1} format={fmtPct}
+                  hint={t.inputs?.tireDegradationHint || 'Porcentaje del gasto anual en neumáticos atribuible a la presión incorrecta'}
+                />
+              </div>
+
+              {/* ── Panel derecho: Resultados ───────────────────────────────── */}
+              <div className="flex flex-col gap-4">
+
+                {/* 3.1 / 3.2 / 3.3 — Resumen de neumáticos */}
+                <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5 flex flex-col gap-3">
+                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                    {t.results?.tiresLabel || 'Total de neumáticos en flota'}
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <ResultRow
+                      label={t.results?.simpleTires || 'Total neumáticos — camiones simples'}
+                      value={results.simpleTireTotal.toLocaleString('de-DE')}
+                    />
+                    <ResultRow
+                      label={t.results?.trailerTires || 'Total neumáticos — camiones con trailer'}
+                      value={results.trailerTireTotal.toLocaleString('de-DE')}
+                    />
+                    <ResultRow
+                      label={t.results?.totalTires || 'TOTAL neumáticos en flota'}
+                      value={results.totalTires.toLocaleString('de-DE')}
+                      highlight
+                    />
+                  </div>
+                </div>
+
+                {/* a) Inversión inicial */}
+                <div className="rounded-[24px] border border-amber-500/20 bg-amber-900/10 p-5 flex flex-col gap-2">
+                  <p className="text-amber-400/80 text-xs font-bold uppercase tracking-widest">
+                    {t.results?.investmentLabel || 'a) Inversión inicial (costo único)'}
+                  </p>
+                  <p className="text-3xl font-extrabold text-amber-300 tabular-nums">{results.initialInvestment}</p>
+                  <p className="text-white/30 text-[11px]">
+                    {t.results?.investmentNote || `${fmtC(equipmentCostPerTruck)}/camión + ${fmtC(sensorCostPerWheel)}/rueda`}
+                  </p>
+                </div>
+
+                {/* b) y c) Ahorros anuales */}
+                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 flex flex-col gap-3">
+                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                    {t.results?.savingsLabel || 'Ahorros anuales estimados'}
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <ResultRow
+                      label={t.results?.fuelSaving || 'b) Ahorro en consumo de combustible'}
+                      value={results.fuelSaving}
+                    />
+                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                      {results.fuelSavingLiters} × {fmtC(fuelPricePerLiter)}/L
+                      {' · '}
+                      {pressureDiffPct}% déficit → {(pressureDiffPct * 0.3).toFixed(1)}% consumo extra
+                    </p>
+                    <ResultRow
+                      label={t.results?.tireSaving || 'c) Ahorro en reemplazo de neumáticos'}
+                      value={results.tireSaving}
+                    />
+                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                      {tiresPerYear} neum/año × {fmtC(tireCost)} × {tireDegradationPct}% degradación
+                    </p>
+                  </div>
+                </div>
+
+                {/* e) Ahorro total anual — card destacada */}
+                <motion.div
+                  key={results.totalAnnualSaving}
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="rounded-[28px] border border-emerald-400/60 bg-gradient-to-br from-emerald-900/40 to-[#1a1830] p-6 flex flex-col gap-2 shadow-[0_0_50px_rgba(52,211,153,0.18)]"
+                >
+                  <p className="text-emerald-400/80 text-xs font-bold uppercase tracking-widest">
+                    {t.results?.totalSavingLabel || 'e) Ahorro total de la flota por año'}
+                  </p>
+                  <p className="text-5xl font-extrabold text-emerald-300 tabular-nums leading-none">
+                    {results.totalAnnualSaving}
+                  </p>
+                  <p className="text-white/30 text-[11px] leading-relaxed mt-1">{t.disclaimer}</p>
+                </motion.div>
+
+                {/* CTAs */}
+                <motion.div
+                  variants={fadeIn('up', 'tween', 0.4, 0.7)}
+                  className="flex flex-wrap gap-3 justify-center pt-4 border-t border-white/8"
+                >
+                  <button
+                    onClick={() => setModalType('quote')}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-md shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    {translations?.cta?.quoteButton || 'Solicitar Cotización'}
+                  </button>
+                  <button
+                    onClick={() => setModalType('demo')}
+                    className="px-6 py-3 rounded-xl border border-white/20 text-white/80 font-semibold text-sm hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-white hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {translations?.cta?.demoButton || 'Demo Gratuita'}
+                  </button>
+                </motion.div>
+              </div>
+            </motion.div>
+
+          ) : (
+            /* ── Placeholder: Calculadora Minera / Portuaria ─────────────── */
+            <motion.div
+              key="mining"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.3 }}
+              className="mt-10 flex flex-col items-center justify-center min-h-[320px] rounded-[28px] border border-dashed border-amber-500/30 bg-amber-900/5 p-12 text-center gap-4"
+            >
+              <svg className="w-16 h-16 text-amber-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+              <p className="text-white/60 text-xl font-bold">
+                {t.mining?.title || 'Calculadora Minera / Portuaria'}
+              </p>
+              <p className="text-white/40 text-sm max-w-md leading-relaxed">
+                {t.mining?.subtitle || 'Esta calculadora estará disponible próximamente. Los vehículos de minería y operaciones portuarias tienen variables específicas (OTR tyres, carga, condiciones de terreno) que requieren un modelo de cálculo diferente.'}
+              </p>
+              <button
+                onClick={() => setModalType('demo')}
+                className="mt-2 px-6 py-3 rounded-xl border border-amber-500/30 text-amber-400/80 font-semibold text-sm hover:bg-amber-900/20 hover:border-amber-400/50 hover:text-amber-300 transition-all duration-300 min-h-[48px]"
+              >
+                {t.mining?.notifyButton || 'Avisarme cuando esté disponible'}
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
+
+      <ContactModal isOpen={!!modalType} onClose={() => setModalType(null)} type={modalType || 'contact'} />
     </section>
   );
 };

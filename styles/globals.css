@@ -182,3 +182,135 @@ html, body {
   display: none;
 }
 
+/* ─── Blog article typography ───────────────────────────────────── */
+.blog-prose {
+  color: rgba(255,255,255,0.8);
+  font-size: 16px;
+  line-height: 1.9;
+}
+@media (min-width: 768px) {
+  .blog-prose { font-size: 18px; }
+}
+
+.blog-prose p {
+  margin-top: 0;
+  margin-bottom: 1.75rem;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.8);
+}
+
+.blog-prose h2 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 22px;
+  margin-top: 3.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+@media (min-width: 768px) {
+  .blog-prose h2 { font-size: 28px; }
+}
+
+.blog-prose h3 {
+  color: #d8b4fe;
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+@media (min-width: 768px) {
+  .blog-prose h3 { font-size: 22px; }
+}
+
+.blog-prose ul {
+  color: rgba(255,255,255,0.8);
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.blog-prose li {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.8;
+}
+
+.blog-prose strong { color: #fff; font-weight: 700; }
+.blog-prose em     { font-style: italic; }
+
+.blog-prose a {
+  color: #c084fc;
+  text-underline-offset: 2px;
+  text-decoration: underline;
+}
+.blog-prose a:hover { color: #d8b4fe; }
+
+/* Lead paragraph */
+.blog-prose .lead {
+  color: rgba(255,255,255,0.7);
+  font-size: 18px;
+  line-height: 1.9;
+  margin-bottom: 2.5rem;
+  display: block;
+  border-left: 4px solid #a855f7;
+  padding-left: 1.25rem;
+}
+
+/* Data boxes */
+.blog-prose .data-box {
+  display: grid;
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+@media (min-width: 640px) {
+  .blog-prose .data-box { grid-template-columns: repeat(2, 1fr); }
+}
+
+.blog-prose .data-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.blog-prose .data-item.highlight {
+  border-color: rgba(168,85,247,0.4);
+  background: rgba(88,28,135,0.2);
+}
+.blog-prose .data-label  { color: rgba(255,255,255,0.5); font-size: 0.875rem; font-weight: 500; }
+.blog-prose .data-value  { color: #fff; font-size: 28px; font-weight: 900; }
+.blog-prose .data-delta  { color: #4ade80; font-weight: 600; font-size: 0.875rem; }
+.blog-prose .data-item.highlight .data-delta { color: #f87171; }
+
+/* Calc boxes */
+.blog-prose .calc-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 2.5rem 0;
+}
+.blog-prose .calc-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.blog-prose .calc-box li {
+  color: rgba(255,255,255,0.8);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  margin: 0;
+}
+.blog-prose .calc-box p {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.875rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+  font-style: italic;
+}
+/* ─────────────────────────────────────────────────────────────── */
+

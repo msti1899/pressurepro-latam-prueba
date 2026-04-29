@@ -8,6 +8,7 @@ import RegionalClients from "./RegionalClients";
 import WhatsAppButton from "./WhatsAppButton";
 import DynamicSEO from "./DynamicSEO";
 import Breadcrumbs from "./Breadcrumbs";
+import ContactModal from "./ContactModal";
 
 export {
     Navbar,
@@ -19,5 +20,6 @@ export {
     RegionalClients,
     WhatsAppButton,
     DynamicSEO,
-    Breadcrumbs
+    Breadcrumbs,
+    ContactModal,
 }

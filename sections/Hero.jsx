@@ -6,10 +6,12 @@ import { slideIn, staggerContainer, textVariant } from '../utils/motion';
 import { LanguageContext } from '../context/LanguageContext';
 import { useLocale } from '../context/LocaleContext';
 import { COUNTRIES } from '../config/countries';
+import ContactModal from '../components/ContactModal';
 
 const Hero = () => {
   const { translations } = useContext(LanguageContext);
   const { country, language, marketContent } = useLocale();
+  const [modalType, setModalType] = useState(null);
 
   const getGeoTargetedH1 = () => {
     const countryConfig = country ? COUNTRIES[country] : null;
@@ -157,6 +159,32 @@ const Hero = () => {
               >
                 {translations.hero.subtitle}
               </motion.h2>
+
+              {/* CTAs principales */}
+              <motion.div
+                variants={textVariant(1.35)}
+                className='flex flex-wrap gap-3 justify-center mt-8'
+              >
+                <button
+                  onClick={() => setModalType('quote')}
+                  className='px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm md:text-base shadow-lg shadow-purple-500/30 hover:from-purple-500 hover:to-indigo-500 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2'
+                >
+                  <svg className='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' />
+                  </svg>
+                  {translations?.cta?.quoteButton || 'Solicitar Cotización'}
+                </button>
+                <button
+                  onClick={() => setModalType('demo')}
+                  className='px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white font-semibold text-sm md:text-base hover:bg-white/20 hover:border-white/50 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2'
+                >
+                  <svg className='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z' />
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z' />
+                  </svg>
+                  {translations?.cta?.demoButton || 'Demo Gratuita'}
+                </button>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
@@ -196,6 +224,8 @@ const Hero = () => {
           />
         </div>
       </a>
+
+      <ContactModal isOpen={!!modalType} onClose={() => setModalType(null)} type={modalType || 'contact'} />
     </section>
   );
 };

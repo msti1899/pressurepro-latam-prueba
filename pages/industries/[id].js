@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn, textVariant } from '../../utils/motion';
 import { TypingText, TitleText } from '../../components/CustomTexts';
-import { Navbar, Footer, WhatsAppButton, Breadcrumbs } from '../../components';
+import { Navbar, Footer, WhatsAppButton, Breadcrumbs, ContactModal } from '../../components';
 import { useLocale } from '../../context/LocaleContext';
 import { COUNTRIES } from '../../config/countries';
 import { buildAlternates, shouldNoIndexAlternateLanguage } from '../../config/localization';
@@ -25,6 +25,7 @@ export default function IndustryPage() {
   const router = useRouter();
   const { id } = router.query;
   const { translations, language, countryConfig } = useLocale();
+  const [modalType, setModalType] = useState(null);
   const locale = router.locale || DEFAULT_LOCALE;
 
   // Resolver industria desde el archivo centralizado
@@ -580,12 +581,27 @@ export default function IndustryPage() {
                 <p className="text-white/80 text-sm md:text-base max-w-[500px] mb-8">
                   {translations?.industryPage?.contactForSolution}
                 </p>
-                <Link
-                  href="/#feedback"
-                  className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] flex items-center active:scale-95"
-                >
-                  {translations?.footer?.contact}
-                </Link>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <button
+                    onClick={() => setModalType('quote')}
+                    className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] flex items-center gap-2 active:scale-95"
+                  >
+                    <svg className='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
+                      <path strokeLinecap='round' strokeLinejoin='round' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' />
+                    </svg>
+                    {translations?.cta?.quoteButton || 'Solicitar Cotización'}
+                  </button>
+                  <button
+                    onClick={() => setModalType('demo')}
+                    className="px-8 py-3 rounded-full border border-white/40 text-white font-semibold text-base hover:bg-purple-600/20 hover:border-purple-400/60 hover:text-white transition-all min-h-[48px] flex items-center gap-2 active:scale-95"
+                  >
+                    <svg className='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
+                      <path strokeLinecap='round' strokeLinejoin='round' d='M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z' />
+                      <path strokeLinecap='round' strokeLinejoin='round' d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z' />
+                    </svg>
+                    {translations?.cta?.demoButton || 'Demo Gratuita'}
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -669,6 +685,7 @@ export default function IndustryPage() {
 
         <Footer />
         <WhatsAppButton />
+        <ContactModal isOpen={!!modalType} onClose={() => setModalType(null)} type={modalType || 'contact'} />
       </div>
     </>
   );

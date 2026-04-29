@@ -8,20 +8,25 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { name, company, phone, email, message } = req.body;
+  const { name, company, phone, email, message, subject: formType } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ message: 'Faltan campos requeridos.' });
   }
+
+  const typeLabels = { quote: 'Solicitud de Cotización', demo: 'Solicitud de Demo', contact: 'Contacto general' };
+  const typeLabel = typeLabels[formType] || 'Contacto general';
+  const accentColor = formType === 'demo' ? '#4f46e5' : '#6d28d9';
 
   try {
     await resend.emails.send({
       from: 'Formulario Web <onboarding@resend.dev>',
       to: CONTACT_EMAIL,
       replyTo: email,
-      subject: `Nuevo contacto de ${name}${company ? ` — ${company}` : ''}`,
+      subject: `[${typeLabel}] ${name}${company ? ` — ${company}` : ''}`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;padding:32px;border-radius:8px;">
+          <p style="display:inline-block;background:${accentColor};color:#fff;font-size:11px;font-weight:bold;padding:4px 10px;border-radius:20px;margin-bottom:16px;letter-spacing:0.05em;">${typeLabel.toUpperCase()}</p>
           <h2 style="color:#6d28d9;margin-bottom:24px;">Nuevo mensaje de contacto</h2>
           <table style="width:100%;border-collapse:collapse;">
             <tr><td style="padding:8px 0;color:#555;font-weight:bold;width:130px;">Nombre</td><td style="padding:8px 0;color:#111;">${name}</td></tr>

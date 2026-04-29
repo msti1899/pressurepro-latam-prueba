@@ -165,7 +165,7 @@ const countryOverrides = {
         },
         {
           imgUrl: '/pp-white.png',
-          title: "Ahorro Operativo hasta 15%",
+          title: "Ahorro Operativo hasta 30%",
           subtitle: "Reducción de costes en combustible y neumáticos. Contribución a objetivos de sostenibilidad según directivas europeas de reducción de emisiones."
         },
         {
