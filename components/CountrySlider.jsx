@@ -1,5 +1,6 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocale } from '../context/LocaleContext';
 import { COUNTRIES } from '../config/countries';
@@ -10,6 +11,11 @@ import { COUNTRIES } from '../config/countries';
  */
 const CountrySlider = ({ isOpen, onClose }) => {
   const { language, country, changeCountry, translations } = useLocale();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const items = Object.values(COUNTRIES)
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -26,7 +32,7 @@ const CountrySlider = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  return (
+  const content = (
     <AnimatePresence>
       {isOpen && (
         <>
@@ -41,11 +47,11 @@ const CountrySlider = ({ isOpen, onClose }) => {
 
           {/* Slider */}
           <motion.div
-            initial={{ opacity: 0, y: -8, scaleY: 0.95 }}
-            animate={{ opacity: 1, y: 0, scaleY: 1 }}
-            exit={{ opacity: 0, y: -8, scaleY: 0.95 }}
+            initial={{ opacity: 0, y: -8, scaleY: 0.95, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, scaleY: 1, x: '-50%' }}
+            exit={{ opacity: 0, y: -8, scaleY: 0.95, x: '-50%' }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed left-1/2 -translate-x-1/2 top-[90px] sm:top-[95px] z-[100] px-4 w-full max-w-[440px]"
+            className="fixed left-1/2 top-[90px] sm:top-[95px] z-[100] px-4 w-full max-w-[440px]"
             style={{ originY: 0 }}
           >
             <div className="bg-[#1A232E]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden w-full">
@@ -100,6 +106,9 @@ const CountrySlider = ({ isOpen, onClose }) => {
       )}
     </AnimatePresence>
   );
+
+  if (!mounted) return null;
+  return createPortal(content, document.body);
 };
 
 export default CountrySlider;

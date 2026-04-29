@@ -409,11 +409,7 @@ const Navbar = () => {
                 </motion.div>
               </button>
               
-              {/* Country Slider injection */}
-              <CountrySlider 
-                isOpen={isCountrySliderOpen} 
-                onClose={() => setIsCountrySliderOpen(false)} 
-              />
+
             </div>
 
             {/* 2. Selector de Idioma */}
@@ -445,6 +441,12 @@ const Navbar = () => {
           </div>
         </div>
       </motion.nav>
+
+      {/* Selector de país (fuera del motion.nav para evitar que su transform afecte fixed) */}
+      <CountrySlider 
+        isOpen={isCountrySliderOpen} 
+        onClose={() => setIsCountrySliderOpen(false)} 
+      />
 
       {/* Menú desplegable de navegación */}
       <NavigationMenu />
