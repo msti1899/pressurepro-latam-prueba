@@ -54,6 +54,47 @@ const DEFAULTS = {
   tireDegradationPct: 10,
 };
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// FÓRMULAS — Calculadora Minera / Portuaria
+// ─────────────────────────────────────────────────────────────────────────────
+// NEUMÁTICOS:
+//   Total = nVehículos × ruedasPorVehículo
+//
+// INVERSIÓN INICIAL:
+//   Equipamiento = nVehículos × costoEquipo/veh
+//   Sensores     = totalNeum × costoSensor/rueda
+//   TOTAL        = equipamiento + sensores
+//
+// AHORRO COMBUSTIBLE (anual):
+//   CombustibleTotal (L/año) = nVehículos × horas/año × L/hora
+//   AhorroCombustible (L)    = total × (déficit% × 0.003)
+//   AhorroCombustible ($)    = litrosAhorrados × precio/L
+//
+// AHORRO NEUMÁTICOS (anual):
+//   GastoNeum = neum/año × costo/neum
+//   AhorroNeum = GastoNeum × (degradación% / 100)
+//
+// AHORRO DOWNTIME (anual):
+//   AhorroDowntime = eventos/año × nVehículos × costo/evento × 0.80
+//
+// REPAGO (meses):
+//   ceil(inversión / (ahorro total / 12))
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const MINING_DEFAULTS = {
+  vehicles: 8,
+  wheelsPerVehicle: 8,
+  hoursPerYear: 5000,
+  fuelLitersPerHour: 20,
+  fuelPricePerLiter: 1.2,
+  pressureDifferencePct: 10,
+  tiresPerYear: 20,
+  tireCost: 3000,
+  tireDegradationPct: 15,
+  downtimeCostPerEvent: 10000,
+  downtimeEventsPerVehiclePerYear: 4,
+};
+
 // ─── Componentes UI reutilizables ──────────────────────────────────────────────
 
 function SliderInput({ label, value, onChange, min, max, step, format, hint }) {
@@ -159,7 +200,52 @@ const ROICalculator = () => {
   const [tireCost, setTireCost] = useState(DEFAULTS.tireCost);
   const [tireDegradationPct, setTireDegradationPct] = useState(DEFAULTS.tireDegradationPct);
 
-  // ─── Cálculos ────────────────────────────────────────────────────────────────
+  // ─── Estado mining ────────────────────────────────────────────────────────
+  const [mVehicles, setMVehicles] = useState(MINING_DEFAULTS.vehicles);
+  const [mWheels, setMWheels] = useState(MINING_DEFAULTS.wheelsPerVehicle);
+  const [mHoursPerYear, setMHoursPerYear] = useState(MINING_DEFAULTS.hoursPerYear);
+  const [mFuelLPH, setMFuelLPH] = useState(MINING_DEFAULTS.fuelLitersPerHour);
+  const [mFuelPrice, setMFuelPrice] = useState(MINING_DEFAULTS.fuelPricePerLiter);
+  const [mPressureDiff, setMPressureDiff] = useState(MINING_DEFAULTS.pressureDifferencePct);
+  const [mTiresPerYear, setMTiresPerYear] = useState(MINING_DEFAULTS.tiresPerYear);
+  const [mTireCost, setMTireCost] = useState(MINING_DEFAULTS.tireCost);
+  const [mTireDegradation, setMTireDegradation] = useState(MINING_DEFAULTS.tireDegradationPct);
+  const [mDowntimeCost, setMDowntimeCost] = useState(MINING_DEFAULTS.downtimeCostPerEvent);
+  const [mDowntimeEvents, setMDowntimeEvents] = useState(MINING_DEFAULTS.downtimeEventsPerVehiclePerYear);
+
+  // ─── Cálculos mining ─────────────────────────────────────────────────────
+  const miningResults = useMemo(() => {
+    const totalTires = mVehicles * mWheels;
+    const equipmentCost = mVehicles * DEFAULTS.equipmentCostPerTruck;
+    const sensorCost = totalTires * DEFAULTS.sensorCostPerWheel;
+    const initialInvestment = equipmentCost + sensorCost;
+
+    const totalFuelPerYear = mVehicles * mHoursPerYear * mFuelLPH;
+    const fuelLossFactor = mPressureDiff * 0.003;
+    const fuelSavingLiters = totalFuelPerYear * fuelLossFactor;
+    const fuelSaving = fuelSavingLiters * mFuelPrice;
+
+    const tireSaving = mTiresPerYear * mTireCost * (mTireDegradation / 100);
+    const downtimeSaving = mDowntimeEvents * mVehicles * mDowntimeCost * 0.80;
+    const totalAnnualSaving = fuelSaving + tireSaving + downtimeSaving;
+    const paybackMonths = totalAnnualSaving > 0 ? Math.ceil((initialInvestment / totalAnnualSaving) * 12) : null;
+
+    const fmt = (val) => `${symbol} ${val.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+    return {
+      totalTires,
+      initialInvestment: fmt(initialInvestment),
+      fuelSaving: fmt(fuelSaving),
+      fuelSavingLiters: `${Math.round(fuelSavingLiters).toLocaleString('de-DE')} L`,
+      tireSaving: fmt(tireSaving),
+      downtimeSaving: fmt(downtimeSaving),
+      totalAnnualSaving: fmt(totalAnnualSaving),
+      paybackMonths,
+    };
+  }, [mVehicles, mWheels, mHoursPerYear, mFuelLPH, mFuelPrice, mPressureDiff,
+      mTiresPerYear, mTireCost, mTireDegradation, mDowntimeCost, mDowntimeEvents, symbol]);
+
+  // ─── Cálculos transport ──────────────────────────────────────────────────
   const results = useMemo(() => {
     const simpleTireTotal = simpleTrucks * simpleWheels;
     const trailerTireTotal = trailerTrucks * trailerWheels;
@@ -446,30 +532,199 @@ const ROICalculator = () => {
             </motion.div>
 
           ) : (
-            /* ── Placeholder: Calculadora Minera / Portuaria ─────────────── */
+            /* ── Calculadora Minera / Portuaria ──────────────────────────── */
             <motion.div
               key="mining"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.3 }}
-              className="mt-10 flex flex-col items-center justify-center min-h-[320px] rounded-[28px] border border-dashed border-amber-500/30 bg-amber-900/5 p-12 text-center gap-4"
+              className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8"
             >
-              <svg className="w-16 h-16 text-amber-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-              </svg>
-              <p className="text-white/60 text-xl font-bold">
-                {t.mining?.title || 'Calculadora Minera / Portuaria'}
-              </p>
-              <p className="text-white/40 text-sm max-w-md leading-relaxed">
-                {t.mining?.subtitle || 'Esta calculadora estará disponible próximamente. Los vehículos de minería y operaciones portuarias tienen variables específicas (OTR tyres, carga, condiciones de terreno) que requieren un modelo de cálculo diferente.'}
-              </p>
-              <button
-                onClick={() => setModalType('demo')}
-                className="mt-2 px-6 py-3 rounded-xl border border-amber-500/30 text-amber-400/80 font-semibold text-sm hover:bg-amber-900/20 hover:border-amber-400/50 hover:text-amber-300 transition-all duration-300 min-h-[48px]"
-              >
-                {t.mining?.notifyButton || 'Avisarme cuando esté disponible'}
-              </button>
+              {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
+              <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
+
+                <SectionLabel>{t.mining?.sectionPricing || 'PressurePro Pricing'}</SectionLabel>
+                <div className="flex flex-col gap-2.5 bg-white/[0.03] rounded-xl border border-white/8 px-4 py-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/60 text-sm">{t.mining?.equipmentCostPerVehicle || 'Equipamiento por vehículo'}</span>
+                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.equipmentCostPerTruck)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/60 text-sm">{t.mining?.sensorCostPerWheel || 'Sensor por rueda'}</span>
+                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.sensorCostPerWheel)}</span>
+                  </div>
+                </div>
+
+                <SectionLabel>{t.mining?.sectionFleet || 'Datos de la flota'}</SectionLabel>
+                <SliderInput
+                  label={t.mining?.vehicles || 'Número de vehículos'}
+                  value={mVehicles} onChange={setMVehicles}
+                  min={1} max={200} step={1} format={fmtN}
+                />
+                <ToggleGroup
+                  label={t.mining?.wheelsPerVehicle || 'Ruedas por vehículo'}
+                  value={mWheels} onChange={setMWheels} options={[4, 6, 8, 10, 12]}
+                />
+                <SliderInput
+                  label={t.mining?.hoursPerYear || 'Horas de operación por vehículo/año'}
+                  value={mHoursPerYear} onChange={setMHoursPerYear}
+                  min={500} max={8760} step={100}
+                  format={(v) => `${v.toLocaleString('de-DE')} h`}
+                />
+                <SliderInput
+                  label={t.mining?.fuelLitersPerHour || 'Consumo promedio (L/hora)'}
+                  value={mFuelLPH} onChange={setMFuelLPH}
+                  min={5} max={100} step={1}
+                  format={(v) => `${v.toLocaleString('de-DE')} L/h`}
+                />
+
+                <SectionLabel>{t.mining?.sectionCosts || 'Costos operativos'}</SectionLabel>
+                <SliderInput
+                  label={t.mining?.fuelPrice || 'Precio del litro de combustible'}
+                  value={mFuelPrice} onChange={setMFuelPrice}
+                  min={0.3} max={4} step={0.05} format={fmtC}
+                />
+                <SliderInput
+                  label={t.mining?.pressureDiff || 'Diferencia de presión (recomendada vs. actual)'}
+                  value={mPressureDiff} onChange={setMPressureDiff}
+                  min={1} max={40} step={1} format={fmtPct}
+                  hint={t.mining?.pressureDiffHint || 'Porcentaje promedio por debajo de la presión recomendada'}
+                />
+                <SliderInput
+                  label={t.mining?.tiresPerYear || 'Neumáticos comprados por año (flota completa)'}
+                  value={mTiresPerYear} onChange={setMTiresPerYear}
+                  min={0} max={500} step={1} format={fmtN}
+                />
+                <SliderInput
+                  label={t.mining?.tireCost || 'Costo promedio de neumático OTR'}
+                  value={mTireCost} onChange={setMTireCost}
+                  min={500} max={50000} step={500} format={fmtC}
+                />
+                <SliderInput
+                  label={t.mining?.tireDegradation || '% degradación por presión incorrecta'}
+                  value={mTireDegradation} onChange={setMTireDegradation}
+                  min={1} max={50} step={1} format={fmtPct}
+                  hint={t.mining?.tireDegradationHint || 'Porcentaje del gasto anual en neumáticos atribuible a la presión incorrecta'}
+                />
+                <SliderInput
+                  label={t.mining?.downtimeCost || 'Costo por evento de avería / parada'}
+                  value={mDowntimeCost} onChange={setMDowntimeCost}
+                  min={1000} max={200000} step={1000} format={fmtC}
+                  hint={t.mining?.downtimeCostHint || 'Incluye pérdida de producción, mano de obra y traslado en operaciones 24/7'}
+                />
+                <SliderInput
+                  label={t.mining?.downtimeEvents || 'Eventos de avería por vehículo / año'}
+                  value={mDowntimeEvents} onChange={setMDowntimeEvents}
+                  min={0} max={30} step={1}
+                  format={(v) => `${v.toLocaleString('de-DE')} eventos`}
+                />
+              </div>
+
+              {/* ── Panel derecho: Resultados ───────────────────────────────── */}
+              <div className="flex flex-col gap-4">
+
+                {/* Total neumáticos */}
+                <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5 flex flex-col gap-3">
+                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                    {t.mining?.tiresLabel || 'Total de neumáticos en flota'}
+                  </p>
+                  <ResultRow
+                    label={`${mVehicles.toLocaleString('de-DE')} veh × ${mWheels} ruedas`}
+                    value={miningResults.totalTires.toLocaleString('de-DE')}
+                    highlight
+                  />
+                </div>
+
+                {/* a) Inversión inicial */}
+                <div className="rounded-[24px] border border-amber-500/20 bg-amber-900/10 p-5 flex flex-col gap-2">
+                  <p className="text-amber-400/80 text-xs font-bold uppercase tracking-widest">
+                    {t.mining?.investmentLabel || 'a) Inversión inicial (costo único)'}
+                  </p>
+                  <p className="text-3xl font-extrabold text-amber-300 tabular-nums">{miningResults.initialInvestment}</p>
+                  <p className="text-white/30 text-[11px]">
+                    {fmtC(DEFAULTS.equipmentCostPerTruck)}/veh + {fmtC(DEFAULTS.sensorCostPerWheel)}/rueda
+                  </p>
+                </div>
+
+                {/* b / c / d — Ahorros anuales */}
+                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 flex flex-col gap-3">
+                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                    {t.mining?.savingsLabel || 'Ahorros anuales estimados'}
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <ResultRow
+                      label={t.mining?.fuelSaving || 'b) Ahorro en consumo de combustible'}
+                      value={miningResults.fuelSaving}
+                    />
+                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                      {miningResults.fuelSavingLiters} × {fmtC(mFuelPrice)}/L · {mPressureDiff}% déficit → {(mPressureDiff * 0.3).toFixed(1)}% consumo extra
+                    </p>
+                    <ResultRow
+                      label={t.mining?.tireSaving || 'c) Ahorro en reemplazo de neumáticos OTR'}
+                      value={miningResults.tireSaving}
+                    />
+                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                      {mTiresPerYear} neum × {fmtC(mTireCost)} × {mTireDegradation}% degradación
+                    </p>
+                    <ResultRow
+                      label={t.mining?.downtimeSaving || 'd) Ahorro en downtime / averías (−80%)'}
+                      value={miningResults.downtimeSaving}
+                    />
+                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                      {mDowntimeEvents} eventos × {mVehicles.toLocaleString('de-DE')} veh × {fmtC(mDowntimeCost)} × 80%
+                    </p>
+                  </div>
+                </div>
+
+                {/* e) Ahorro total + repago */}
+                <motion.div
+                  key={miningResults.totalAnnualSaving}
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="rounded-[28px] border border-emerald-400/60 bg-gradient-to-br from-emerald-900/40 to-[#1a1830] p-6 flex flex-col gap-3 shadow-[0_0_50px_rgba(52,211,153,0.18)]"
+                >
+                  <p className="text-emerald-400/80 text-xs font-bold uppercase tracking-widest">
+                    {t.mining?.totalSavingLabel || 'e) Ahorro total de la flota por año'}
+                  </p>
+                  <p className="text-5xl font-extrabold text-emerald-300 tabular-nums leading-none">
+                    {miningResults.totalAnnualSaving}
+                  </p>
+                  {miningResults.paybackMonths && (
+                    <p className="text-emerald-400/70 text-sm font-medium">
+                      {(t.mining?.paybackLabel || 'Recupero de inversión en {n} meses').replace('{n}', miningResults.paybackMonths)}
+                    </p>
+                  )}
+                  <p className="text-white/30 text-[11px] leading-relaxed mt-1">{t.mining?.disclaimer || t.disclaimer}</p>
+                </motion.div>
+
+                {/* CTAs */}
+                <motion.div
+                  variants={fadeIn('up', 'tween', 0.4, 0.7)}
+                  className="flex flex-wrap gap-3 justify-center pt-4 border-t border-white/8"
+                >
+                  <button
+                    onClick={() => setModalType('quote')}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-md shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    {translations?.cta?.quoteButton || 'Solicitar Cotización'}
+                  </button>
+                  <button
+                    onClick={() => setModalType('demo')}
+                    className="px-6 py-3 rounded-xl border border-white/20 text-white/80 font-semibold text-sm hover:bg-purple-600/20 hover:border-purple-500/50 hover:text-white hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {translations?.cta?.demoButton || 'Demo Gratuita'}
+                  </button>
+                </motion.div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
