@@ -45,7 +45,7 @@ const DEFAULTS = {
   simpleTrucks: 10,
   simpleWheelsPerTruck: 6,
   trailerTrucks: 5,
-  trailerWheelsPerTruck: 10,
+  trailerWheelsPerTruck: 8,
   kmPerYear: 120000,
   fuelPricePerLiter: 1.2,
   pressureDifferencePct: 10,
@@ -55,14 +55,16 @@ const DEFAULTS = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// FÓRMULAS — Calculadora Minera / Portuaria
+// FÓRMULAS — Calculadora Minera / Portuaria / Industrial
 // ─────────────────────────────────────────────────────────────────────────────
 // NEUMÁTICOS:
-//   Total = nVehículos × ruedasPorVehículo
+//   Total = nVehículos × ruedasPorTipoVehículo
 //
 // INVERSIÓN INICIAL:
-//   Equipamiento = nVehículos × costoEquipo/veh
-//   Sensores     = totalNeum × costoSensor/rueda
+//   Equipamiento = nVehículos × costoEquipo[tipoVehículo]   ← varía por tipo
+//     Haul Truck USD 2.200 · Cargadora USD 1.700 · Reach Stacker USD 1.900
+//     RTG 16r USD 3.500 · RTG 8r USD 2.290 · Forwarder USD 1.500
+//   Sensores     = totalNeum × USD 60/rueda
 //   TOTAL        = equipamiento + sensores
 //
 // AHORRO COMBUSTIBLE (anual):
@@ -71,11 +73,11 @@ const DEFAULTS = {
 //   AhorroCombustible ($)    = litrosAhorrados × precio/L
 //
 // AHORRO NEUMÁTICOS (anual):
-//   GastoNeum = neum/año × costo/neum
+//   GastoNeum  = neum/año × costo/neum
 //   AhorroNeum = GastoNeum × (degradación% / 100)
 //
 // AHORRO DOWNTIME (anual):
-//   AhorroDowntime = eventos/año × nVehículos × costo/evento × 0.80
+//   AhorroDowntime = eventos/año/veh × nVehículos × costo/evento × 0.80
 //
 // REPAGO (meses):
 //   ceil(inversión / (ahorro total / 12))
@@ -83,7 +85,7 @@ const DEFAULTS = {
 
 const MINING_DEFAULTS = {
   vehicles: 8,
-  wheelsPerVehicle: 8,
+  wheelsPerVehicle: 4,
   hoursPerYear: 5000,
   fuelLitersPerHour: 20,
   fuelPricePerLiter: 1.2,
@@ -94,6 +96,22 @@ const MINING_DEFAULTS = {
   downtimeCostPerEvent: 10000,
   downtimeEventsPerVehiclePerYear: 4,
 };
+
+// ─── Pricing minera (oculto del público) ─────────────────────────────────────
+const MINING_PRICING = {
+  sensorCostPerWheel: 60,
+};
+
+// ─── Tipos de vehículo para calculadora minera ────────────────────────────────
+// Costos de equipamiento por tipo (oculto del público — solo para cálculo de ROI)
+const VEHICLE_TYPES = [
+  { id: 'haul',      label: 'Haul Truck',         wheels: 4,  equipmentCost: 2200 },
+  { id: 'loader',    label: 'Cargadora Frontal',   wheels: 4,  equipmentCost: 1700 },
+  { id: 'reach',     label: 'Reach Stacker',       wheels: 4,  equipmentCost: 1900 },
+  { id: 'rtg16',     label: 'RTG 16 ruedas',       wheels: 16, equipmentCost: 3500 },
+  { id: 'rtg8',      label: 'RTG 8 ruedas',        wheels: 8,  equipmentCost: 2290 },
+  { id: 'forwarder', label: 'Forwarder Forestal',  wheels: 8,  equipmentCost: 1500 },
+];
 
 // ─── Componentes UI reutilizables ──────────────────────────────────────────────
 
@@ -174,6 +192,118 @@ function ResultRow({ label, value, highlight }) {
   );
 }
 
+const VEHICLE_IMAGES = {
+  haul:      '/iconos/Haul-Truck-removebg-preview.png',
+  loader:    '/iconos/Front-wheel-loader-removebg-preview.png',
+  reach:     '/iconos/Reach-Stacker-removebg-preview.png',
+  rtg16:     '/iconos/RTG-16-neumáticos-Photoroom.png',
+  rtg8:      '/iconos/RTG-8-neumáticos-Photoroom.png',
+  forwarder: '/iconos/Forwarder-forestal-removebg-preview.png',
+};
+
+const ITEMS_PER_PAGE = 3;
+const TOTAL_PAGES = Math.ceil(VEHICLE_TYPES.length / ITEMS_PER_PAGE);
+
+function VehicleTypeSelector({ value, onChange, sectionLabel }) {
+  const initPage = Math.floor(VEHICLE_TYPES.findIndex(vt => vt.id === value) / ITEMS_PER_PAGE);
+  const [page, setPage] = useState(Math.max(0, initPage));
+
+  const navigate = (dir) => {
+    setPage(p => (p + dir + TOTAL_PAGES) % TOTAL_PAGES);
+  };
+
+  return (
+    <div className="flex flex-col gap-2.5">
+      {/* Header row */}
+      <div className="flex items-center justify-between">
+        <span className="text-white/80 text-sm font-medium leading-tight">{sectionLabel || 'Tipo de vehículo'}</span>
+        <div className="flex items-center gap-1">
+          {Array.from({ length: TOTAL_PAGES }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i)}
+              className={`rounded-full transition-all duration-300 ${i === page ? 'bg-purple-400 w-4 h-1.5' : 'bg-white/20 w-1.5 h-1.5'}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Carousel */}
+      <div className="relative">
+        {/* Prev arrow */}
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#1a1831] border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-purple-500/50 transition-all duration-200 shadow-lg"
+          aria-label="Anterior"
+        >
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M6.5 1.5L3 5l3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
+        {/* Sliding track */}
+        <div className="overflow-hidden mx-2">
+          <motion.div
+            className="flex"
+            animate={{ x: `${-page * (100 / TOTAL_PAGES)}%` }}
+            transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{ width: `${TOTAL_PAGES * 100}%` }}
+          >
+            {Array.from({ length: TOTAL_PAGES }).map((_, pageIdx) => (
+              <div
+                key={pageIdx}
+                className="grid grid-cols-3 gap-2"
+                style={{ width: `${100 / TOTAL_PAGES}%`, flexShrink: 0 }}
+              >
+                {VEHICLE_TYPES.slice(pageIdx * ITEMS_PER_PAGE, (pageIdx + 1) * ITEMS_PER_PAGE).map(vt => (
+                  <button
+                    key={vt.id}
+                    type="button"
+                    onClick={() => onChange(vt.id, vt.wheels)}
+                    className={`flex flex-col items-center gap-1 p-2.5 rounded-xl border transition-all duration-200 ${
+                      value === vt.id
+                        ? 'border-purple-500 bg-purple-600/20 text-white shadow-sm shadow-purple-500/20'
+                        : 'border-white/10 bg-white/[0.03] text-white/50 hover:border-purple-500/40 hover:text-white/75 hover:bg-white/[0.06]'
+                    }`}
+                  >
+                    <div className="w-full" style={{ aspectRatio: '16/9' }}>
+                      <img
+                        src={VEHICLE_IMAGES[vt.id]}
+                        alt={vt.label}
+                        className={`w-full h-full object-contain transition-opacity duration-200 ${
+                          value === vt.id ? 'opacity-100' : 'opacity-50'
+                        }`}
+                        draggable={false}
+                      />
+                    </div>
+                    <span className="text-xs font-semibold leading-tight text-center">{vt.label}</span>
+                    <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
+                      value === vt.id ? 'bg-purple-500/30 text-purple-300' : 'text-white/30'
+                    }`}>
+                      {vt.wheels} ruedas
+                    </span>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Next arrow */}
+        <button
+          onClick={() => navigate(1)}
+          className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#1a1831] border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-purple-500/50 transition-all duration-200 shadow-lg"
+          aria-label="Siguiente"
+        >
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M3.5 1.5L7 5l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 
 const ROICalculator = () => {
   const { translations } = useContext(LanguageContext);
@@ -211,13 +341,13 @@ const ROICalculator = () => {
   const [mTireCost, setMTireCost] = useState(MINING_DEFAULTS.tireCost);
   const [mTireDegradation, setMTireDegradation] = useState(MINING_DEFAULTS.tireDegradationPct);
   const [mDowntimeCost, setMDowntimeCost] = useState(MINING_DEFAULTS.downtimeCostPerEvent);
-  const [mDowntimeEvents, setMDowntimeEvents] = useState(MINING_DEFAULTS.downtimeEventsPerVehiclePerYear);
-
+  const [mDowntimeEvents, setMDowntimeEvents] = useState(MINING_DEFAULTS.downtimeEventsPerVehiclePerYear);  const [mVehicleType, setMVehicleType] = useState('haul');
   // ─── Cálculos mining ─────────────────────────────────────────────────────
   const miningResults = useMemo(() => {
     const totalTires = mVehicles * mWheels;
-    const equipmentCost = mVehicles * DEFAULTS.equipmentCostPerTruck;
-    const sensorCost = totalTires * DEFAULTS.sensorCostPerWheel;
+    const selectedVehicle = VEHICLE_TYPES.find(v => v.id === mVehicleType);
+    const equipmentCost = mVehicles * (selectedVehicle?.equipmentCost || 0);
+    const sensorCost = totalTires * MINING_PRICING.sensorCostPerWheel;
     const initialInvestment = equipmentCost + sensorCost;
 
     const totalFuelPerYear = mVehicles * mHoursPerYear * mFuelLPH;
@@ -235,6 +365,7 @@ const ROICalculator = () => {
     return {
       totalTires,
       initialInvestment: fmt(initialInvestment),
+      vehicleEquipmentCost: selectedVehicle?.equipmentCost || 0,
       fuelSaving: fmt(fuelSaving),
       fuelSavingLiters: `${Math.round(fuelSavingLiters).toLocaleString('de-DE')} L`,
       tireSaving: fmt(tireSaving),
@@ -243,7 +374,7 @@ const ROICalculator = () => {
       paybackMonths,
     };
   }, [mVehicles, mWheels, mHoursPerYear, mFuelLPH, mFuelPrice, mPressureDiff,
-      mTiresPerYear, mTireCost, mTireDegradation, mDowntimeCost, mDowntimeEvents, symbol]);
+      mTiresPerYear, mTireCost, mTireDegradation, mDowntimeCost, mDowntimeEvents, mVehicleType, symbol]);
 
   // ─── Cálculos transport ──────────────────────────────────────────────────
   const results = useMemo(() => {
@@ -258,11 +389,12 @@ const ROICalculator = () => {
     const initialInvestment = equipmentCost + sensorCost;
 
     // Ahorro combustible anual
+    // Solo los camiones (simpleTrucks) consumen combustible — los trailers no tienen motor
     // L/km = 3.785 / (MPG × 1.60934)
     const litersPerKm = 3.785 / (AVG_MPG * 1.60934);
     // NHTSA: 0.3% consumo extra por cada 1% de presión baja
     const fuelLossFactor = pressureDiffPct * 0.003;
-    const totalFuelPerYear = totalVehicles * kmPerYear * litersPerKm;
+    const totalFuelPerYear = simpleTrucks * kmPerYear * litersPerKm;
     const fuelSavingLiters = totalFuelPerYear * fuelLossFactor;
     const fuelSaving = fuelSavingLiters * fuelPricePerLiter;
 
@@ -339,7 +471,7 @@ const ROICalculator = () => {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
               </svg>
-              {t.tabs?.mining || 'Flota Minera / Portuaria'}
+              {t.tabs?.mining || 'Flota Minera / Portuaria / Industrial'}
             </button>
           </div>
         </motion.div>
@@ -357,36 +489,24 @@ const ROICalculator = () => {
               {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
               <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
 
-                <SectionLabel>{t.inputs?.sectionPricing || 'PressurePro Pricing'}</SectionLabel>
-                <div className="flex flex-col gap-2.5 bg-white/[0.03] rounded-xl border border-white/8 px-4 py-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-white/60 text-sm">{t.inputs?.equipmentCostPerTruck || 'Costo de equipamiento por camión'}</span>
-                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.equipmentCostPerTruck)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white/60 text-sm">{t.inputs?.sensorCostPerWheel || 'Costo de sensor por rueda'}</span>
-                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.sensorCostPerWheel)}</span>
-                  </div>
-                </div>
-
                 <SectionLabel>{t.inputs?.sectionFleet || 'Datos de la flota'}</SectionLabel>
                 <SliderInput
-                  label={t.inputs?.simpleTrucks || 'Camiones simples'}
+                  label={t.inputs?.simpleTrucks || 'Cantidad de Camiones'}
                   value={simpleTrucks} onChange={setSimpleTrucks}
                   min={0} max={500} step={1} format={fmtN}
                 />
                 <ToggleGroup
-                  label={t.inputs?.simpleWheels || 'Ruedas por camión simple'}
-                  value={simpleWheels} onChange={setSimpleWheels} options={[4, 6]}
+                  label={t.inputs?.simpleWheels || 'Ruedas por camión'}
+                  value={simpleWheels} onChange={setSimpleWheels} options={[6, 10, 12]}
                 />
                 <SliderInput
-                  label={t.inputs?.trailerTrucks || 'Camiones con trailer'}
+                  label={t.inputs?.trailerTrucks || 'Cantidad de Trailers / Remolques / Acoplados'}
                   value={trailerTrucks} onChange={setTrailerTrucks}
                   min={0} max={500} step={1} format={fmtN}
                 />
                 <ToggleGroup
-                  label={t.inputs?.trailerWheels || 'Ruedas por camión con trailer'}
-                  value={trailerWheels} onChange={setTrailerWheels} options={[8, 10]}
+                  label={t.inputs?.trailerWheels || 'Ruedas por trailer'}
+                  value={trailerWheels} onChange={setTrailerWheels} options={[8, 12]}
                 />
                 <SliderInput
                   label={t.inputs?.kmPerYear || 'Km por vehículo al año'}
@@ -434,11 +554,11 @@ const ROICalculator = () => {
                   </p>
                   <div className="flex flex-col gap-2">
                     <ResultRow
-                      label={t.results?.simpleTires || 'Total neumáticos — camiones simples'}
+                      label={t.results?.simpleTires || 'Total neumáticos — camiones'}
                       value={results.simpleTireTotal.toLocaleString('de-DE')}
                     />
                     <ResultRow
-                      label={t.results?.trailerTires || 'Total neumáticos — camiones con trailer'}
+                      label={t.results?.trailerTires || 'Total neumáticos — trailers / remolques'}
                       value={results.trailerTireTotal.toLocaleString('de-DE')}
                     />
                     <ResultRow
@@ -543,27 +663,16 @@ const ROICalculator = () => {
               {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
               <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
 
-                <SectionLabel>{t.mining?.sectionPricing || 'PressurePro Pricing'}</SectionLabel>
-                <div className="flex flex-col gap-2.5 bg-white/[0.03] rounded-xl border border-white/8 px-4 py-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-white/60 text-sm">{t.mining?.equipmentCostPerVehicle || 'Equipamiento por vehículo'}</span>
-                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.equipmentCostPerTruck)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white/60 text-sm">{t.mining?.sensorCostPerWheel || 'Sensor por rueda'}</span>
-                    <span className="text-purple-300 font-bold text-sm tabular-nums">{fmtC(DEFAULTS.sensorCostPerWheel)}</span>
-                  </div>
-                </div>
-
                 <SectionLabel>{t.mining?.sectionFleet || 'Datos de la flota'}</SectionLabel>
+                <VehicleTypeSelector
+                  value={mVehicleType}
+                  onChange={(id, wheels) => { setMVehicleType(id); setMWheels(wheels); }}
+                  sectionLabel={t.mining?.vehicleTypeLabel || 'Seleccionar tipo de vehículo'}
+                />
                 <SliderInput
-                  label={t.mining?.vehicles || 'Número de vehículos'}
+                  label={t.mining?.vehicles || 'Cantidad de vehículos'}
                   value={mVehicles} onChange={setMVehicles}
                   min={1} max={200} step={1} format={fmtN}
-                />
-                <ToggleGroup
-                  label={t.mining?.wheelsPerVehicle || 'Ruedas por vehículo'}
-                  value={mWheels} onChange={setMWheels} options={[4, 6, 8, 10, 12]}
                 />
                 <SliderInput
                   label={t.mining?.hoursPerYear || 'Horas de operación por vehículo/año'}
@@ -629,7 +738,7 @@ const ROICalculator = () => {
                     {t.mining?.tiresLabel || 'Total de neumáticos en flota'}
                   </p>
                   <ResultRow
-                    label={`${mVehicles.toLocaleString('de-DE')} veh × ${mWheels} ruedas`}
+                    label={`${mVehicles.toLocaleString('de-DE')} × ${VEHICLE_TYPES.find(v => v.id === mVehicleType)?.label || 'vehículo'} (${mWheels} ruedas)`}
                     value={miningResults.totalTires.toLocaleString('de-DE')}
                     highlight
                   />
@@ -641,8 +750,8 @@ const ROICalculator = () => {
                     {t.mining?.investmentLabel || 'a) Inversión inicial (costo único)'}
                   </p>
                   <p className="text-3xl font-extrabold text-amber-300 tabular-nums">{miningResults.initialInvestment}</p>
-                  <p className="text-white/30 text-[11px]">
-                    {fmtC(DEFAULTS.equipmentCostPerTruck)}/veh + {fmtC(DEFAULTS.sensorCostPerWheel)}/rueda
+                  <p className="text-white/40 text-[11px]">
+                    {VEHICLE_TYPES.find(v => v.id === mVehicleType)?.label} · {t.mining?.investmentNote || 'Equipamiento por vehículo + sensores por rueda'}
                   </p>
                 </div>
 
