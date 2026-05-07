@@ -9,7 +9,7 @@ import ContactModal from '../components/ContactModal';
 const ProjectCard = ({ project, index }) => (
   <motion.div
     variants={fadeIn('up', 'tween', index * 0.15, 0.6)}
-    className="flex flex-col rounded-[24px] overflow-hidden border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(147,51,234,0.15)] transition-all duration-500 shadow-xl"
+    className="flex flex-col rounded-[24px] overflow-hidden border border-white/10 bg-gradient-to-br from-[#0d1a24] via-[#0f1e2a] to-[#121f30] hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(0,119,185,0.15)] transition-all duration-500 shadow-xl"
   >
     {/* Imagen */}
     <div className="relative overflow-hidden h-[220px] flex-shrink-0">
@@ -81,7 +81,7 @@ const FeaturedProjects = () => {
           <div className="flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => setModalType('quote')}
-              className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-lg shadow-purple-500/25 hover:from-purple-500 hover:to-indigo-500 hover:-translate-y-0.5 hover:shadow-purple-500/45 transition-all duration-300 min-h-[48px] flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-purple-500 text-white font-semibold text-sm shadow-lg shadow-purple-500/25 hover:bg-purple-600 hover:-translate-y-0.5 hover:shadow-purple-500/45 transition-all duration-300 min-h-[48px] flex items-center gap-2"
             >
               <svg className='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
                 <path strokeLinecap='round' strokeLinejoin='round' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' />

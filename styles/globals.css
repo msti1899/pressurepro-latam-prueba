@@ -21,7 +21,7 @@ html, body {
 
 /* Focus visible para accesibilidad por teclado */
 *:focus-visible {
-  outline: 2px solid rgba(139, 92, 246, 0.8);
+  outline: 2px solid rgba(0, 119, 185, 0.8);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -37,13 +37,13 @@ html, body {
 .gradient-01 {
   background-image: linear-gradient(
     270deg,
-    hsl(295deg 76% 51%) 0%,
-    hsl(284deg 70% 73%) 26%,
-    hsl(257deg 70% 86%) 39%,
+    hsl(201deg 100% 36%) 0%,
+    hsl(201deg 80% 55%) 26%,
+    hsl(201deg 70% 75%) 39%,
     hsl(202deg 92% 90%) 50%,
-    hsl(215deg 77% 81%) 61%,
-    hsl(221deg 73% 70%) 74%,
-    hsl(220deg 76% 51%) 100%
+    hsl(201deg 77% 75%) 61%,
+    hsl(201deg 90% 55%) 74%,
+    hsl(201deg 100% 36%) 100%
   );
   filter: blur(125px);
 }
@@ -62,9 +62,9 @@ html, body {
 .hero-gradient {
   background: linear-gradient(
     97.86deg,
-    #a509ff 0%,
-    #34acc7 53.65%,
-    #a134c7 100%
+    #0077b9 0%,
+    #0099d4 53.65%,
+    #ff3434 100%
   );
 }
 
@@ -75,7 +75,7 @@ html, body {
   top: 0px;
   right: 0px;
 
-  background: #7aebfb;
+  background: #4db8e8;
   filter: blur(190px);
 }
 
@@ -86,7 +86,7 @@ html, body {
   left: 20%;
   top: 5%;
 
-  background: rgba(149, 66, 232, 0.35);
+  background: rgba(0, 119, 185, 0.35);
   filter: blur(175px);
   transform: rotate(-114.2deg);
 }
@@ -98,7 +98,7 @@ html, body {
   left: 30%;
   top: 10%;
 
-  background: rgba(45, 72, 152, 0.75);
+  background: rgba(0, 72, 140, 0.75);
   filter: blur(200px);
   transform: rotate(-53.13deg);
 }
@@ -118,7 +118,7 @@ html, body {
   left: 0px;
   top: 0px;
 
-  background: #8d39a3;
+  background: #0077b9;
   filter: blur(175px);
 }
 
@@ -129,7 +129,7 @@ html, body {
   left: 37%;
   bottom: 0;
 
-  background: #65c4fa;
+  background: #0099d4;
   filter: blur(150px);
 }
 
@@ -154,19 +154,19 @@ html, body {
 }
 
 .modal-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(138, 75, 175, 0.5);
+  background: rgba(0, 119, 185, 0.5);
   border-radius: 10px;
   border: 1px solid rgba(26, 35, 46, 0.1);
 }
 
 .modal-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(138, 75, 175, 0.7);
+  background: rgba(0, 119, 185, 0.75);
 }
 
 /* Para Firefox */
 .modal-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(138, 75, 175, 0.5) rgba(26, 35, 46, 0.1);
+  scrollbar-color: rgba(0, 119, 185, 0.5) rgba(26, 35, 46, 0.1);
 }
 
 .text-shadow {

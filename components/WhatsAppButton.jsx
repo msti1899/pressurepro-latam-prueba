@@ -123,7 +123,7 @@ const WhatsAppButton = ({ message = '' }) => {
             </div>
             <button
               type="button"
-              className="mt-4 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-2 rounded-xl shadow-md hover:from-purple-500 hover:to-indigo-500 transition-all disabled:opacity-60"
+              className="mt-4 w-full bg-purple-500 text-white font-semibold py-2 rounded-xl shadow-md hover:bg-purple-600 transition-all disabled:opacity-60"
               onClick={handleSend}
               disabled={loading || !userMessage || userMessage.trim().length === 0}
             >

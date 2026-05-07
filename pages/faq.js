@@ -229,7 +229,7 @@ export default function FAQPage() {
           >
             <motion.div
               variants={fadeIn('up', 'tween', 0.2, 1)}
-              className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-purple-900/50 to-indigo-900/50 p-8 md:p-12 text-center backdrop-blur-sm border border-white/10"
+              className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-purple-900/50 to-purple-950/50 p-8 md:p-12 text-center backdrop-blur-sm border border-white/10"
             >
               <h2 className="text-white font-bold text-2xl md:text-4xl mb-4">
                 {translations?.faqPage?.moreQuestions}
@@ -239,7 +239,7 @@ export default function FAQPage() {
               </p>
               <Link
                 href="/#feedback"
-                className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
+                className="inline-block px-8 py-3 bg-purple-500 rounded-full text-white font-semibold text-base md:text-lg hover:bg-purple-600 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
               >
                 {translations?.faqPage?.contactNow}
               </Link>

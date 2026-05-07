@@ -231,7 +231,7 @@ function VehicleTypeSelector({ value, onChange, sectionLabel }) {
         {/* Prev arrow */}
         <button
           onClick={() => navigate(-1)}
-          className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#1a1831] border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-purple-500/50 transition-all duration-200 shadow-lg"
+          className="absolute -left-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#0f1e2a] border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-purple-500/50 transition-all duration-200 shadow-lg"
           aria-label="Anterior"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -290,7 +290,7 @@ function VehicleTypeSelector({ value, onChange, sectionLabel }) {
         {/* Next arrow */}
         <button
           onClick={() => navigate(1)}
-          className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#1a1831] border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-purple-500/50 transition-all duration-200 shadow-lg"
+          className="absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#0f1e2a] border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-purple-500/50 transition-all duration-200 shadow-lg"
           aria-label="Siguiente"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
@@ -491,7 +491,7 @@ const ROICalculator = () => {
               className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:items-start"
             >
               {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
-              <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
+              <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#0d1a24] via-[#0f1e2a] to-[#121f30] p-6 md:p-8 gap-4">
 
                 <SectionLabel>{t.inputs?.sectionFleet || 'Datos de la flota'}</SectionLabel>
                 <SliderInput
@@ -550,7 +550,7 @@ const ROICalculator = () => {
               </div>
 
               {/* ── Panel derecho: Resultados ───────────────────────────────── */}
-              <div className="rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 flex flex-col gap-5 xl:sticky xl:top-8">
+              <div className="rounded-[28px] border border-white/10 bg-gradient-to-br from-[#0d1a24] via-[#0f1e2a] to-[#121f30] p-6 md:p-8 flex flex-col gap-5 xl:sticky xl:top-8">
 
                 {/* 3.1 / 3.2 / 3.3 — Resumen de neumáticos */}
                 <div className="flex flex-col gap-3 pb-5 border-b border-white/10">
@@ -628,7 +628,7 @@ const ROICalculator = () => {
                 >
                   <button
                     onClick={() => setModalType('quote')}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-md shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl bg-purple-500 text-white font-semibold text-sm shadow-md shadow-purple-500/20 hover:bg-purple-600 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -660,7 +660,7 @@ const ROICalculator = () => {
               className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:items-start"
             >
               {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
-              <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
+              <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#0d1a24] via-[#0f1e2a] to-[#121f30] p-6 md:p-8 gap-4">
 
                 <SectionLabel>{t.mining?.sectionFleet || 'Datos de la flota'}</SectionLabel>
                 <VehicleTypeSelector
@@ -730,7 +730,7 @@ const ROICalculator = () => {
               </div>
 
               {/* ── Panel derecho: Resultados ───────────────────────────────── */}
-              <div className="rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 flex flex-col gap-5 xl:sticky xl:top-8">
+              <div className="rounded-[28px] border border-white/10 bg-gradient-to-br from-[#0d1a24] via-[#0f1e2a] to-[#121f30] p-6 md:p-8 flex flex-col gap-5 xl:sticky xl:top-8">
 
                 {/* Total neumáticos */}
                 <div className="flex flex-col gap-3 pb-5 border-b border-white/10">
@@ -803,7 +803,7 @@ const ROICalculator = () => {
                 >
                   <button
                     onClick={() => setModalType('quote')}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-md shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl bg-purple-500 text-white font-semibold text-sm shadow-md shadow-purple-500/20 hover:bg-purple-600 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

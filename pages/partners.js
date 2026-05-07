@@ -139,9 +139,9 @@ export default function PartnersPage() {
                   transition={{ duration: 0.4 }}
                   className="w-full text-left cursor-pointer group mb-8"
                 >
-                  <div className="relative overflow-hidden rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-900/30 via-[#1a1830] to-indigo-900/20 p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 hover:border-purple-400/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/15">
+                  <div className="relative overflow-hidden rounded-3xl border border-purple-500/40 bg-gradient-to-br from-purple-900/30 via-[#1a1830] to-purple-950/20 p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 hover:border-purple-400/70 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/15">
                     <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-purple-600/15 blur-3xl pointer-events-none" />
-                    <div className="absolute bottom-0 left-20 w-32 h-32 rounded-full bg-indigo-600/10 blur-2xl pointer-events-none" />
+                    <div className="absolute bottom-0 left-20 w-32 h-32 rounded-full bg-purple-600/10 blur-2xl pointer-events-none" />
                     {samsaraPartner.logo && (
                       <div className="flex-shrink-0 w-36 h-16 flex items-center justify-center bg-white/[0.06] rounded-2xl border border-white/10 px-4">
                         <img
@@ -361,7 +361,7 @@ export default function PartnersPage() {
           >
             <motion.div
               variants={fadeIn('up', 'tween', 0.2, 1)}
-              className="bg-gradient-to-r from-purple-900/30 to-indigo-900/30 rounded-3xl border border-white/10 p-8 md:p-12 text-center"
+              className="bg-gradient-to-r from-purple-900/30 to-purple-950/30 rounded-3xl border border-white/10 p-8 md:p-12 text-center"
             >
               <h3 className="text-white font-bold text-2xl md:text-4xl mb-4">
                 {t.ctaTitle}
@@ -371,7 +371,7 @@ export default function PartnersPage() {
               </p>
               <Link
                 href="/#feedback"
-                className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
+                className="inline-flex items-center px-8 py-3 bg-purple-500 rounded-full text-white font-semibold text-base md:text-lg hover:bg-purple-600 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] active:scale-95"
               >
                 {translations?.footer?.contact}
               </Link>
@@ -398,7 +398,7 @@ export default function PartnersPage() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 16 }}
                 transition={{ duration: 0.25 }}
-                className="bg-gradient-to-br from-[#1e1c38] via-[#211f42] to-[#26244e] border border-white/15 rounded-3xl max-w-2xl w-full relative overflow-hidden max-h-[90vh] overflow-y-auto"
+                className="bg-gradient-to-br from-[#0e1d2d] via-[#112030] to-[#132438] border border-white/15 rounded-3xl max-w-2xl w-full relative overflow-hidden max-h-[90vh] overflow-y-auto"
                 onClick={e => e.stopPropagation()}
               >
                 {/* Destello decorativo */}

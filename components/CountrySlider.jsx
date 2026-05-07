@@ -77,7 +77,7 @@ const CountrySlider = ({ isOpen, onClose }) => {
                         className={`
                           flex flex-col items-center gap-1 px-2 py-2 rounded-xl transition-all duration-200
                           ${isActive 
-                            ? 'bg-gradient-to-b from-purple-600/30 to-indigo-600/20 border border-purple-500/40 shadow-lg shadow-purple-500/10' 
+                            ? 'bg-gradient-to-b from-purple-600/30 to-purple-400/20 border border-purple-500/40 shadow-lg shadow-purple-500/10' 
                             : 'bg-white/[0.03] border border-transparent hover:bg-white/[0.08] hover:border-white/10'}
                         `}
                       >

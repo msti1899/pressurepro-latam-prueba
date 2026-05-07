@@ -27,7 +27,7 @@ export default function BlogPost({ post, coverImage, date, categories }) {
             variants={fadeIn('up', 'spring', 0.2, 0.6)}
           >
             {categories.map(cat => (
-              <span key={cat} className="px-3 py-1 bg-purple-600/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
+              <span key={cat} className="px-3 py-1 bg-brand-red-500/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
                 {cat}
               </span>
             ))}

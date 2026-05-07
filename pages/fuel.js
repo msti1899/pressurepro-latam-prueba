@@ -169,7 +169,7 @@ export default function FuelArticlePage() {
 
             <motion.div
               variants={fadeIn('up', 'tween', 0.4, 1)}
-              className="mt-8 p-6 bg-gradient-to-r from-purple-900/30 to-indigo-900/30 rounded-2xl border border-purple-500/30"
+              className="mt-8 p-6 bg-gradient-to-r from-purple-900/30 to-purple-950/30 rounded-2xl border border-purple-500/30"
             >
               <p className="text-white font-semibold text-lg md:text-xl text-center">
                 {t.introHighlight}
@@ -222,7 +222,7 @@ export default function FuelArticlePage() {
           >
             {/* Badge de etapa */}
             <motion.div variants={fadeIn('up', 'tween', 0.2, 1)} className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-purple-400 flex items-center justify-center text-white font-bold text-xl">
                 1
               </div>
               <h2 className="font-bold text-[24px] md:text-[36px] text-white">
@@ -563,7 +563,7 @@ export default function FuelArticlePage() {
                 alt=""
                 className="w-full h-[280px] sm:h-[320px] md:h-[400px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 via-indigo-900/80 to-black/70 flex flex-col items-center justify-center text-center px-6">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 via-purple-900/80 to-black/70 flex flex-col items-center justify-center text-center px-6">
                 <h3 className="text-white font-bold text-2xl md:text-4xl mb-4">
                   {t.ctaTitle}
                 </h3>
@@ -572,7 +572,7 @@ export default function FuelArticlePage() {
                 </p>
                 <Link
                   href="/#feedback"
-                  className="px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-white font-semibold text-base md:text-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] flex items-center active:scale-95"
+                  className="px-8 py-3 bg-purple-500 rounded-full text-white font-semibold text-base md:text-lg hover:bg-purple-600 transition-all shadow-lg shadow-purple-500/20 min-h-[48px] flex items-center active:scale-95"
                 >
                   {t.ctaButton}
                 </Link>

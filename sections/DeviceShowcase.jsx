@@ -23,7 +23,7 @@ const IMAGE_TAGS = ['MINING', 'TRANSPORT', 'MINING', 'INSTALL', 'SENSOR', 'MININ
 const TAG_COLORS = {
   MINING:    'bg-amber-500/20 text-amber-300 border border-amber-500/40',
   TRANSPORT: 'bg-blue-500/20  text-blue-300  border border-blue-500/40',
-  INSTALL:   'bg-purple-500/20 text-purple-300 border border-purple-500/40',
+  INSTALL:   'bg-brand-red-500/20 text-brand-red-300 border border-brand-red-500/40',
   SENSOR:    'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40',
 };
 
@@ -70,7 +70,7 @@ function ImageCell({ src, label, tag, className = '', delay = 0 }) {
       <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-purple-500/55 transition-colors duration-400 pointer-events-none" />
 
       {/* Resplandor interior en hover */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none shadow-[inset_0_0_28px_rgba(139,92,246,0.18)]" />
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none shadow-[inset_0_0_28px_rgba(0,119,185,0.18)]" />
 
       {/* Brackets de esquina (aparecen en hover) */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -131,7 +131,7 @@ const DeviceShowcase = () => {
       {/* Fondo difuso decorativo */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-purple-800/10 blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-indigo-800/10 blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-800/10 blur-[100px]" />
       </div>
 
       <motion.div

@@ -95,7 +95,7 @@ const ContactModal = ({ isOpen, onClose, type = 'contact' }) => {
                 {/* Indicador de tipo */}
                 {type !== 'contact' && (
                   <div className='flex items-center gap-2 mb-1'>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${type === 'quote' ? 'bg-purple-600/30 text-purple-300 border border-purple-500/40' : 'bg-indigo-600/30 text-indigo-300 border border-indigo-500/40'}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${type === 'quote' ? 'bg-purple-600/30 text-purple-300 border border-purple-500/40' : 'bg-purple-600/30 text-purple-300 border border-purple-500/40'}`}>
                       {type === 'quote' ? (ctaTexts.quoteBadge || 'Cotización') : (ctaTexts.demoBadge || 'Demo gratuita')}
                     </span>
                   </div>
@@ -172,7 +172,7 @@ const ContactModal = ({ isOpen, onClose, type = 'contact' }) => {
                 <button
                   type='submit'
                   disabled={!isValid || status === 'sending'}
-                  className='mt-2 w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-2.5 rounded-xl shadow-md hover:from-purple-500 hover:to-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
+                  className='mt-2 w-full bg-purple-500 text-white font-semibold py-2.5 rounded-xl shadow-md hover:bg-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
                 >
                   {status === 'sending' ? (cm.sending || 'Enviando...') : (cm.send || 'Enviar')}
                 </button>

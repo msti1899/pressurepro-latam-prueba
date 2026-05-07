@@ -167,7 +167,7 @@ const Hero = () => {
               >
                 <button
                   onClick={() => setModalType('quote')}
-                  className='px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm md:text-base shadow-lg shadow-purple-500/30 hover:from-purple-500 hover:to-indigo-500 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2'
+                  className='px-6 py-3 rounded-full bg-purple-500 text-white font-semibold text-sm md:text-base shadow-lg shadow-purple-500/30 hover:bg-purple-600 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all duration-300 min-h-[48px] flex items-center gap-2'
                 >
                   <svg className='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
                     <path strokeLinecap='round' strokeLinejoin='round' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' />

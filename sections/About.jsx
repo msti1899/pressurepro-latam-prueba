@@ -111,19 +111,19 @@ const About = () => {
         >
           <Link
             href="/industries/mineria"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/10 to-indigo-600/10 border border-purple-500/30 text-purple-300 hover:from-purple-600/20 hover:to-indigo-600/20 hover:border-purple-400/50 transition-all text-sm font-medium"
+            className="px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500/20 hover:border-purple-400/50 transition-all text-sm font-medium"
           >
             {translations?.footer?.mining}
           </Link>
           <Link
             href="/industries/transporte"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/10 to-indigo-600/10 border border-purple-500/30 text-purple-300 hover:from-purple-600/20 hover:to-indigo-600/20 hover:border-purple-400/50 transition-all text-sm font-medium"
+            className="px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500/20 hover:border-purple-400/50 transition-all text-sm font-medium"
           >
             {translations?.footer?.transport}
           </Link>
           <Link
             href="/industries/agricultura"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600/10 to-indigo-600/10 border border-purple-500/30 text-purple-300 hover:from-purple-600/20 hover:to-indigo-600/20 hover:border-purple-400/50 transition-all text-sm font-medium"
+            className="px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500/20 hover:border-purple-400/50 transition-all text-sm font-medium"
           >
             {translations?.footer?.agriculture}
           </Link>

@@ -127,7 +127,7 @@ const CountryBanner = ({ currentLanguage, currentCountry }) => {
           className="bg-[#1A232E] border border-white/10 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 px-6 py-4">
+          <div className="bg-gradient-to-r from-purple-700 via-purple-600 to-brand-red-600 px-6 py-4">
             <div className="flex items-center gap-3">
               <img 
                 src="/pressurepro-latam-logo.png" 

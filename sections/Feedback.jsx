@@ -41,7 +41,7 @@ const Feedback = () => {
             </p>
             <button
               onClick={() => setShowModal(true)}
-              className='mt-6 self-start px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-md hover:from-purple-500 hover:to-indigo-500 hover:shadow-[0_0_20px_rgba(147,51,234,0.4)] transition-all duration-300 hover:-translate-y-0.5'
+              className='mt-6 self-start px-6 py-3 rounded-xl bg-purple-500 text-white font-semibold text-sm shadow-md hover:bg-purple-600 hover:shadow-[0_0_20px_rgba(0,119,185,0.4)] transition-all duration-300 hover:-translate-y-0.5'
             >
               {fb.contactButton || 'Contacto'}
             </button>

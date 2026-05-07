@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function BlogCard({ post, language, readMoreLabel }) {
   const content = post[language] || post['es'];
   return (
-    <div className="group relative flex flex-col rounded-[24px] overflow-hidden border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(147,51,234,0.15)] transition-all duration-500 font-eudoxus shadow-xl">
+    <div className="group relative flex flex-col rounded-[24px] overflow-hidden border border-white/10 bg-gradient-to-br from-[#0d1a24] via-[#0f1e2a] to-[#121f30] hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(0,119,185,0.15)] transition-all duration-500 font-eudoxus shadow-xl">
       {/* Imagen separada del texto */}
       <div className="relative overflow-hidden h-[200px] flex-shrink-0">
         <img
@@ -15,7 +15,7 @@ export default function BlogCard({ post, language, readMoreLabel }) {
         {post.categories && post.categories.length > 0 && (
           <div className="absolute bottom-3 left-3 flex gap-2 flex-wrap">
             {post.categories.map(cat => (
-              <span key={cat} className="px-2 py-1 bg-purple-600/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
+              <span key={cat} className="px-2 py-1 bg-brand-red-500/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
                 {cat}
               </span>
             ))}
