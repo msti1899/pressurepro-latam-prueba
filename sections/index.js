@@ -8,6 +8,7 @@ import Insights from './Insights';
 import Feedback from './Feedback';
 import FeaturedProjects from './FeaturedProjects';
 import ROICalculator from './ROICalculator';
+import DeviceShowcase from './DeviceShowcase';
 
 export {
     Hero,
@@ -20,4 +21,5 @@ export {
     Feedback,
     FeaturedProjects,
     ROICalculator,
+    DeviceShowcase,
 }

@@ -51,7 +51,6 @@ const DEFAULTS = {
   pressureDifferencePct: 10,
   tiresPerYear: 30,
   tireCost: 400,
-  tireDegradationPct: 10,
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -92,7 +91,6 @@ const MINING_DEFAULTS = {
   pressureDifferencePct: 10,
   tiresPerYear: 20,
   tireCost: 3000,
-  tireDegradationPct: 15,
   downtimeCostPerEvent: 10000,
   downtimeEventsPerVehiclePerYear: 4,
 };
@@ -105,9 +103,9 @@ const MINING_PRICING = {
 // ─── Tipos de vehículo para calculadora minera ────────────────────────────────
 // Costos de equipamiento por tipo (oculto del público — solo para cálculo de ROI)
 const VEHICLE_TYPES = [
-  { id: 'haul',      label: 'Haul Truck',         wheels: 4,  equipmentCost: 2200 },
+  { id: 'haul',      label: 'Haul Truck',         wheels: 6,  equipmentCost: 2200 },
   { id: 'loader',    label: 'Cargadora Frontal',   wheels: 4,  equipmentCost: 1700 },
-  { id: 'reach',     label: 'Reach Stacker',       wheels: 4,  equipmentCost: 1900 },
+  { id: 'reach',     label: 'Reach Stacker',       wheels: 6,  equipmentCost: 1900 },
   { id: 'rtg16',     label: 'RTG 16 ruedas',       wheels: 16, equipmentCost: 3500 },
   { id: 'rtg8',      label: 'RTG 8 ruedas',        wheels: 8,  equipmentCost: 2290 },
   { id: 'forwarder', label: 'Forwarder Forestal',  wheels: 8,  equipmentCost: 1500 },
@@ -121,7 +119,7 @@ function SliderInput({ label, value, onChange, min, max, step, format, hint }) {
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 min-w-0">
-          <label className="text-white/80 text-sm font-medium leading-tight">{label}</label>
+          <label className="text-white/80 text-[15px] font-medium leading-tight">{label}</label>
           {hint && (
             <span className="group relative flex-shrink-0">
               <svg className="w-3.5 h-3.5 text-white/30 cursor-help" fill="currentColor" viewBox="0 0 20 20">
@@ -131,7 +129,7 @@ function SliderInput({ label, value, onChange, min, max, step, format, hint }) {
             </span>
           )}
         </div>
-        <span className="text-purple-300 font-bold text-sm tabular-nums flex-shrink-0">{format(value)}</span>
+        <span className="text-purple-300 font-bold text-[15px] tabular-nums flex-shrink-0">{format(value)}</span>
       </div>
       <div className="relative h-2 rounded-full bg-white/10">
         <div className="absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-100" style={{ width: `${pct}%` }} />
@@ -153,7 +151,7 @@ function SliderInput({ label, value, onChange, min, max, step, format, hint }) {
 function ToggleGroup({ label, value, onChange, options }) {
   return (
     <div className="flex items-center justify-between gap-2">
-      <span className="text-white/80 text-sm font-medium leading-tight">{label}</span>
+      <span className="text-white/80 text-[15px] font-medium leading-tight">{label}</span>
       <div className="flex rounded-lg overflow-hidden border border-white/10">
         {options.map(opt => (
           <button
@@ -175,7 +173,7 @@ function ToggleGroup({ label, value, onChange, options }) {
 
 function SectionLabel({ children }) {
   return (
-    <p className="text-purple-400 text-[10px] font-bold uppercase tracking-widest mt-2 pb-1 border-b border-white/8">
+    <p className="text-purple-400 text-xs font-bold uppercase tracking-widest mt-6 pb-2 border-b border-white/10">
       {children}
     </p>
   );
@@ -186,8 +184,8 @@ function ResultRow({ label, value, highlight }) {
     <div className={`flex items-center justify-between py-2.5 px-4 rounded-xl gap-3 ${
       highlight ? 'bg-emerald-900/30 border border-emerald-500/30' : 'bg-white/[0.04]'
     }`}>
-      <span className="text-sm leading-tight text-white/75">{label}</span>
-      <span className={`font-bold tabular-nums text-sm whitespace-nowrap ${highlight ? 'text-emerald-300' : 'text-white'}`}>{value}</span>
+      <span className="text-[15px] leading-tight text-white/75">{label}</span>
+      <span className={`font-bold tabular-nums text-[15px] whitespace-nowrap ${highlight ? 'text-emerald-300' : 'text-white'}`}>{value}</span>
     </div>
   );
 }
@@ -328,7 +326,6 @@ const ROICalculator = () => {
   const [pressureDiffPct, setPressureDiffPct] = useState(DEFAULTS.pressureDifferencePct);
   const [tiresPerYear, setTiresPerYear] = useState(DEFAULTS.tiresPerYear);
   const [tireCost, setTireCost] = useState(DEFAULTS.tireCost);
-  const [tireDegradationPct, setTireDegradationPct] = useState(DEFAULTS.tireDegradationPct);
 
   // ─── Estado mining ────────────────────────────────────────────────────────
   const [mVehicles, setMVehicles] = useState(MINING_DEFAULTS.vehicles);
@@ -339,7 +336,6 @@ const ROICalculator = () => {
   const [mPressureDiff, setMPressureDiff] = useState(MINING_DEFAULTS.pressureDifferencePct);
   const [mTiresPerYear, setMTiresPerYear] = useState(MINING_DEFAULTS.tiresPerYear);
   const [mTireCost, setMTireCost] = useState(MINING_DEFAULTS.tireCost);
-  const [mTireDegradation, setMTireDegradation] = useState(MINING_DEFAULTS.tireDegradationPct);
   const [mDowntimeCost, setMDowntimeCost] = useState(MINING_DEFAULTS.downtimeCostPerEvent);
   const [mDowntimeEvents, setMDowntimeEvents] = useState(MINING_DEFAULTS.downtimeEventsPerVehiclePerYear);  const [mVehicleType, setMVehicleType] = useState('haul');
   // ─── Cálculos mining ─────────────────────────────────────────────────────
@@ -355,6 +351,8 @@ const ROICalculator = () => {
     const fuelSavingLiters = totalFuelPerYear * fuelLossFactor;
     const fuelSaving = fuelSavingLiters * mFuelPrice;
 
+    // % degradación = 1.5 × diferencia de presión (fórmula derivada)
+    const mTireDegradation = mPressureDiff * 1.5;
     const tireSaving = mTiresPerYear * mTireCost * (mTireDegradation / 100);
     const downtimeSaving = mDowntimeEvents * mVehicles * mDowntimeCost * 0.80;
     const totalAnnualSaving = fuelSaving + tireSaving + downtimeSaving;
@@ -369,12 +367,13 @@ const ROICalculator = () => {
       fuelSaving: fmt(fuelSaving),
       fuelSavingLiters: `${Math.round(fuelSavingLiters).toLocaleString('de-DE')} L`,
       tireSaving: fmt(tireSaving),
+      tireDegradationPct: Math.round(mTireDegradation * 10) / 10,
       downtimeSaving: fmt(downtimeSaving),
       totalAnnualSaving: fmt(totalAnnualSaving),
       paybackMonths,
     };
   }, [mVehicles, mWheels, mHoursPerYear, mFuelLPH, mFuelPrice, mPressureDiff,
-      mTiresPerYear, mTireCost, mTireDegradation, mDowntimeCost, mDowntimeEvents, mVehicleType, symbol]);
+      mTiresPerYear, mTireCost, mDowntimeCost, mDowntimeEvents, mVehicleType, symbol]);
 
   // ─── Cálculos transport ──────────────────────────────────────────────────
   const results = useMemo(() => {
@@ -399,11 +398,14 @@ const ROICalculator = () => {
     const fuelSaving = fuelSavingLiters * fuelPricePerLiter;
 
     // Ahorro neumáticos anual
+    // % degradación = 1.5 × diferencia de presión (fórmula derivada)
+    const tireDegradationPct = pressureDiffPct * 1.5;
     const annualTireSpend = tiresPerYear * tireCost;
     const tireSaving = annualTireSpend * (tireDegradationPct / 100);
 
     // Ahorro total anual
     const totalAnnualSaving = fuelSaving + tireSaving;
+    const paybackMonths = totalAnnualSaving > 0 ? Math.ceil((initialInvestment / totalAnnualSaving) * 12) : null;
 
     const fmt = (val) => `${symbol} ${val.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -415,11 +417,13 @@ const ROICalculator = () => {
       fuelSaving: fmt(fuelSaving),
       fuelSavingLiters: `${Math.round(fuelSavingLiters).toLocaleString('de-DE')} L`,
       tireSaving: fmt(tireSaving),
+      tireDegradationPct: Math.round(tireDegradationPct * 10) / 10,
       totalAnnualSaving: fmt(totalAnnualSaving),
+      paybackMonths,
     };
   }, [simpleTrucks, simpleWheels, trailerTrucks, trailerWheels, equipmentCostPerTruck,
       sensorCostPerWheel, kmPerYear, fuelPricePerLiter, pressureDiffPct,
-      tiresPerYear, tireCost, tireDegradationPct, symbol]);
+      tiresPerYear, tireCost, symbol]);
 
   if (!t) return null;
 
@@ -484,7 +488,7 @@ const ROICalculator = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.3 }}
-              className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8"
+              className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:items-start"
             >
               {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
               <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
@@ -493,7 +497,7 @@ const ROICalculator = () => {
                 <SliderInput
                   label={t.inputs?.simpleTrucks || 'Cantidad de Camiones'}
                   value={simpleTrucks} onChange={setSimpleTrucks}
-                  min={0} max={500} step={1} format={fmtN}
+                  min={0} max={2000} step={1} format={fmtN}
                 />
                 <ToggleGroup
                   label={t.inputs?.simpleWheels || 'Ruedas por camión'}
@@ -502,7 +506,7 @@ const ROICalculator = () => {
                 <SliderInput
                   label={t.inputs?.trailerTrucks || 'Cantidad de Trailers / Remolques / Acoplados'}
                   value={trailerTrucks} onChange={setTrailerTrucks}
-                  min={0} max={500} step={1} format={fmtN}
+                  min={0} max={2000} step={1} format={fmtN}
                 />
                 <ToggleGroup
                   label={t.inputs?.trailerWheels || 'Ruedas por trailer'}
@@ -536,20 +540,21 @@ const ROICalculator = () => {
                   value={tireCost} onChange={setTireCost}
                   min={100} max={3000} step={25} format={fmtC}
                 />
-                <SliderInput
-                  label={t.inputs?.tireDegradationPct || '% de degradación por presión incorrecta'}
-                  value={tireDegradationPct} onChange={setTireDegradationPct}
-                  min={1} max={50} step={1} format={fmtPct}
-                  hint={t.inputs?.tireDegradationHint || 'Porcentaje del gasto anual en neumáticos atribuible a la presión incorrecta'}
-                />
+                <div className="flex items-center justify-between gap-2 py-1">
+                  <span className="text-white/50 text-[15px] leading-tight">{t.inputs?.tireDegradationPct || '% degradación por presión incorrecta'}</span>
+                  <span className="text-purple-300/70 font-bold text-[15px] tabular-nums">{(pressureDiffPct * 1.5).toFixed(1)}%</span>
+                </div>
+                <p className="text-white/25 text-xs -mt-2">
+                  {t.inputs?.tireDegradationAuto || 'Calculado automáticamente: 1,5 × diferencia de presión'}
+                </p>
               </div>
 
               {/* ── Panel derecho: Resultados ───────────────────────────────── */}
-              <div className="flex flex-col gap-4">
+              <div className="rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 flex flex-col gap-5 xl:sticky xl:top-8">
 
                 {/* 3.1 / 3.2 / 3.3 — Resumen de neumáticos */}
-                <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5 flex flex-col gap-3">
-                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                <div className="flex flex-col gap-3 pb-5 border-b border-white/10">
+                  <p className="text-white/60 text-sm font-bold uppercase tracking-widest">
                     {t.results?.tiresLabel || 'Total de neumáticos en flota'}
                   </p>
                   <div className="flex flex-col gap-2">
@@ -569,20 +574,9 @@ const ROICalculator = () => {
                   </div>
                 </div>
 
-                {/* a) Inversión inicial */}
-                <div className="rounded-[24px] border border-amber-500/20 bg-amber-900/10 p-5 flex flex-col gap-2">
-                  <p className="text-amber-400/80 text-xs font-bold uppercase tracking-widest">
-                    {t.results?.investmentLabel || 'a) Inversión inicial (costo único)'}
-                  </p>
-                  <p className="text-3xl font-extrabold text-amber-300 tabular-nums">{results.initialInvestment}</p>
-                  <p className="text-white/30 text-[11px]">
-                    {t.results?.investmentNote || `${fmtC(equipmentCostPerTruck)}/camión + ${fmtC(sensorCostPerWheel)}/rueda`}
-                  </p>
-                </div>
-
                 {/* b) y c) Ahorros anuales */}
-                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 flex flex-col gap-3">
-                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                <div className="flex flex-col gap-3 pb-5 border-b border-white/10">
+                  <p className="text-white/60 text-sm font-bold uppercase tracking-widest">
                     {t.results?.savingsLabel || 'Ahorros anuales estimados'}
                   </p>
                   <div className="flex flex-col gap-2">
@@ -590,7 +584,7 @@ const ROICalculator = () => {
                       label={t.results?.fuelSaving || 'b) Ahorro en consumo de combustible'}
                       value={results.fuelSaving}
                     />
-                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                    <p className="text-white/30 text-xs px-1 -mt-1">
                       {results.fuelSavingLiters} × {fmtC(fuelPricePerLiter)}/L
                       {' · '}
                       {pressureDiffPct}% déficit → {(pressureDiffPct * 0.3).toFixed(1)}% consumo extra
@@ -599,8 +593,8 @@ const ROICalculator = () => {
                       label={t.results?.tireSaving || 'c) Ahorro en reemplazo de neumáticos'}
                       value={results.tireSaving}
                     />
-                    <p className="text-white/30 text-[11px] px-1 -mt-1">
-                      {tiresPerYear} neum/año × {fmtC(tireCost)} × {tireDegradationPct}% degradación
+                    <p className="text-white/30 text-xs px-1 -mt-1">
+                      {tiresPerYear} neum/año × {fmtC(tireCost)} × {results.tireDegradationPct}% degradación
                     </p>
                   </div>
                 </div>
@@ -611,21 +605,26 @@ const ROICalculator = () => {
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
-                  className="rounded-[28px] border border-emerald-400/60 bg-gradient-to-br from-emerald-900/40 to-[#1a1830] p-6 flex flex-col gap-2 shadow-[0_0_50px_rgba(52,211,153,0.18)]"
+                  className="rounded-[24px] border border-emerald-400/60 bg-gradient-to-br from-emerald-900/40 to-[#1a1830] p-6 flex flex-col gap-2 shadow-[0_0_50px_rgba(52,211,153,0.18)]"
                 >
-                  <p className="text-emerald-400/80 text-xs font-bold uppercase tracking-widest">
+                  <p className="text-emerald-400/80 text-sm font-bold uppercase tracking-widest">
                     {t.results?.totalSavingLabel || 'e) Ahorro total de la flota por año'}
                   </p>
                   <p className="text-5xl font-extrabold text-emerald-300 tabular-nums leading-none">
                     {results.totalAnnualSaving}
                   </p>
-                  <p className="text-white/30 text-[11px] leading-relaxed mt-1">{t.disclaimer}</p>
+                  {results.paybackMonths && (
+                    <p className="text-emerald-400/70 text-sm font-medium">
+                      {(t.results?.paybackLabel || 'Recupero de inversión en {n} meses').replace('{n}', results.paybackMonths)}
+                    </p>
+                  )}
+                  <p className="text-white/30 text-xs leading-relaxed mt-1">{t.disclaimer}</p>
                 </motion.div>
 
                 {/* CTAs */}
                 <motion.div
                   variants={fadeIn('up', 'tween', 0.4, 0.7)}
-                  className="flex flex-wrap gap-3 justify-center pt-4 border-t border-white/8"
+                  className="flex flex-wrap gap-3 justify-center"
                 >
                   <button
                     onClick={() => setModalType('quote')}
@@ -658,7 +657,7 @@ const ROICalculator = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.3 }}
-              className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8"
+              className="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:items-start"
             >
               {/* ── Panel izquierdo: Inputs ─────────────────────────────────── */}
               <div className="flex flex-col rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 gap-4">
@@ -709,12 +708,13 @@ const ROICalculator = () => {
                   value={mTireCost} onChange={setMTireCost}
                   min={500} max={50000} step={500} format={fmtC}
                 />
-                <SliderInput
-                  label={t.mining?.tireDegradation || '% degradación por presión incorrecta'}
-                  value={mTireDegradation} onChange={setMTireDegradation}
-                  min={1} max={50} step={1} format={fmtPct}
-                  hint={t.mining?.tireDegradationHint || 'Porcentaje del gasto anual en neumáticos atribuible a la presión incorrecta'}
-                />
+                <div className="flex items-center justify-between gap-2 py-1">
+                  <span className="text-white/50 text-[15px] leading-tight">{t.mining?.tireDegradation || '% degradación por presión incorrecta'}</span>
+                  <span className="text-purple-300/70 font-bold text-[15px] tabular-nums">{(mPressureDiff * 1.5).toFixed(1)}%</span>
+                </div>
+                <p className="text-white/25 text-xs -mt-2">
+                  {t.mining?.tireDegradationAuto || 'Calculado automáticamente: 1,5 × diferencia de presión'}
+                </p>
                 <SliderInput
                   label={t.mining?.downtimeCost || 'Costo por evento de avería / parada'}
                   value={mDowntimeCost} onChange={setMDowntimeCost}
@@ -730,11 +730,11 @@ const ROICalculator = () => {
               </div>
 
               {/* ── Panel derecho: Resultados ───────────────────────────────── */}
-              <div className="flex flex-col gap-4">
+              <div className="rounded-[28px] border border-white/10 bg-gradient-to-br from-[#16142a] via-[#1a1830] to-[#1f1d3a] p-6 md:p-8 flex flex-col gap-5 xl:sticky xl:top-8">
 
                 {/* Total neumáticos */}
-                <div className="rounded-[24px] border border-white/10 bg-white/[0.03] p-5 flex flex-col gap-3">
-                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                <div className="flex flex-col gap-3 pb-5 border-b border-white/10">
+                  <p className="text-white/60 text-sm font-bold uppercase tracking-widest">
                     {t.mining?.tiresLabel || 'Total de neumáticos en flota'}
                   </p>
                   <ResultRow
@@ -744,20 +744,9 @@ const ROICalculator = () => {
                   />
                 </div>
 
-                {/* a) Inversión inicial */}
-                <div className="rounded-[24px] border border-amber-500/20 bg-amber-900/10 p-5 flex flex-col gap-2">
-                  <p className="text-amber-400/80 text-xs font-bold uppercase tracking-widest">
-                    {t.mining?.investmentLabel || 'a) Inversión inicial (costo único)'}
-                  </p>
-                  <p className="text-3xl font-extrabold text-amber-300 tabular-nums">{miningResults.initialInvestment}</p>
-                  <p className="text-white/40 text-[11px]">
-                    {VEHICLE_TYPES.find(v => v.id === mVehicleType)?.label} · {t.mining?.investmentNote || 'Equipamiento por vehículo + sensores por rueda'}
-                  </p>
-                </div>
-
                 {/* b / c / d — Ahorros anuales */}
-                <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-5 flex flex-col gap-3">
-                  <p className="text-white/60 text-xs font-bold uppercase tracking-widest">
+                <div className="flex flex-col gap-3 pb-5 border-b border-white/10">
+                  <p className="text-white/60 text-sm font-bold uppercase tracking-widest">
                     {t.mining?.savingsLabel || 'Ahorros anuales estimados'}
                   </p>
                   <div className="flex flex-col gap-2">
@@ -765,21 +754,21 @@ const ROICalculator = () => {
                       label={t.mining?.fuelSaving || 'b) Ahorro en consumo de combustible'}
                       value={miningResults.fuelSaving}
                     />
-                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                    <p className="text-white/30 text-xs px-1 -mt-1">
                       {miningResults.fuelSavingLiters} × {fmtC(mFuelPrice)}/L · {mPressureDiff}% déficit → {(mPressureDiff * 0.3).toFixed(1)}% consumo extra
                     </p>
                     <ResultRow
                       label={t.mining?.tireSaving || 'c) Ahorro en reemplazo de neumáticos OTR'}
                       value={miningResults.tireSaving}
                     />
-                    <p className="text-white/30 text-[11px] px-1 -mt-1">
-                      {mTiresPerYear} neum × {fmtC(mTireCost)} × {mTireDegradation}% degradación
+                    <p className="text-white/30 text-xs px-1 -mt-1">
+                      {mTiresPerYear} neum × {fmtC(mTireCost)} × {miningResults.tireDegradationPct}% degradación
                     </p>
                     <ResultRow
                       label={t.mining?.downtimeSaving || 'd) Ahorro en downtime / averías (−80%)'}
                       value={miningResults.downtimeSaving}
                     />
-                    <p className="text-white/30 text-[11px] px-1 -mt-1">
+                    <p className="text-white/30 text-xs px-1 -mt-1">
                       {mDowntimeEvents} eventos × {mVehicles.toLocaleString('de-DE')} veh × {fmtC(mDowntimeCost)} × 80%
                     </p>
                   </div>
@@ -791,9 +780,9 @@ const ROICalculator = () => {
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
-                  className="rounded-[28px] border border-emerald-400/60 bg-gradient-to-br from-emerald-900/40 to-[#1a1830] p-6 flex flex-col gap-3 shadow-[0_0_50px_rgba(52,211,153,0.18)]"
+                  className="rounded-[24px] border border-emerald-400/60 bg-gradient-to-br from-emerald-900/40 to-[#1a1830] p-6 flex flex-col gap-3 shadow-[0_0_50px_rgba(52,211,153,0.18)]"
                 >
-                  <p className="text-emerald-400/80 text-xs font-bold uppercase tracking-widest">
+                  <p className="text-emerald-400/80 text-sm font-bold uppercase tracking-widest">
                     {t.mining?.totalSavingLabel || 'e) Ahorro total de la flota por año'}
                   </p>
                   <p className="text-5xl font-extrabold text-emerald-300 tabular-nums leading-none">
@@ -804,13 +793,13 @@ const ROICalculator = () => {
                       {(t.mining?.paybackLabel || 'Recupero de inversión en {n} meses').replace('{n}', miningResults.paybackMonths)}
                     </p>
                   )}
-                  <p className="text-white/30 text-[11px] leading-relaxed mt-1">{t.mining?.disclaimer || t.disclaimer}</p>
+                  <p className="text-white/30 text-xs leading-relaxed mt-1">{t.mining?.disclaimer || t.disclaimer}</p>
                 </motion.div>
 
                 {/* CTAs */}
                 <motion.div
                   variants={fadeIn('up', 'tween', 0.4, 0.7)}
-                  className="flex flex-wrap gap-3 justify-center pt-4 border-t border-white/8"
+                  className="flex flex-wrap gap-3 justify-center"
                 >
                   <button
                     onClick={() => setModalType('quote')}

@@ -83,6 +83,36 @@ export const ALL_OEM_PARTNERS = Object.values(OEM_PARTNERS).flat().filter(
   (partner, index, self) => self.findIndex(p => p.name === partner.name) === index
 );
 
+// ─── Partners Tecnológicos y Estratégicos ────────────────────
+// Plataformas de telemetría, gestión de flotas y soluciones IoT
+// que integran o son compatibles con PressurePro
+export const ALL_TECH_PARTNERS = [
+  { name: 'Advantech',     url: 'https://www.advantech.com/',      logo: '/partners-plataformas/Advantech-Logo.png' },
+  { name: 'Aperia',        url: 'https://www.aperiatechnologies.com/', logo: '/partners-plataformas/Aperia-Logo-1.png' },
+  { name: 'DPL',           url: 'https://www.dpltelematics.com/',  logo: '/partners-plataformas/DPL-Logo.png' },
+  { name: 'DSR',           url: 'https://dsr-corporation.com/',    logo: '/partners-plataformas/DSR-Logo.png' },
+  { name: 'Galileosky',    url: 'https://galileosky.com/',         logo: '/partners-plataformas/Galileosky-Logo-2.png' },
+  { name: 'Geotab',        url: 'https://www.geotab.com/',         logo: '/partners-plataformas/Geotab-Logo.png' },
+  { name: 'GPS TrackIt',   url: 'https://www.gpstrackit.com/',     logo: '/partners-plataformas/GPS-TrackIt-Logo.png' },
+  { name: 'KeepTruckin',   url: 'https://www.motive.com/',         logo: '/partners-plataformas/Keep-Trucking-Logo.png' },
+  { name: 'Logimine',      url: 'https://logimine.com/',           logo: '/partners-plataformas/Logimine-Logo.png' },
+  { name: 'Maxcess',       url: 'https://www.maxcessintl.com/',    logo: '/partners-plataformas/Maxcess-Logo.png' },
+  { name: 'Mix Telematics',url: 'https://www.mixtelematics.com/',  logo: '/partners-plataformas/Mix-Logo-1.png' },
+  { name: 'Modular',       url: '#',                               logo: '/partners-plataformas/Modular-Logo.png' },
+  { name: 'Omnitracs',     url: 'https://www.omnitracs.com/',      logo: '/partners-plataformas/Omnitracs.png' },
+  { name: 'Safety Vision', url: 'https://www.safetyvision.com/',   logo: '/partners-plataformas/Safety-Vision-Logo.png' },
+  { name: 'Samtech',       url: '#',                               logo: '/partners-plataformas/Samtech-Logo-1024x791.png' },
+  { name: 'Samsara',       url: 'https://www.samsara.com/',        logo: '/partners-plataformas/Samsara-Logo.png' },
+  { name: 'SilverLeaf',    url: '#',                               logo: '/partners-plataformas/SilverLeaf-Logo-1.png' },
+  { name: 'ToughTech',     url: '#',                               logo: '/partners-plataformas/ToughTech-Logo-1.png' },
+  { name: 'Trimble',       url: 'https://www.trimble.com/',        logo: '/partners-plataformas/Trimble-Logo.png' },
+  { name: 'Valid',         url: 'https://www.validsolucoes.com.br/', logo: '/partners-plataformas/Valid-Logo-1.png' },
+  { name: 'Wenco',         url: 'https://wencomine.com/',          logo: '/partners-plataformas/Wenco-Logo-1.png' },
+  { name: 'Xite Solutions',url: '#',                               logo: '/partners-plataformas/Xite-Solutions-Logo.png' },
+  { name: 'XscapeEz',      url: '#',                               logo: '/partners-plataformas/XscapeEz-Logo-1.png' },
+  { name: 'Zonar',         url: 'https://www.zonarsystems.com/',   logo: '/partners-plataformas/Zonar-Logo.png' },
+];
+
 // ─── Definición de industrias ────────────────────────────────
 // Cada industria tiene: slug, imagen, y contenido en 3 idiomas
 export const INDUSTRIES = [

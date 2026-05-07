@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Hero, About, Explore, GetStarted, WhatsNew, World, Insights, Feedback, FeaturedProjects, ROICalculator } from '../sections';
+import { Hero, About, Explore, GetStarted, WhatsNew, World, Insights, Feedback, FeaturedProjects, ROICalculator, DeviceShowcase } from '../sections';
 import { Navbar, Footer, CountryBanner, WhatsAppButton } from '../components';
 import DynamicSEO from '../components/DynamicSEO';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
@@ -61,6 +61,7 @@ const Page = () => {
           <Feedback />
         </div>
         <ROICalculator />
+        <DeviceShowcase />
         <FeaturedProjects />
         <Footer />
       </div>
