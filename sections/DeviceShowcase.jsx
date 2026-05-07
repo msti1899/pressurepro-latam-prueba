@@ -113,8 +113,8 @@ const DeviceShowcase = () => {
   const eyebrow     = t?.eyebrow   || '| Tecnología en campo';
   const titleMain   = t?.title     || 'Nuestros dispositivos';
   const titleAccent = t?.titleAccent || 'en acción';
-  const subtitle    = t?.subtitle  || 'Instalaciones reales en flotas mineras, portuarias y de transporte.';
-  const footer      = t?.footer    || '// FIELD DEPLOYMENTS · REAL INSTALLATIONS · PRESSURPRO™ TECHNOLOGY';
+  const subtitle    = t?.subtitle  || 'Instalaciones en flotas mineras, portuarias y de transporte.';
+  const footer      = t?.footer    || '// FIELD DEPLOYMENTS · FIELD INSTALLATIONS · PRESSURPRO™ TECHNOLOGY';
   const labels      = t?.imageLabels || [
     'Flota Minera · Doe Run, EE.UU.',
     'Sensor OTR en camión de ruta',

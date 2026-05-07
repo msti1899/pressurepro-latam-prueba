@@ -374,7 +374,7 @@ export default {
         title: 'Nossos dispositivos,',
         titleAccent: 'em ação',
         subtitle: 'Instalações reais em frotas de mineração, portuárias e de transporte em diferentes países.',
-        footer: '// FIELD DEPLOYMENTS · REAL INSTALLATIONS · PRESSURPRO™ TECHNOLOGY',
+        footer: '// IMPLANTAÇÕES EM CAMPO · INSTALAÇÕES EM CAMPO · TECNOLOGIA PRESSURPRO™',
         imageLabels: [
             'Frota de Mineração · Doe Run, EUA',
             'Sensor OTR em caminhão de rota',

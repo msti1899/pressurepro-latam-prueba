@@ -373,8 +373,8 @@ export default {
         eyebrow: '| Tecnología en campo',
         title: 'Nuestros dispositivos,',
         titleAccent: 'en acción',
-        subtitle: 'Instalaciones reales en flotas mineras, portuarias y de transporte en distintos países.',
-        footer: '// FIELD DEPLOYMENTS · REAL INSTALLATIONS · PRESSURPRO™ TECHNOLOGY',
+        subtitle: 'Instalaciones en flotas mineras, portuarias y de transporte en distintos países.',
+        footer: '// DESPLIEGUES EN CAMPO · INSTALACIONES EN CAMPO · TECNOLOGÍA PRESSURPRO™',
         imageLabels: [
             'Flota Minera · Doe Run, EE.UU.',
             'Sensor OTR en camión de ruta',

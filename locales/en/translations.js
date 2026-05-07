@@ -374,7 +374,7 @@ export default {
         title: 'Our devices,',
         titleAccent: 'in action',
         subtitle: 'Real installations on mining, port and transport fleets across different countries.',
-        footer: '// FIELD DEPLOYMENTS · REAL INSTALLATIONS · PRESSURPRO™ TECHNOLOGY',
+        footer: '// FIELD DEPLOYMENTS · FIELD INSTALLATIONS · PRESSURPRO™ TECHNOLOGY',
         imageLabels: [
             'Mining Fleet · Doe Run, USA',
             'OTR Sensor on road truck',
