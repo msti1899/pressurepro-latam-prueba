@@ -337,7 +337,8 @@ const ROICalculator = () => {
   const [mTiresPerYear, setMTiresPerYear] = useState(MINING_DEFAULTS.tiresPerYear);
   const [mTireCost, setMTireCost] = useState(MINING_DEFAULTS.tireCost);
   const [mDowntimeCost, setMDowntimeCost] = useState(MINING_DEFAULTS.downtimeCostPerEvent);
-  const [mDowntimeEvents, setMDowntimeEvents] = useState(MINING_DEFAULTS.downtimeEventsPerVehiclePerYear);  const [mVehicleType, setMVehicleType] = useState('haul');
+  const [mDowntimeEvents, setMDowntimeEvents] = useState(MINING_DEFAULTS.downtimeEventsPerVehiclePerYear);
+  const [mVehicleType, setMVehicleType] = useState('haul');
   // ─── Cálculos mining ─────────────────────────────────────────────────────
   const miningResults = useMemo(() => {
     const totalTires = mVehicles * mWheels;
@@ -353,7 +354,14 @@ const ROICalculator = () => {
 
     // % degradación = 1.5 × diferencia de presión (fórmula derivada)
     const mTireDegradation = mPressureDiff * 1.5;
-    const tireSaving = mTiresPerYear * mTireCost * (mTireDegradation / 100);
+    
+    // Escalar tiresPerYear proporcionalmente al tamaño real de la flota
+    const defaultMiningTires = MINING_DEFAULTS.vehicles * MINING_DEFAULTS.wheelsPerVehicle;
+    const scaledMTiresPerYear = mTiresPerYear * (totalTires / defaultMiningTires);
+    
+    // Ahorro en neumáticos: con TPMS se reduce el reemplazo según % degradación
+    const tireSaving = scaledMTiresPerYear * mTireCost * (mTireDegradation / 100);
+    
     const downtimeSaving = mDowntimeEvents * mVehicles * mDowntimeCost * 0.80;
     const totalAnnualSaving = fuelSaving + tireSaving + downtimeSaving;
     const paybackMonths = totalAnnualSaving > 0 ? Math.ceil((initialInvestment / totalAnnualSaving) * 12) : null;
@@ -368,6 +376,7 @@ const ROICalculator = () => {
       fuelSavingLiters: `${Math.round(fuelSavingLiters).toLocaleString('de-DE')} L`,
       tireSaving: fmt(tireSaving),
       tireDegradationPct: Math.round(mTireDegradation * 10) / 10,
+      scaledMTiresPerYear: Math.round(scaledMTiresPerYear),
       downtimeSaving: fmt(downtimeSaving),
       totalAnnualSaving: fmt(totalAnnualSaving),
       paybackMonths,
@@ -400,8 +409,14 @@ const ROICalculator = () => {
     // Ahorro neumáticos anual
     // % degradación = 1.5 × diferencia de presión (fórmula derivada)
     const tireDegradationPct = pressureDiffPct * 1.5;
-    const annualTireSpend = tiresPerYear * tireCost;
-    const tireSaving = annualTireSpend * (tireDegradationPct / 100);
+    
+    // Escalar tiresPerYear proporcionalmente al tamaño real de la flota
+    const defaultTotalTires = DEFAULTS.simpleTrucks * DEFAULTS.simpleWheelsPerTruck + 
+                              DEFAULTS.trailerTrucks * DEFAULTS.trailerWheelsPerTruck;
+    const scaledTiresPerYear = tiresPerYear * (totalTires / defaultTotalTires);
+    
+    // Ahorro en neumáticos: con TPMS se reduce el reemplazo según % degradación
+    const tireSaving = scaledTiresPerYear * tireCost * (tireDegradationPct / 100);
 
     // Ahorro total anual
     const totalAnnualSaving = fuelSaving + tireSaving;
@@ -418,6 +433,7 @@ const ROICalculator = () => {
       fuelSavingLiters: `${Math.round(fuelSavingLiters).toLocaleString('de-DE')} L`,
       tireSaving: fmt(tireSaving),
       tireDegradationPct: Math.round(tireDegradationPct * 10) / 10,
+      scaledTiresPerYear: Math.round(scaledTiresPerYear),
       totalAnnualSaving: fmt(totalAnnualSaving),
       paybackMonths,
     };
@@ -531,9 +547,10 @@ const ROICalculator = () => {
                   hint={t.inputs?.pressureDiffHint || 'Porcentaje promedio por debajo de la presión recomendada. Ej: 10% = presión 10% baja'}
                 />
                 <SliderInput
-                  label={t.inputs?.tiresPerYear || 'Neumáticos comprados por año (flota completa)'}
+                  label={t.inputs?.tiresPerYear || 'Neumáticos comprados por año (referencia)'}
                   value={tiresPerYear} onChange={setTiresPerYear}
                   min={0} max={2000} step={5} format={fmtN}
+                  hint={t.inputs?.tiresPerYearHint || 'Cantidad de referencia que se escala según el tamaño de la flota'}
                 />
                 <SliderInput
                   label={t.inputs?.tireCost || 'Costo promedio de neumático nuevo'}
@@ -594,7 +611,7 @@ const ROICalculator = () => {
                       value={results.tireSaving}
                     />
                     <p className="text-white/30 text-xs px-1 -mt-1">
-                      {tiresPerYear} neum/año × {fmtC(tireCost)} × {results.tireDegradationPct}% degradación
+                      {results.scaledTiresPerYear} neum/año × {fmtC(tireCost)} × {results.tireDegradationPct}% degradación evitada
                     </p>
                   </div>
                 </div>
@@ -699,9 +716,10 @@ const ROICalculator = () => {
                   hint={t.mining?.pressureDiffHint || 'Porcentaje promedio por debajo de la presión recomendada'}
                 />
                 <SliderInput
-                  label={t.mining?.tiresPerYear || 'Neumáticos comprados por año (flota completa)'}
+                  label={t.mining?.tiresPerYear || 'Neumáticos comprados por año (referencia)'}
                   value={mTiresPerYear} onChange={setMTiresPerYear}
                   min={0} max={500} step={1} format={fmtN}
+                  hint={t.mining?.tiresPerYearHint || 'Cantidad de referencia que se escala según el tamaño de la flota'}
                 />
                 <SliderInput
                   label={t.mining?.tireCost || 'Costo promedio de neumático OTR'}
@@ -762,7 +780,7 @@ const ROICalculator = () => {
                       value={miningResults.tireSaving}
                     />
                     <p className="text-white/30 text-xs px-1 -mt-1">
-                      {mTiresPerYear} neum × {fmtC(mTireCost)} × {miningResults.tireDegradationPct}% degradación
+                      {miningResults.scaledMTiresPerYear} neum/año × {fmtC(mTireCost)} × {miningResults.tireDegradationPct}% degradación evitada
                     </p>
                     <ResultRow
                       label={t.mining?.downtimeSaving || 'd) Ahorro en downtime / averías (−80%)'}
