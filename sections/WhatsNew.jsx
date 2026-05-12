@@ -10,10 +10,27 @@ import { LanguageContext } from '../context/LanguageContext';
 const WhatsNew = () => {
   const { translations } = useContext(LanguageContext);
   const [currentPage, setCurrentPage] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const features = translations.whatsNew.newFeatures;
-  const itemsPerPage = 2;
+  const itemsPerPage = isMobile ? 1 : 2;
   const totalPages = Math.ceil(features.length / itemsPerPage);
+
+  // Detectar tamaño de pantalla
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Auto-play del slider - resetear página al cambiar modo
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [isMobile]);
 
   // Auto-play del slider
   useEffect(() => {
@@ -29,7 +46,7 @@ const WhatsNew = () => {
   );
 
   return (
-    <section id='whatsnew' className='sm:px-16 xs:px-8 px-6 py-16 md:py-24 relative z-10'>
+    <section id='whatsnew' className='sm:px-16 xs:px-8 px-6 py-12 md:py-16 lg:py-24 relative z-10'>
       <motion.div
         variants={staggerContainer}
         initial='hidden'
@@ -38,20 +55,20 @@ const WhatsNew = () => {
           once: false,
           amount: 0.25
         }}
-        className='2xl:max-w-[1280px] w-full mx-auto flex lg:flex-row flex-col gap-8'
+        className='2xl:max-w-[1280px] w-full mx-auto flex lg:flex-row flex-col gap-6 lg:gap-8'
       >
         <motion.div
           variants={fadeIn('right', 'tween', 0.2, 1)}
-          className='flex-[0.75] flex justify-center flex-col'
+          className='flex-[0.95] lg:flex-[0.75] flex justify-center flex-col'
         >
           <TypingText title={`| ${translations.whatsNew.title}`} />
           <TitleText title={translations.whatsNew.title2} as='h2' />
           
-          {/* Slider de Features (2 en 2) */}
-          <div className='mt-[24px] flex flex-col'>
+          {/* Slider de Features (2 en desktop, 1 en móvil) */}
+          <div className='mt-[16px] md:mt-[24px] flex flex-col'>
             
-            {/* Contenedor de items con altura mínima para evitar saltos */}
-            <div className='min-h-[220px] flex flex-row gap-[20px]'>
+            {/* Contenedor de items con altura mínima responsive */}
+            <div className='min-h-[180px] md:min-h-[220px] flex flex-row gap-[12px] md:gap-[20px]'>
               <AnimatePresence mode='wait'>
                 {currentFeatures.map((feature, index) => (
                   <motion.div
@@ -73,14 +90,14 @@ const WhatsNew = () => {
             </div>
 
             {/* Paginación / Dots */}
-            <div className="flex gap-2 mt-6">
+            <div className="flex gap-2 mt-4 md:mt-6 justify-center md:justify-start">
               {Array.from({ length: totalPages }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentPage(i)}
                   aria-label={`Ver características página ${i + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentPage === i ? 'bg-white w-6' : 'bg-white/30 w-2 hover:bg-white/50'
+                  className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
+                    currentPage === i ? 'bg-white w-5 md:w-6' : 'bg-white/30 w-1.5 md:w-2 hover:bg-white/50'
                   }`}
                 />
               ))}
@@ -91,7 +108,7 @@ const WhatsNew = () => {
         
         <motion.div
           variants={planetVariants('right')}
-          className='flex-1 flex justify-center items-center relative'
+          className='flex-1 flex justify-center items-center relative mt-8 lg:mt-0'
         >
           <Image
             src='/whats-new.png'
@@ -101,7 +118,7 @@ const WhatsNew = () => {
             loading="lazy"
             quality={85}
             sizes="(max-width: 1024px) 100vw, 450px"
-            className='w-[90%] h-auto object-contain'
+            className='w-full md:w-[90%] h-auto object-contain'
           />
         </motion.div>
       </motion.div>
