@@ -1,11 +1,24 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Hero, About, Explore, GetStarted, WhatsNew, World, Insights, Feedback, FeaturedProjects, ROICalculator, DeviceShowcase } from '../sections';
+import dynamic from 'next/dynamic';
+import { Hero } from '../sections';
 import { Navbar, Footer, CountryBanner, WhatsAppButton } from '../components';
 import DynamicSEO from '../components/DynamicSEO';
 import { COUNTRIES, LANGUAGES } from '../config/countries';
 import { scrollToSection } from '../utils/motion';
 import { DEFAULT_LOCALE } from '../config/runtime';
+
+// Lazy load secciones below-the-fold con dynamic imports
+const About = dynamic(() => import('../sections/About'), { loading: () => <div className="h-screen" /> });
+const Explore = dynamic(() => import('../sections/Explore'), { loading: () => <div className="h-screen" /> });
+const GetStarted = dynamic(() => import('../sections/GetStarted'), { loading: () => <div className="h-96" /> });
+const WhatsNew = dynamic(() => import('../sections/WhatsNew'), { loading: () => <div className="h-screen" /> });
+const World = dynamic(() => import('../sections/World'), { loading: () => <div className="h-[600px]" /> });
+const Insights = dynamic(() => import('../sections/Insights'), { loading: () => <div className="h-screen" /> });
+const Feedback = dynamic(() => import('../sections/Feedback'), { loading: () => <div className="h-screen" /> });
+const ROICalculator = dynamic(() => import('../sections/ROICalculator'), { loading: () => <div className="h-screen" /> });
+const DeviceShowcase = dynamic(() => import('../sections/DeviceShowcase'), { loading: () => <div className="h-screen" /> });
+const FeaturedProjects = dynamic(() => import('../sections/FeaturedProjects'), { loading: () => <div className="h-96" /> });
 
 /**
  * Página principal que se renderiza para todas las rutas de locale

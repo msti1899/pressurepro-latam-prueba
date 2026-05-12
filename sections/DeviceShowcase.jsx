@@ -1,5 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { TypingText, TitleText } from '../components/CustomTexts';
@@ -45,13 +46,18 @@ function ImageCell({ src, label, tag, className = '', delay = 0 }) {
       className={`relative overflow-hidden rounded-2xl group cursor-default ${className}`}
     >
       {/* Foto */}
-      <img
-        src={src}
-        alt={label}
-        loading="lazy"
-        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-        draggable={false}
-      />
+      <div className="relative w-full h-full">
+        <Image
+          src={src}
+          alt={label}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          quality={75}
+          loading="lazy"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+          draggable={false}
+        />
+      </div>
 
       {/* Degradado inferior */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent pointer-events-none" />
