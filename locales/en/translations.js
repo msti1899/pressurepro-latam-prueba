@@ -377,13 +377,13 @@ export default {
         footer: '// FIELD DEPLOYMENTS · FIELD INSTALLATIONS · PRESSURPRO™ TECHNOLOGY',
         imageLabels: [
             'Mining Fleet · Doe Run, USA',
-            'OTR Sensor on road truck',
+            'Standard sensor on truck',
             'BELAZ 75131 · Kemerovo',
             'Field installation',
             'Sensor on OTR wheel',
             'BELAZ 75473 · SKD Install',
             'Installation detail',
-            'Sensor on transport truck',
+            'Sensor on Reach Stacker',
         ],
     },
     countryBanner: {

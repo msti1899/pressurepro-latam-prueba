@@ -377,13 +377,13 @@ export default {
         footer: '// DESPLIEGUES EN CAMPO · INSTALACIONES EN CAMPO · TECNOLOGÍA PRESSURPRO™',
         imageLabels: [
             'Flota Minera · Doe Run, EE.UU.',
-            'Sensor OTR en camión de ruta',
+            'Sensor estándar en camión',
             'BELAZ 75131 · Kemerovo',
             'Instalación en campo',
             'Sensor en rueda OTR',
             'BELAZ 75473 · SKD Install',
             'Detalle de instalación',
-            'Sensor en camión de transporte',
+            'Sensor en Reach Stacker',
         ],
     },
     countryBanner: {
