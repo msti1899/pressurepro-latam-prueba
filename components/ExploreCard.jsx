@@ -1,19 +1,12 @@
 'use client';
 import React from 'react'
-import { motion } from 'framer-motion';
-import { fadeIn } from '../utils/motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ID_TO_SLUG } from '../constants/industries';
 
 const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group'
-    >
+    <div className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group'>
       {/* Imagen de fondo con efecto zoom en hover */}
       <div className="absolute inset-0 overflow-hidden">
         <Image
@@ -67,7 +60,7 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
 
       {/* Borde brillante en hover */}
       <div className="absolute inset-0 rounded-[20px] ring-2 ring-purple-500/0 group-hover:ring-purple-500/50 transition-all duration-300 pointer-events-none" />
-    </motion.div>
+    </div>
   );
 }
 
