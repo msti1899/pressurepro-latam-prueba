@@ -58,12 +58,14 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
     <>
       {/* Card principal */}
       <motion.div
-        variants={fadeIn('up', 'spring', index * 0.3, 1)}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: index * 0.1 }}
         className='flex flex-col gap-6 w-full h-full bg-white/5 border border-white/10 rounded-[32px] p-6 hover:border-white/30 transition-colors'
       >
         {/* Imagen con hover effect */}
         <div
-          className="relative cursor-pointer w-full h-[250px] sm:h-[300px] rounded-[24px] overflow-hidden bg-black border-2 border-purple-500"
+          className="relative cursor-pointer w-full h-[250px] sm:h-[300px] rounded-[24px] overflow-hidden bg-gray-800 border-2 border-purple-500"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onClick={() => setIsImageOpen(true)}
@@ -71,11 +73,14 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
           <img
             src={imgUrl}
             alt={`${translations?.insights?.imageAltPrefix || translations?.insights?.typingTex || 'Producto'} ${title}`}
-            loading="lazy"
             className='w-full h-full object-cover transition-all duration-300 hover:scale-110 hover:brightness-110'
             onError={(e) => {
-              console.error('Error cargando imagen InsightsCard:', imgUrl);
+              console.error('❌ Error cargando imagen InsightsCard:', imgUrl, e);
               e.target.style.backgroundColor = '#dc2626';
+              e.target.style.border = '4px solid red';
+            }}
+            onLoad={(e) => {
+              console.log('✅ Imagen cargada:', imgUrl);
             }}
           />
           <div

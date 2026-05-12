@@ -17,7 +17,7 @@ const Insights = () => {
         whileInView='show'
         viewport={{
           once: false,
-          amount: 0.25
+          amount: 0.1
         }}
         className='2xl:max-w-[1280px] w-full mx-auto flex flex-col'
       >
@@ -25,7 +25,7 @@ const Insights = () => {
         <TitleText title={translations.insights.title} textStyles='text-center' as='h2' />
         <div className='mt-[50px] grid grid-cols-1 md:grid-cols-2 gap-[30px]'>
           {translations.insights.products.map((insight, index) => (
-            <InsightsCard key={`insight-${index}`} {...insight} index={index + 1}/>
+            <InsightsCard key={`insight-${index}`} {...insight} index={index}/>
           ))}
         </div>
       </motion.div>
