@@ -1,33 +1,33 @@
 'use client';
 import React from 'react'
 import Link from 'next/link';
-import Image from 'next/image';
 import { ID_TO_SLUG } from '../constants/industries';
 
 const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => {
   return (
-    <div className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group'>
+    <div className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group bg-gray-900 border-2 border-purple-500'>
       {/* Imagen de fondo con efecto zoom en hover */}
-      <div className="absolute inset-0 overflow-hidden">
-        <Image
+      <div className="absolute inset-0 overflow-hidden bg-gray-800 z-0">
+        <img
           src={imgUrl}
-          alt={translations.explore.industries[id] || title}
-          fill
+          alt={translations?.explore?.industries?.[id] || title || 'Producto'}
           loading="lazy"
-          quality={75}
-          className='object-cover transition-transform duration-700 md:group-hover:scale-110'
-          sizes="(max-width: 768px) 50vw, 33vw"
+          className='w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110'
+          onError={(e) => {
+            console.error('Error cargando imagen:', imgUrl);
+            e.target.style.display = 'none';
+          }}
         />
       </div>
 
       {/* Overlay con gradiente y efecto de brillo en hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 group-hover:from-black/90 group-hover:via-black/50 transition-all duration-500 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 md:group-hover:from-black/90 md:group-hover:via-black/50 transition-all duration-500 pointer-events-none z-[1]" />
 
       {/* Brillo superior en hover */}
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-500/0 to-purple-500/0 group-hover:from-purple-500/20 group-hover:to-transparent transition-all duration-500 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-purple-500/0 to-purple-500/0 md:group-hover:from-purple-500/20 md:group-hover:to-transparent transition-all duration-500 pointer-events-none z-[2]" />
 
       {/* Contenido */}
-      <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-6 z-10">
+      <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-6 z-[10]">
         {/* Header con logo - solo visible en hover en desktop */}
         <div className='hidden md:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
           <div className='flex justify-center items-center w-[32px] h-[32px] rounded-full glassmorphism'>
@@ -38,7 +38,7 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
         {/* Footer con título y botón */}
         <div className="space-y-3">
           <h3 className='font-bold text-[18px] md:text-[22px] text-white leading-tight drop-shadow-lg'>
-            {translations.explore.industries[id]}
+            {translations?.explore?.industries?.[id] || title || 'Producto'}
           </h3>
 
           {/* Descripción corta - visible en hover en desktop */}
