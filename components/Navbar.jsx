@@ -102,15 +102,15 @@ const Navbar = () => {
   }, [isLanguageMenuOpen]);
 
   // ----- ANIMACIONES Y VARIANTES -----
-  // Variantes para animaciones del menú principal
+  // Variantes para animaciones del menú principal (optimizadas para móvil)
   const menuVariants = {
     hidden: {
       opacity: 0,
       height: 0,
       transition: {
-        duration: 0.3,
+        duration: 0.2,
         when: 'afterChildren',
-        staggerChildren: 0.05,
+        staggerChildren: 0.03,
         staggerDirection: -1
       }
     },
@@ -118,34 +118,35 @@ const Navbar = () => {
       opacity: 1,
       height: 'auto',
       transition: {
-        duration: 0.4,
+        duration: 0.25,
         when: 'beforeChildren',
-        staggerChildren: 0.05
+        staggerChildren: 0.03
       }
     }
   };
 
-  // Variantes para los elementos del menú
+  // Variantes para los elementos del menú (optimizadas)
   const itemVariants = {
     hidden: {
       opacity: 0,
-      y: -10,
+      y: -5,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
-        stiffness: 100
+        type: 'tween',
+        duration: 0.2,
+        ease: 'easeOut'
       }
     }
   };
 
-  // Variantes para el menú de idiomas
+  // Variantes para el menú de idiomas (optimizadas)
   const languageMenuVariants = {
     hidden: {
       opacity: 0,
-      scale: 0.8,
+      scale: 0.95,
       y: -5,
     },
     visible: {
@@ -153,15 +154,21 @@ const Navbar = () => {
       scale: 1,
       y: 0,
       transition: {
-        duration: 0.2,
-        staggerChildren: 0.1
+        duration: 0.15,
+        staggerChildren: 0.05
       }
     }
   };
 
   const languageItemVariants = {
-    hidden: { opacity: 0, y: -5 },
-    visible: { opacity: 1, y: 0 }
+    hidden: { opacity: 0, y: -3 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.15
+      }
+    }
   };
 
   // ----- MANEJADORES DE EVENTOS -----

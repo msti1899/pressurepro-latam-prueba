@@ -13,6 +13,24 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Optimización de rendimiento con GPU acceleration */
+@media (min-width: 768px) {
+  .group:hover img,
+  .group:hover .object-cover {
+    will-change: transform;
+  }
+}
+
+/* Optimización móvil - reducir reflows */
+@media (max-width: 767px) {
+  /* Acelerar animaciones en móvil */
+  .motion-reduce {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 html, body {
   overflow-x: hidden;
   width: 100%;

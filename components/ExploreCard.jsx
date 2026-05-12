@@ -9,11 +9,10 @@ import { ID_TO_SLUG } from '../constants/industries';
 const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => {
   return (
     <motion.div
-      variants={fadeIn('up', 'spring', index * 0.15, 0.6)}
+      variants={fadeIn('up', 'tween', index * 0.08, 0.35)}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      viewport={{ once: true, amount: 0.15 }}
       className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group'
     >
       {/* Imagen de fondo con efecto zoom en hover */}
@@ -22,8 +21,10 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
           src={imgUrl}
           alt={translations.explore.industries[id] || title}
           fill
-          className='object-cover transition-transform duration-700 group-hover:scale-110'
-          sizes="(max-width: 768px) 100vw, 33vw"
+          loading="lazy"
+          quality={75}
+          className='object-cover transition-transform duration-700 md:group-hover:scale-110'
+          sizes="(max-width: 768px) 50vw, 33vw"
         />
       </div>
 
@@ -55,10 +56,10 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
 
           <Link
             href={`/industries/${ID_TO_SLUG[id] || id}`}
-            className='inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/10 hover:bg-purple-600 backdrop-blur-sm border border-white/20 hover:border-purple-500 hover:shadow-[0_0_20px_rgba(0,119,185,0.4)] text-white font-medium text-[14px] transition-all duration-300 min-h-[44px] pointer-events-auto transform hover:-translate-y-1'
+            className='inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/10 md:hover:bg-purple-600 backdrop-blur-sm border border-white/20 md:hover:border-purple-500 md:hover:shadow-[0_0_20px_rgba(0,119,185,0.4)] text-white font-medium text-[14px] transition-all duration-300 min-h-[44px] pointer-events-auto md:hover:-translate-y-1'
           >
             <span>{translations?.explore?.viewMore}</span>
-            <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4 transition-transform duration-300 md:group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Link>

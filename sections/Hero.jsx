@@ -61,6 +61,15 @@ const Hero = () => {
 
   const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
   const textY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  
+  // Detectar si es móvil para desactivar parallax (mejora rendimiento)
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section id='hero' className="relative w-full h-screen min-h-screen flex flex-col justify-center overflow-hidden">
@@ -72,7 +81,7 @@ const Hero = () => {
         }}
       >
         <motion.div
-          style={{ y: imageY }}
+          style={isMobile ? {} : { y: imageY }}
           className="w-full h-[120%] absolute -top-[20px] left-0"
         >
           <AnimatePresence mode="wait">
@@ -115,15 +124,15 @@ const Hero = () => {
         <div className='pointer-events-auto'>
           <motion.div
             ref={ref}
-            variants={slideIn('right', 'tween', 0.2, 1)}
+            variants={isMobile ? { hidden: {}, show: {} } : slideIn('right', 'tween', 0.2, 1)}
             className='w-full flex flex-col justify-center items-center -mt-24 sm:-mt-20'
           >
             <motion.div
-              style={{ y: textY }}
+              style={isMobile ? {} : { y: textY }}
               className="flex flex-col justify-center items-center gap-2 md:gap-1 w-full"
             >
               <motion.div
-                variants={textVariant(1.0)}
+                variants={isMobile ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } } } : textVariant(1.0)}
                 className="relative w-[100px] h-[100px] drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]"
               >
                 <Image
@@ -138,7 +147,7 @@ const Hero = () => {
               </motion.div>
 
               <motion.h1
-                variants={textVariant(1.1)}
+                variants={isMobile ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3, delay: 0.2 } } } : textVariant(1.1)}
                 className='font-bold lg:text-[56px] md:text-[44px] sm:text-[36px] text-[28px] 
               lg:leading-[68px] md:leading-[52px] sm:leading-[44px] leading-[36px] 
               text-white text-center drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] 
@@ -151,7 +160,7 @@ const Hero = () => {
               </motion.h1>
 
               <motion.h2
-                variants={textVariant(1.2)}
+                variants={isMobile ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3, delay: 0.3 } } } : textVariant(1.2)}
                 className='font-semibold lg:text-[28px] md:text-[22px] sm:text-[18px] text-[16px] 
               lg:leading-[38px] md:leading-[30px] sm:leading-[26px] leading-[24px] 
               text-white/90 text-center px-6 max-w-[90%] lg:max-w-[900px] mx-auto mt-3'
@@ -164,7 +173,7 @@ const Hero = () => {
 
               {/* CTAs principales */}
               <motion.div
-                variants={textVariant(1.35)}
+                variants={isMobile ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.3, delay: 0.4 } } } : textVariant(1.35)}
                 className='flex flex-wrap gap-3 justify-center mt-8'
               >
                 <button
