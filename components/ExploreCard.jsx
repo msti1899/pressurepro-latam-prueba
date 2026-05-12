@@ -9,10 +9,9 @@ import { ID_TO_SLUG } from '../constants/industries';
 const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => {
   return (
     <motion.div
-      variants={fadeIn('up', 'tween', index * 0.08, 0.35)}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.15 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
       className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group'
     >
       {/* Imagen de fondo con efecto zoom en hover */}
@@ -35,9 +34,9 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
       <div className="absolute inset-0 bg-gradient-to-b from-purple-500/0 to-purple-500/0 group-hover:from-purple-500/20 group-hover:to-transparent transition-all duration-500 pointer-events-none" />
 
       {/* Contenido */}
-      <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-6 pointer-events-none">
-        {/* Header con logo */}
-        <div className='flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+      <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-6 z-10">
+        {/* Header con logo - solo visible en hover en desktop */}
+        <div className='hidden md:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
           <div className='flex justify-center items-center w-[32px] h-[32px] rounded-full glassmorphism'>
             <img src='/pp-white.png' alt='PressurePro' className='w-[16px] h-[16px] object-contain' />
           </div>
@@ -45,7 +44,7 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
 
         {/* Footer con título y botón */}
         <div className="space-y-3">
-          <h3 className='font-bold text-[18px] md:text-[22px] text-white leading-tight'>
+          <h3 className='font-bold text-[18px] md:text-[22px] text-white leading-tight drop-shadow-lg'>
             {translations.explore.industries[id]}
           </h3>
 
@@ -56,7 +55,7 @@ const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => 
 
           <Link
             href={`/industries/${ID_TO_SLUG[id] || id}`}
-            className='inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/10 md:hover:bg-purple-600 backdrop-blur-sm border border-white/20 md:hover:border-purple-500 md:hover:shadow-[0_0_20px_rgba(0,119,185,0.4)] text-white font-medium text-[14px] transition-all duration-300 min-h-[44px] pointer-events-auto md:hover:-translate-y-1'
+            className='inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/20 md:hover:bg-purple-600 backdrop-blur-sm border border-white/30 md:hover:border-purple-500 md:hover:shadow-[0_0_20px_rgba(0,119,185,0.4)] text-white font-medium text-[14px] transition-all duration-300 min-h-[44px] md:hover:-translate-y-1 shadow-lg'
           >
             <span>{translations?.explore?.viewMore}</span>
             <svg className="w-4 h-4 transition-transform duration-300 md:group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
