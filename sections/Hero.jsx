@@ -216,7 +216,7 @@ const Hero = () => {
         ))}
       </div>
 
-      <a href={marketContent?.hero?.stampHref} aria-label={translations?.hero?.stampAriaLabel} className='absolute bottom-20 right-10 sm:right-20 z-[20] pointer-events-auto'>
+      <a href={marketContent?.hero?.stampHref} aria-label={translations?.hero?.stampAriaLabel} className='absolute bottom-20 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-20 z-[25] pointer-events-auto'>
         <div className='relative sm:w-[85px] w-[55px] sm:h-[145px] h-[75px]'>
           <Image
             src='/stamp.png'
