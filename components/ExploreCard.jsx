@@ -1,67 +1,66 @@
-'use client';
-import React from 'react'
+import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { fadeIn } from '@/utils/motion';
 import { ID_TO_SLUG } from '../constants/industries';
 
-const ExploreCard = ({ id, imgUrl, title, index, translations, marketInfo }) => {
+const ExploreCard = ({ id, imgUrl, title, index, translations }) => {
   return (
-    <div className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group bg-gray-900 border-2 border-purple-500'>
-      {/* Imagen de fondo con efecto zoom en hover */}
-      <div className="absolute inset-0 overflow-hidden bg-gray-800 z-0">
-        <img
-          src={imgUrl}
-          alt={translations?.explore?.industries?.[id] || title || 'Producto'}
-          loading="lazy"
-          className='w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110'
-          onError={(e) => {
-            console.error('Error cargando imagen:', imgUrl);
-            e.target.style.display = 'none';
-          }}
-        />
-      </div>
+    <motion.div
+      variants={fadeIn('up', 'spring', index * 0.5, 0.75)}
+      className='w-full'
+    >
+      <div className='relative overflow-hidden rounded-[20px] h-[240px] md:h-[300px] group'>
+        {/* Imagen de fondo con efecto zoom en hover */}
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src={imgUrl}
+            alt={translations?.explore?.industries?.[id] || title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className='object-cover transition-transform duration-700 md:group-hover:scale-110'
+          />
+        </div>
 
-      {/* Overlay con gradiente y efecto de brillo en hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 md:group-hover:from-black/90 md:group-hover:via-black/50 transition-all duration-500 pointer-events-none z-[1]" />
+        {/* Overlay con gradiente y efecto de brillo en hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 md:group-hover:from-black/90 md:group-hover:via-black/50 transition-all duration-500 pointer-events-none" />
 
-      {/* Brillo superior en hover */}
-      <div className="absolute inset-0 bg-gradient-to-b from-purple-500/0 to-purple-500/0 md:group-hover:from-purple-500/20 md:group-hover:to-transparent transition-all duration-500 pointer-events-none z-[2]" />
+        {/* Brillo superior en hover */}
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/0 to-purple-500/0 md:group-hover:from-purple-500/20 md:group-hover:to-transparent transition-all duration-500 pointer-events-none" />
 
-      {/* Contenido */}
-      <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-6 z-[10]">
-        {/* Header con logo - solo visible en hover en desktop */}
-        <div className='hidden md:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-          <div className='flex justify-center items-center w-[32px] h-[32px] rounded-full glassmorphism'>
-            <img src='/pp-white.png' alt='PressurePro' className='w-[16px] h-[16px] object-contain' />
+        {/* Contenido */}
+        <div className="absolute inset-0 flex flex-col justify-between p-4 md:p-6">
+          {/* Header con logo - solo visible en hover en desktop */}
+          <div className='hidden md:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+            <div className='flex justify-center items-center w-[32px] h-[32px] rounded-full glassmorphism'>
+              <img src='/pp-white.png' alt='PressurePro' className='w-[16px] h-[16px] object-contain' />
+            </div>
+          </div>
+
+          {/* Footer con título y botón */}
+          <div className="space-y-3">
+            <h3 className='font-bold text-[18px] md:text-[22px] text-white leading-tight drop-shadow-lg'>
+              {translations?.explore?.industries?.[id] || title}
+            </h3>
+
+            <Link
+              href={`/industries/${ID_TO_SLUG[id] || id}`}
+              className='inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/20 md:hover:bg-purple-600 backdrop-blur-sm border border-white/30 md:hover:border-purple-500 md:hover:shadow-[0_0_20px_rgba(0,119,185,0.4)] text-white font-medium text-[14px] transition-all duration-300 min-h-[44px] md:hover:-translate-y-1 shadow-lg'
+            >
+              <span>{translations?.explore?.viewMore}</span>
+              <svg className="w-4 h-4 transition-transform duration-300 md:group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
           </div>
         </div>
 
-        {/* Footer con título y botón */}
-        <div className="space-y-3">
-          <h3 className='font-bold text-[18px] md:text-[22px] text-white leading-tight drop-shadow-lg'>
-            {translations?.explore?.industries?.[id] || title || 'Producto'}
-          </h3>
-
-          {/* Descripción corta - visible en hover en desktop */}
-          <p className='hidden md:block text-white/0 group-hover:text-white/90 transition-all duration-300 text-[13px] leading-relaxed line-clamp-2 transform translate-y-2 group-hover:translate-y-0'>
-            {marketInfo && marketInfo[id] ? marketInfo[id].substring(0, 100) + '...' : ''}
-          </p>
-
-          <Link
-            href={`/industries/${ID_TO_SLUG[id] || id}`}
-            className='inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/20 md:hover:bg-purple-600 backdrop-blur-sm border border-white/30 md:hover:border-purple-500 md:hover:shadow-[0_0_20px_rgba(0,119,185,0.4)] text-white font-medium text-[14px] transition-all duration-300 min-h-[44px] md:hover:-translate-y-1 shadow-lg'
-          >
-            <span>{translations?.explore?.viewMore}</span>
-            <svg className="w-4 h-4 transition-transform duration-300 md:group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </Link>
-        </div>
+        {/* Borde brillante en hover */}
+        <div className="absolute inset-0 rounded-[20px] ring-2 ring-purple-500/0 md:group-hover:ring-purple-500/50 transition-all duration-300 pointer-events-none" />
       </div>
-
-      {/* Borde brillante en hover */}
-      <div className="absolute inset-0 rounded-[20px] ring-2 ring-purple-500/0 group-hover:ring-purple-500/50 transition-all duration-300 pointer-events-none" />
-    </div>
+    </motion.div>
   );
-}
+};
 
-export default ExploreCard
+export default ExploreCard;

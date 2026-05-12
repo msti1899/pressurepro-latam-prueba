@@ -63,17 +63,20 @@ const InsightsCard = ({ imgUrl, title, description, index, specs, specsUrl }) =>
       >
         {/* Imagen con hover effect */}
         <div
-          className="relative cursor-pointer w-full h-[250px] sm:h-[300px] rounded-[24px] overflow-hidden bg-black"
+          className="relative cursor-pointer w-full h-[250px] sm:h-[300px] rounded-[24px] overflow-hidden bg-black border-2 border-purple-500"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onClick={() => setIsImageOpen(true)}
         >
-          <Image
+          <img
             src={imgUrl}
-            alt={`${translations?.insights?.imageAltPrefix || translations?.insights?.typingTex} ${title}`}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className='object-cover transition-all duration-300 hover:scale-110 hover:brightness-110'
+            alt={`${translations?.insights?.imageAltPrefix || translations?.insights?.typingTex || 'Producto'} ${title}`}
+            loading="lazy"
+            className='w-full h-full object-cover transition-all duration-300 hover:scale-110 hover:brightness-110'
+            onError={(e) => {
+              console.error('Error cargando imagen InsightsCard:', imgUrl);
+              e.target.style.backgroundColor = '#dc2626';
+            }}
           />
           <div
             className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
