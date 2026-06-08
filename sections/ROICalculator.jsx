@@ -736,7 +736,7 @@ const ROICalculator = () => {
                 <SliderInput
                   label={t.mining?.downtimeCost || 'Costo por evento de avería / parada'}
                   value={mDowntimeCost} onChange={setMDowntimeCost}
-                  min={1000} max={200000} step={1000} format={fmtC}
+                  min={250} max={200000} step={250} format={fmtC}
                   hint={t.mining?.downtimeCostHint || 'Incluye pérdida de producción, mano de obra y traslado en operaciones 24/7'}
                 />
                 <SliderInput
