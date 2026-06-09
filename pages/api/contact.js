@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
   try {
     await resend.emails.send({
-      from: 'Formulario Web <onboarding@resend.dev>',
+      from: 'Formulario Web <formulario@pressurepro-latam.com>',
       to: CONTACT_EMAIL,
       replyTo: email,
       subject: `[${typeLabel}] ${name}${company ? ` — ${company}` : ''}`,
